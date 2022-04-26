@@ -1,6 +1,7 @@
 import { saveAs } from 'file-saver';
+import * as Cards from './cards';
 
-function saveCardsToHTML(cards){
+export function saveCardsToHTML(cards){
   const attrs = ["type" , "src" , "title" , "id" , "tags" , "props"]
   let container = document.createElement("section");
   container.id = "cards";
@@ -11,47 +12,57 @@ function saveCardsToHTML(cards){
     attrs.forEach(a=>{
        s.dataset[a] = card[a];
     })
-    s.innerHTML = 'CARD' ; //:TODO: card view!
+    
+    s.dataset.card = JSON.stringify(card);
+    s.innerHTML = Cards.view(card);  //???
 
   });
   return container.outerHTML;
 }
 
-function saveSettingsToHTML(settings){
+export function restoreCardsFromHTML(element){
+  let cc = element.querySelector("#cards");
+  if(!cc){return []}
+  let crds = Array.from( cc.querySelectorAll(".card") );
+  return crds.map(e=>e.dataset.card);
+
+}
+
+export function convertSettingsToHTML(settings){
   let c= document.createComment("SETTINGS\n" + JSON.stringify(settings, null , 2));
   return c.outerHTML;
 }
 
-function restoreSettingsFromHTML(node){
-  let s;
-  node.childNodes.forEach(
+export function restoreSettingsFromHTML(element){
+  var st=null;
+  element.childNodes.forEach(
     n=>{
-      if(n.nodeType===8 && n.innerHTML.startsWith("SETTINGS")){
-      s = JSON.parse( s.innerHTML.replace("SETTINGS\n" , "") )
+      if(n.nodeType===8 && n.nodeValue.startsWith("SETTINGS")){
+      st = JSON.parse( n.nodeValue.replace("SETTINGS" , "") )
       }
     }
   )
   ;
- return s;
+ return st;
 }
 
 
-function makeHTMLExport(cards,settings){
+//dirty
+export function makeHTMLExport(cards,settings){
   // duplicate html
   let clone = document.documentElement.cloneNode(true);
   let crds =  saveCardsToHTML(cards);
   let sets =  saveSettingsToHTML(settings);
-
   clone.body.innerHTML=crds+sets;
   return clone.outerHTML;
 
 }
-
 export function saveAsHTML(cards, settings){
-
+  cards = cards || [];
+  settings = settings || {};
   let fname = settings.filename || "cardister.html";
   let blob = new Blob( 
-  [makeHTMLExport(cards, settings)] ,
+    [makeHTMLExport(cards, settings)] ,
   {type: "text/plain;charset=utf-8"});
 
   saveAs(blob, fname);

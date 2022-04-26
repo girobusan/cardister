@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid';
 // uuid(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'*
 var MarkdownIt = require('markdown-it');
-md = new MarkdownIt({
+const md = new MarkdownIt({
    html: true,
    linkify: true,
 });
@@ -32,15 +32,24 @@ const callbacks = {
 // result = what to send to other block(default =  view)
 // editor = editor UI for the type (default=textarea)
 
+const fnCache = {};
+
 const views = {
   js: (card)=>{ 
-     let f = Function("card" , card.src);
-     try{
-       return f(card);
+    if(card.modified && fnCache[card.title]){
+      fnCache[card.title] = "";
+    }
+    if(!card.modified && fnCache[card.title]){
+      return fnCache[card.title](card);
+    }
+    let f = Function("card" , card.src);
+    try{
+      let r =  f(card);
+      fnCache[card.title] = f;
 
-     }catch(err){
-        return "Error: " + err.message;
-     }
+    }catch(err){
+      return "Error: " + err.message;
+    }
   },
   markdown: (card)=>{
     return md.render(card.src);
@@ -68,35 +77,43 @@ export function view(card){
    return views[card.type] ? views[card.type](card) : card.src ; 
 }
 export function result(card){
-   return results[card.type] ? results[card.type](card) : card.src ; 
+  if(results[card.type]){
+      return results[card.type](card);
+  }
+  if(views[card.type]){
+      return views[card.type](card);
+  }
+  return card.src;
 }
 
 export function add(card , successCallback , errCalback){
-  let t = byTitle(card.title);
+  let t = getByTitle(card.title);
   if(t){
     return errCalback ? errCalback("Title is not unique") : false;
   }
   store.push(card);
+  //:TODO Update Call!!
   return successCallback ? successCallback(card) : true;
 }
 
 export function remove(card){
-   let idx = getIndexByField("id", card.id);
+   let idx = getIndexByCondition(c=>c.id==card.id);
    if(idx==-1){return false}
    store.splice(idx,1); //:TODO: CALLBACK
+   return true;
    // card.deleted = true;
 }
 
 export function getByTitle(title){
-  let idx =getIndexByField("title" , title); 
+  let idx =getIndexByCondition( c=>c.title==title); 
   if(idx==-1){return null}
   return store[idx]
    
 }
 
-export function getIndexByField(field , value){
+export function getIndexByCondition(conditionFn){
   for(let i = 0 ; i < store.length ; i++){
-    if(store[i][field]==value){
+    if(conditionFn( store[i] )){
        return i;
     }
   }
@@ -111,7 +128,7 @@ export function makeNew(type){
       src: "",
       tags: [],
       style: "",
-      id: uuid()
-
+      id: uuid(),
+      props: {}
    }
 }

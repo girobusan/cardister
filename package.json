@@ -1,10 +1,11 @@
 {
-  "name": "onepage_editor",
+  "name": "cardister",
   "version": "0.0.1",
   "description": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx webpack --mode production",
+    "watch": "npx webpack --mode development",
     "postbuild": "npx shx rm dist/*.js"
   },
   "author": "",
@@ -23,8 +24,10 @@
     "webpack-cli": "^4.9.2"
   },
   "dependencies": {
+    "codejar": "^3.6.0",
     "file-saver": "^2.0.5",
     "markdown-it": "^13.0.0",
+    "prismjs": "^1.28.0",
     "uuid": "^8.3.2"
   }
 }

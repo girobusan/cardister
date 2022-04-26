@@ -20,9 +20,6 @@ const econfig = {
 module.exports = function (env, argv) {
 
   let builddir = 'dist';
-  if (argv.mode == 'production') {
-    builddir = 'dist';
-  }
 
   return {
     //externals: ["fs"],
@@ -39,12 +36,12 @@ module.exports = function (env, argv) {
       "index": './src/index.js',
     },
     devtool: argv.mode != "production" ? 'inline-source-map' : false, 
-    devServer: argv.mode != "production" ? {contentBase: 'dist'} : {contentBase: 'dist'},
+    // devServer: argv.mode != "production" ? {contentBase: 'dist'} : {contentBase: 'dist'},
 
-    // output: {
+    output: {
     //   filename: '[name].js',
-    //   path: path.resolve(__dirname, builddir, "")
-    // },
+      path: path.resolve(__dirname, builddir, "")
+    },
 
     module: {
       rules: [
