@@ -2,6 +2,7 @@
 import { createElement , render, h , Component} from 'preact';
 import { html } from 'htm/preact';
 import { useState } from 'preact/hooks';
+import * as cards from "./cards";
 
 class UIcontainer extends Component{
   constructor(props){
@@ -9,7 +10,8 @@ class UIcontainer extends Component{
    
   }
   render(){
-     console.log("Props" , this.props)
+     console.log("Props" , this.props);
+     console.log(cards.list("Card"));
      return html`<div class="cardisterUI">${this.props.settings.title}</div>`
   }
 }

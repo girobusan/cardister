@@ -7,14 +7,27 @@ export function saveCardsToHTML(cards){
   container.id = "cards";
   cards.forEach(card=>{
     let s = document.createElement("div");
+    let h = document.createElement("h2");
+    s.appendChild(h);
+    h.innerText = card.title;
     s.setAttribute("class" , "card");
 
-    attrs.forEach(a=>{
-       s.dataset[a] = card[a];
-    })
-    
-    s.dataset.card = JSON.stringify(card);
-    s.innerHTML = Cards.view(card);  //???
+    // attrs.forEach(a=>{
+      //    s.dataset[a] = JSON.stringify( card[a] );
+  // })
+
+  s.dataset.card = JSON.stringify(card);
+  let cview = Cards.view(card);
+
+  try{
+    s.appendChild(cview)
+  }catch{
+    let ov =  typeof( cview )=='string' ? cview : cview.toString();
+    s.innerHTML = s.innerHTML + ov;
+
+  }
+
+  container.appendChild(s)
 
   });
   return container.outerHTML;
@@ -24,7 +37,7 @@ export function restoreCardsFromHTML(element){
   let cc = element.querySelector("#cards");
   if(!cc){return []}
   let crds = Array.from( cc.querySelectorAll(".card") );
-  return crds.map(e=>e.dataset.card);
+  return crds.map(e=>JSON.parse( e.dataset.card ));
 
 }
 
