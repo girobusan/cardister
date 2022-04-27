@@ -50,9 +50,9 @@ export function restoreSettingsFromHTML(element){
 //dirty
 export function makeHTMLExport(cards,settings){
   // duplicate html
-  let clone = document.documentElement.cloneNode(true);
-  let crds =  saveCardsToHTML(cards);
-  let sets =  saveSettingsToHTML(settings);
+  const clone = document.documentElement.cloneNode(true);
+  const crds =  saveCardsToHTML(cards);
+  const sets =  saveSettingsToHTML(settings);
   clone.body.innerHTML=crds+sets;
   return clone.outerHTML;
 
@@ -60,8 +60,8 @@ export function makeHTMLExport(cards,settings){
 export function saveAsHTML(cards, settings){
   cards = cards || [];
   settings = settings || {};
-  let fname = settings.filename || "cardister.html";
-  let blob = new Blob( 
+  const fname = settings.filename || "cardister.html";
+  const blob = new Blob( 
     [makeHTMLExport(cards, settings)] ,
   {type: "text/plain;charset=utf-8"});
 

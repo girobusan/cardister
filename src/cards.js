@@ -34,6 +34,16 @@ const callbacks = {
 
 const fnCache = {};
 
+function uniquifyTitle(title){
+  if(!getByTitle(title)){return title}
+
+  let num = 1;
+  while( getByTitle(title + "_" + num) ){
+      num+=1;
+  }
+  return title + "_" + num;
+}
+
 const views = {
   js: (card)=>{ 
     if(card.modified && fnCache[card.title]){
@@ -86,11 +96,13 @@ export function result(card){
   return card.src;
 }
 
-export function add(card , successCallback , errCalback){
+export function add(card , successCallback , errCalback , uniquify){
   let t = getByTitle(card.title);
-  if(t){
+  if(t && !uniquify){
     return errCalback ? errCalback("Title is not unique") : false;
   }
+  card.title = uniquifyTitle(card.title);
+  card.id = card.id || uuid();
   store.push(card);
   //:TODO Update Call!!
   return successCallback ? successCallback(card) : true;
@@ -122,9 +134,10 @@ export function getIndexByCondition(conditionFn){
 
 export function makeNew(type){
    type = type || "markdown";
+   const title = uniquifyTitle("Card")
    return {
       type: type,
-      title: "New card",
+      title: title,
       src: "",
       tags: [],
       style: "",

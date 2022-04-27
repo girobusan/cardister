@@ -6,7 +6,8 @@ const HTMLInlineCSSWebpackPlugin = require("html-inline-css-webpack-plugin").def
 const webpack = require('webpack');
 const pkg = require('./package.json');
 const fs = require('fs');
-const defJSON = fs.readFileSync("./src/templates/default_settings.json");
+const defaultSettings = fs.readFileSync("./src/templates/default_settings.json");
+const defaultCards = fs.readFileSync("./src/templates/default_cards.htm");
 
 
 const env = process.env.NODE_ENV;
@@ -92,7 +93,8 @@ module.exports = function (env, argv) {
         filename: 'index.html',
         minify: false,
         inject:"body",
-        comment: defJSON,
+        comment: defaultSettings,
+        cards: defaultCards,
         template: path.join(__dirname, "src/templates/index.ejs"),
       }
       ),
