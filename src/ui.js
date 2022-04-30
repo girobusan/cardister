@@ -15,7 +15,11 @@ class UIcontainer extends Component{
      console.log("Props" , this.props);
      console.log(cards.list("Card"));
      return html`<div class="cardisterUI">
-         <div class="innerUI">
+         <div class="innerUI"
+         ondragover=${(e)=>e.preventDefault()}
+         ondragenter=${(e=>e.preventDefault())}
+
+         >
          ${this.props.cards.map(e=>html`<${CardView} card=${e} />`)}
          </div>
       </div>`

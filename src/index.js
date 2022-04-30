@@ -39,7 +39,7 @@ window.addEventListener("DOMContentLoaded", function(){
   // let textHTML = serialization.saveCardsToHTML(cards.list());
   // console.log(textHTML);
   // let fhtml = serialization.makeHTMLExport(cards.list(), settings);
-  // console.log(fhtml);
+  // console.log("FHTML!" , fhtml);
 
 
 

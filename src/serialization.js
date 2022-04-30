@@ -49,7 +49,7 @@ export function convertSettingsToHTML(settings){
   c.id = "settings"
   c.type="data/json"
   c.innerHTML = JSON.stringify(settings)
-  return c.nodeValue;
+  return c.outerHTML;
 }
 
 export function restoreSettingsFromHTML(element){
