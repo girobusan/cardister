@@ -5,12 +5,16 @@
   color: black;
   background-color: #98c5d4;
    // padding: 2rem;
-   border: 1px solid red;
+   // border: 1px solid red;
    min-width: 100vw;
+   width: 100%;
    min-height: 100vh;
    .innerUI{
-      min-width: 100%;
+     position:relative;
+      margin-left: 50%;
+      min-width: 10%;
       min-height: 100vh;
-      background-color: silver;
+      // background-color: silver;
+      border-left: 1px dashed gray;
    }
 }

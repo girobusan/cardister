@@ -14,7 +14,8 @@ window.store = {
        return cards.cardFns(c);
      }
      return null;
-  }
+  },
+  dumpCards: ()=>{serialization.dumpCards(cards.list())}
   
 }
 
@@ -30,11 +31,11 @@ window.addEventListener("DOMContentLoaded", function(){
   //add cards one by one to _cards_
   saved_cards.forEach(c=>cards.add(c, null, null, true))
   //add test cards
-  for(let i = 0 ; i < 5 ; i++){
-    let c = cards.makeNew(null, "Test Card");
-    c.src = "### Lorem\n\nIpsum *Dolor*";
-    cards.add(c)
-  }
+  // for(let i = 0 ; i < 5 ; i++){
+  //   let c = cards.makeNew(null, "Test Card");
+  //   c.src = "### Lorem\n\nIpsum *Dolor*";
+  //   cards.add(c)
+  // }
 
   // let textHTML = serialization.saveCardsToHTML(cards.list());
   // console.log(textHTML);

@@ -82,10 +82,19 @@ export function saveAsHTML(cards, settings){
   settings = settings || {};
   console.log("settings html" , settings);
   const fname = settings.filename || "cardister.html";
+   const content =  makeHTMLExport(cards, settings) ;
+  saveFile(content, fname);
+   
+}
+
+export function saveFile(content, fname){
   const blob = new Blob( 
-    [makeHTMLExport(cards, settings)] ,
+    [content] ,
   {type: "text/plain;charset=utf-8"});
 
   saveAs(blob, fname);
-   
+}
+
+export function dumpCards(cards){
+  saveFile( saveCardsToHTML(cards), "default_cards.htm" );
 }

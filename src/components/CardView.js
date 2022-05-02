@@ -29,6 +29,12 @@ export class CardView extends Component{
     // console.log("couse start" , this.mouseDragStart)
     // console.log("card start" , this.cardDragStart)
     // console.log("CANDD" , cmouse , delta );
+    // let db = document.documentElement.getBoundingClientRect().width;
+    // let bw = document.documentElement.scrollWidth;
+    
+    // console.log("Document width" , db);
+    // console.log("Window scroll width" , bw);
+
 
 
     const newPos = [+this.cardDragStart[0] + delta[0] , +this.cardDragStart[1] + delta[1]]
