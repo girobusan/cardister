@@ -2,6 +2,7 @@ import {Component, createRef} from 'preact';
 import {html} from 'htm/preact';
 import {CodeJar} from "codejar";
 import Prism from "prismjs";
+require("./cardeditor.scss");
 
 
 export class CardEditor extends Component{
@@ -14,7 +15,7 @@ export class CardEditor extends Component{
   render(){
    
     return html`<div class="CardEditor">
-   <div class="editorArea" ref=${this.editorElement} ></div>
+   <div class="editorArea language-md" ref=${this.editorElement} ></div>
     </div>`
     
   }
@@ -26,7 +27,7 @@ export class CardEditor extends Component{
   }
 }
 
-cardEditor.defaultProps = {
+CardEditor.defaultProps = {
  saveFn: ()=>console.log("save"),
  types: [ "markdown" , "text" , "html","js" ],
  source: "Nothing loaded",

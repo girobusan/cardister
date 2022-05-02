@@ -8,6 +8,7 @@
   border-radius: 4px;
   padding: 8px;
   .titleBar{
+    cursor: grab;
     box-sizing: content-box;
     padding: 0 8px;
      height: 12px;
@@ -21,5 +22,23 @@
   h4{
     font-weight: normal;
   }
-  
+  .editModeBtn{
+    box-sizing: border-box;
+    position: absolute;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    padding: 4px;
+    padding-bottom: 6px;
+    padding-top: 2px;
+    border-radius: 12px;
+    background-color: gray;
+    display: none;
+    cursor: pointer;
+    fill: white;
+    &.shown{
+      display: block;
+    }
+    // background-image: url(../icons/edit_black_24dp.svg);
+  }
 }
