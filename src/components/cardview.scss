@@ -7,38 +7,66 @@
   background-color: ivory;
   border-radius: 4px;
   padding: 8px;
+  overflow: hidden;
   .titleBar{
-    cursor: grab;
+    cursor: move;
     box-sizing: content-box;
-    padding: 0 8px;
-     height: 12px;
+    padding: 4px 8px;
+     // height: 12px;
      width: 100%;
     margin:-8px -8px 0 -8px;
-     background-color: #666;
+     background-color: transparent;
+     color: black;
      &:hover{
        background-color: maroon;
      }
   }
-  h4{
+  .cardTitle{
     font-weight: normal;
+    margin: 0;
+    font-size: 14px;
+    margin-bottom: 8px;
+    margin-top: 8px;
+  }
+  .resizerCorner{
+     box-sizing: border-box;
+     fill: gray;
+     width: 16px;
+     height: 16px;
+     position: absolute;
+     right: 0;
+     bottom: 0;
+     cursor: nwse-resize;
+     display: none;
   }
   .editModeBtn{
     box-sizing: border-box;
     position: absolute;
-    right: 8px;
+    left: 0;
+    bottom: 0;
     width: 24px;
     height: 24px;
     padding: 4px;
     padding-bottom: 6px;
     padding-top: 2px;
-    border-radius: 12px;
+    border-radius: 0 12px 0 0;
     background-color: gray;
     display: none;
     cursor: pointer;
     fill: white;
-    &.shown{
+    // background-image: url(../icons/edit_black_24dp.svg);
+  }
+  &.hovered{
+    z-index: 100;
+    .editModeBtn{
       display: block;
     }
-    // background-image: url(../icons/edit_black_24dp.svg);
+    .resizerCorner{
+      display: block;
+    }
+    .titleBar{
+      background-color: gray;
+      color: white;
+    }
   }
 }
