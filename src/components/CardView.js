@@ -17,7 +17,7 @@ export class CardView extends Component{
    this.moveWithMouse = this.moveWithMouse.bind(this);
    this.resizeWithMouse = this.resizeWithMouse.bind(this);
    this.portal = document.querySelector(".cardisterUI");
-   console.log("portal" , this.portal);
+   // console.log("portal" , this.portal);
    // console.log("REFF" , this.viewer);
    this.state = {
       editmode: false,

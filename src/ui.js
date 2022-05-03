@@ -4,6 +4,8 @@ import { html } from 'htm/preact';
 import { useState } from 'preact/hooks';
 import * as cards from "./cards";
 import {CardView} from "./components/CardView"
+import {HUDButton} from "./components/HUDButton"
+import {icons} from "./icons";
 require("./ui.scss");
 
 class UIcontainer extends Component{
@@ -16,6 +18,7 @@ class UIcontainer extends Component{
      // console.log(cards.list("Card"));
 
      return html`<div class="cardisterUI">
+       <${HUDButton} icons=${[icons.save]} />
          <div class="innerUI"
          ondragover=${(e)=>e.preventDefault()}
          ondragenter=${(e=>e.preventDefault())}
