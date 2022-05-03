@@ -4,17 +4,21 @@
   border: 1px solid gray;
   position: absolute;
   max-width: 450px;
-  background-color: ivory;
+  background-color: white;
   border-radius: 4px;
   padding: 8px;
   overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-items: stretch;
+  
   .titleBar{
     cursor: move;
     box-sizing: content-box;
     padding: 4px 8px;
      // height: 12px;
      width: 100%;
-    margin:-8px -8px 0 -8px;
+    margin:-8px -8px 8px -8px;
      background-color: transparent;
      color: black;
      &:hover{
@@ -27,6 +31,14 @@
     font-size: 14px;
     margin-bottom: 8px;
     margin-top: 8px;
+    flex-grow: none;
+  }
+  .CardViewer{
+    width:100%;
+    flex-grow: 1;
+    // background-color: silver;
+    overflow-y: auto;
+  
   }
   .resizerCorner{
      box-sizing: border-box;

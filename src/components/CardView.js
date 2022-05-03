@@ -61,7 +61,7 @@ export class CardView extends Component{
 
   render(){
 
-    let editor = this.state.editmode ? html`${ createPortal( html`<${CardEditor}/>` , this.portal )}` : "";
+    let editor = this.state.editmode ? html`${ createPortal( html`<${CardEditor} source=${this.props.card.src} cancelAction=${()=>this.setState({editmode:false})}/>` , this.portal )}` : "";
     return html`
        <div class="cardView" 
        ref=${this.outer}

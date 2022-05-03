@@ -48,10 +48,7 @@ export function initUI(settings){
       ""
   );
    
-  console.log("Root UI" , root);
   let r = document.querySelector("#cardisterContainer");
-  console.log("R" , r);
-
   render (root, r);
    
 }
