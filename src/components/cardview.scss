@@ -1,7 +1,7 @@
 .cardView{
   transform-origin: center center;
   box-sizing: border-box;
-  border: 1px solid gray;
+  border: 1px solid silver;
   position: absolute;
   max-width: 450px;
   background-color: white;
@@ -14,13 +14,14 @@
   
   .titleBar{
     cursor: move;
+    font-weight: bold;
+    color: gray;
     box-sizing: content-box;
     padding: 4px 8px;
      // height: 12px;
      width: 100%;
     margin:-8px -8px 8px -8px;
      background-color: transparent;
-     color: black;
      &:hover{
        background-color: maroon;
      }
@@ -31,13 +32,28 @@
     font-size: 14px;
     margin-bottom: 8px;
     margin-top: 8px;
-    flex-grow: none;
+    flex-grow: 0;
   }
   .CardViewer{
     width:100%;
     flex-grow: 1;
     // background-color: silver;
     overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: black silver;
+    &::-webkit-scrollbar{
+      width: 4px;
+      height: 4px;
+    }
+    &::-webkit-scrollbar-track{
+      background: silver;
+      border-radius: 2px;
+    }
+    &::-webkit-scrollbar-thumb{
+      background-color: black;
+      border-radius: 2px;
+      
+    }
   
   }
   .resizerCorner{
@@ -58,14 +74,14 @@
     bottom: 0;
     width: 24px;
     height: 24px;
-    padding: 4px;
-    padding-bottom: 6px;
+    padding: 2px;
+    padding-bottom: 1px;
     padding-top: 2px;
     border-radius: 0 12px 0 0;
-    background-color: gray;
+    background-color: transparent;
     display: none;
     cursor: pointer;
-    fill: white;
+    fill: gray;
     // background-image: url(../icons/edit_black_24dp.svg);
   }
   &.hovered{

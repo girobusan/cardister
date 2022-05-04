@@ -7,11 +7,12 @@ console.log("Cardister" , VERSION);
 
 
 window.store = {
+  version: VERSION,
   make: ()=>cards.add( cards.makeNew() ),
   card: (t)=>{ 
      const c = cards.getByTitle(t);
      if(c){
-       return cards.cardFns(c);
+       return cards.getWrapper(c);
      }
      return null;
   },

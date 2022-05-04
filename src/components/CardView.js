@@ -20,32 +20,31 @@ export class CardView extends Component{
    // console.log("portal" , this.portal);
    // console.log("REFF" , this.viewer);
    this.state = {
-      editmode: false,
+      editmode: this.props.card.props.editMe? true : false,
       position: [this.props.card.props.x || 5, this.props.card.props.y || 5],
       size: [this.props.card.props.width || 200 , this.props.card.props.height || 200]
    }
   }
 
-  edit(yesOrNo){
-    this.setState({editmode: yesOrNo});
-  }
 
   moveWithMouse(e){
     const cmouse = [e.pageX , e.pageY];
-    //calc mouse delta
     const delta = [cmouse[0]-this.mouseDragStart[0] , 
     cmouse[1]-this.mouseDragStart[1]]
     const newPos = [+this.cardDragStart[0] + delta[0] , +this.cardDragStart[1] + delta[1]]
-
-    // console.log("new pos" , newPos);
-
     this.props.card.props.x = newPos[0];
     this.props.card.props.y = newPos[1];
     this.setState({position: newPos})
+    //
+    // let scrollHeight = Math.max(
+    //   document.body.scrollHeight, document.documentElement.scrollHeight,
+    //   document.body.offsetHeight, document.documentElement.offsetHeight,
+    //   document.body.clientHeight, document.documentElement.clientHeight
+    // );
+    // console.log("Scroll height" , scrollHeight);
   }
 
   resizeWithMouse(e){
-     
     const cmouse = [e.pageX , e.pageY];
     const delta = [cmouse[0]-this.mouseResizeStart[0] , 
     cmouse[1]-this.mouseResizeStart[1]];
@@ -53,15 +52,16 @@ export class CardView extends Component{
     this.props.card.props.width = newSize[0];
     this.props.card.props.height = newSize[1];
     this.setState({size: newSize})
-
-
   }
 
 
 
   render(){
 
-    let editor = this.state.editmode ? html`${ createPortal( html`<${CardEditor} source=${this.props.card.src} cancelAction=${()=>this.setState({editmode:false})}/>` , this.portal )}` : "";
+    let editor = this.state.editmode ? html`${ createPortal( html`<${CardEditor} 
+    card=${this.props.card}
+    source=${this.props.card.src} 
+    cancelAction=${()=>this.setState({editmode:false})}/>` , this.portal )}` : "";
     return html`
        <div class="cardView" 
        ref=${this.outer}
@@ -71,11 +71,13 @@ export class CardView extends Component{
        width: (this.state.size[0]) + 'px',
        height: (this.state.size[1]) + "px"
        }}
-       onmouseover=${()=>this.outer.current.classList.add("hovered")}
+       onmouseover=${(e)=>{ this.outer.current.classList.add("hovered");e.preventDefault() }}
        onmouseout=${()=>this.outer.current.classList.remove("hovered")}
        >
        <div class="titleBar" ref=${this.titlebar}>${this.props.card.title}</div>
-         <div class="editModeBtn" onclick=${(e)=>this.setState({editmode:!this.state.editmode})} ref=${this.editBtn} dangerouslySetInnerHTML=${{__html:icons.edit}}></div>
+         <div class="editModeBtn" 
+         onclick=${(e)=>this.setState({editmode:!this.state.editmode})} 
+         ref=${this.editBtn} dangerouslySetInnerHTML=${{__html:icons.edit}}></div>
          <div class="resizerCorner" dangerouslySetInnerHTML=${{__html:icons.resizer}} ref=${this.resizeCrn}></div>
        <${CardViewer} card=${this.props.card} />
        ${editor}
@@ -111,7 +113,7 @@ export class CardView extends Component{
     this.resizeCrn.current.addEventListener("mouseup" , e=>{
       window.removeEventListener("mousemove", this.resizeWithMouse)
   })
-
+   
   }
 
   componentDidUpdate(){

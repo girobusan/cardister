@@ -48,9 +48,9 @@ export class HUDButton extends Component{
 }
 
 HUDButton.defaultProps = {
-  top: 8,
+  // top: 8,
   state: 0,
-  left: 8,
+  // left: 8,
   icons: ["!"],
   width: 24,
   height:24,

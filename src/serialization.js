@@ -78,6 +78,7 @@ export function makeHTMLExport(cards,settings){
 
 }
 export function saveAsHTML(cards, settings){
+console.info("Exporting...")
   cards = cards || [];
   settings = settings || {};
   console.log("settings html" , settings);

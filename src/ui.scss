@@ -6,15 +6,17 @@
   background-color: #98c5d4;
    // padding: 2rem;
    // border: 1px solid red;
-   min-width: 100vw;
+   // min-width: 100vw;
    width: 100%;
    min-height: 100vh;
+   overflow-y: auto;
    .innerUI{
      position:relative;
       margin-left: 50%;
-      min-width: 10%;
+      // min-width: 10%;
+      width: 10px;
       min-height: 100vh;
       // background-color: silver;
-      border-left: 1px dashed gray;
+      border-left: 2px dashed gray;
    }
 }

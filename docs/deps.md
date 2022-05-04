@@ -8,11 +8,9 @@ Dependencies
 1. prismjs
 1. uuid
 
-### Moveable?
+Inspirations
+------------
 
-npm i moveable
-https://github.com/daybrush/moveable (360kb min)
+1. Domino
+1. TiddlyWiki
 
-### subjx
-
-npm install subjx

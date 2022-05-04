@@ -1,10 +1,12 @@
 import { v4 as uuid } from 'uuid';
-var MarkdownIt = require('markdown-it');
+var MarkdownIt = require('markdown-it')
 
 const md = new MarkdownIt({
   html: true,
   linkify: true,
-});
+})
+.use(require("./lib/markdown-it-multimd-table.js") , {multiline: true, headerless: true});
+;
 
 /*
 * {
@@ -28,6 +30,7 @@ function uniquifyTitle(title){
 
   let num = 1;
   while( getByTitle(title + "_" + num) ){
+    if(num>10000){console.error("Can not uniquify", title) ; break}
     num+=1;
   }
   return title + "_" + num;
@@ -50,6 +53,21 @@ const callbacks = {
   "test" :  ()=>console.log("test callback") 
 }
 
+export function setCallback(evt, fn){
+   let clbid = uuid();
+   callbacks[uuid] = fn;
+   return clbid;
+}
+
+export function removeCallback(evt, clbid){
+    delete(callbacks[clbid]);
+}
+
+function modified(p){
+  Object.values(callbacks).forEach(
+   e=>e(p)
+  )
+}
 
 // VIEWS AND RESULTS
 // view = visual display of content (default = src)
@@ -89,15 +107,16 @@ const results = {
 
 ///// CARD FUNCTIONS COMBINED //////
 
-export function cardFns(card){
+export function getWrapper(card){
   return {
-    prop: (p,v)=>setOrRet(card.props , p , v , cardFns(card)),
-    src:  (s)=>setOrRet(card, "src", s , cardFns(card)),
-    type: (t)=>setOrRet(card, "type" , t , cardFns(card)),
+    prop: (p,v)=>setOrRet(card.props , p , v , getWrapper(card)),
+    var: (p,v)=>setOrRet(card.var , p , v , getWrapper(card)),
+    src:  (s)=>setOrRet(card, "src", s , getWrapper(card)),
+    type: (t)=>setOrRet(card, "type" , t , getWrapper(card)),
     title: (t)=>{
         if(!t){return card.title}
         card.title = uniquifyTitle(t);
-        return cardFns(card);
+        return getWrapper(card);
     },
     view: ()=>view(card),
     read: ()=>result(card),
@@ -109,7 +128,7 @@ export function cardFns(card){
 
 //danger!
 export function list(){
-  return store.slice();
+  return store;
 }
 
 export function view(card){
@@ -129,6 +148,14 @@ export function result(card){
 
 export function setProp(card, propName , propVal){
   card.props[propName] = propVal;
+}
+
+export function updateCard(card,newcard){
+  console.log("Update card" , newcard)
+  if(newcard.title && newcard.title != card.title){
+     newcard.title = uniquifyTitle(newcard.title);
+  }
+  Object.assign(card, newcard)
 }
 
 export function tags(card){
@@ -154,6 +181,7 @@ export function add(card , successCallback , errCalback , uniquify){
   card.title = uniquifyTitle(card.title);
   card.id = card.id || uuid();
   store.push(card);
+  modified(card.id);
   //:TODO Update Call!!
   return successCallback ? successCallback(card) : true;
 }
@@ -161,7 +189,9 @@ export function add(card , successCallback , errCalback , uniquify){
 export function remove(card){
   let idx = getIndexByCondition(c=>c.id==card.id);
   if(idx==-1){return false}
-  store.splice(idx,1); //:TODO: CALLBACK
+   store.splice(idx,1); //:TODO: CALLBACK
+   console.log(store.map(e=>e.title))
+   modified("yes");
   return true;
   // card.deleted = true;
 }
@@ -183,15 +213,19 @@ export function getIndexByCondition(conditionFn){
 }
 
 export function makeNew(type, title){
+  console.log("Make new one");
   type = type || "markdown";
   title = uniquifyTitle(title || "Card")
   return {
     type: type,
+
     title: title,
     src: "",
     tags: [],
     style: "",
     id: uuid(),
-    props: {}
+    props: {},
+    var: {},
+    created: ( new Date() ).getTime()
   }
 }
