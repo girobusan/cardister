@@ -8,8 +8,8 @@ console.log("Cardister" , VERSION);
 
 window.store = {
   version: VERSION,
-  make: ()=>cards.add( cards.makeNew() ),
-  card: (t)=>{ 
+  make: ()=>{ let c = cards.makeNew(); cards.add(c) ; return cards.getWrapper(c) },
+  get: (t)=>{ 
      const c = cards.getByTitle(t);
      if(c){
        return cards.getWrapper(c);
@@ -31,21 +31,6 @@ window.addEventListener("DOMContentLoaded", function(){
   document.title = settings.title || "My Cardset"
   //add cards one by one to _cards_
   saved_cards.forEach(c=>cards.add(c, null, null, true))
-  //add test cards
-  // for(let i = 0 ; i < 5 ; i++){
-  //   let c = cards.makeNew(null, "Test Card");
-  //   c.src = "### Lorem\n\nIpsum *Dolor*";
-  //   cards.add(c)
-  // }
-
-  // let textHTML = serialization.saveCardsToHTML(cards.list());
-  // console.log(textHTML);
-  // let fhtml = serialization.makeHTMLExport(cards.list(), settings);
-  // console.log("FHTML!" , fhtml);
-
-
-
-  // document.body.rHTML=""; //clean up
   initUI(settings)
 });
 

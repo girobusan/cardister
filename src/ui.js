@@ -6,8 +6,10 @@ import * as cards from "./cards";
 import {CardView} from "./components/CardView"
 import {HUDButton} from "./components/HUDButton"
 import {icons} from "./icons";
+import {colors} from "./colors/Cardister.es6";
 import * as serialization from "./serialization";
 require("./ui.scss");
+require("./hints");
 
 class UIcontainer extends Component{
   constructor(props){
@@ -40,7 +42,7 @@ class UIcontainer extends Component{
        <${HUDButton} 
        icons=${[icons.save, icons.save]} 
        top=${8} left=${16} 
-       bcolors=${["royalblue", "orangered"]}
+       bcolors=${[ colors.buttons_bg, "orangered"]}
        fcolors=${["white" , "white"]}
        action=${()=>{ 
        serialization.saveAsHTML(cards.list(), this.props.settings) ;
@@ -52,7 +54,7 @@ class UIcontainer extends Component{
        <${HUDButton} 
        icons=${[icons.add]} 
        left=${16} bottom=${8}
-       bcolors=${["royalblue"]}
+       bcolors=${[ colors.buttons_bg]}
        action=${()=>{
          let c = cards.makeNew("markdown", "New Card");
          c.props.editMe = true;

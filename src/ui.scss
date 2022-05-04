@@ -1,9 +1,11 @@
 
+@import "./colors/cardister.scss";
+
 .cardisterUI{
   display: block;
   box-sizing: border-box;
   color: black;
-  background-color: #98c5d4;
+  background-color: $ui_background;
    // padding: 2rem;
    // border: 1px solid red;
    // min-width: 100vw;
@@ -19,4 +21,13 @@
       // background-color: silver;
       border-left: 2px dashed gray;
    }
+}
+
+#tooltip{
+  box-sizing: border-box;
+  padding: 2px 6px;
+  background-color: $tooltip_bg;
+  color: white;
+  font-size: 12px;
+  border-radius: 4px;
 }

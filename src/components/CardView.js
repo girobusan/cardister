@@ -74,11 +74,12 @@ export class CardView extends Component{
        onmouseover=${(e)=>{ this.outer.current.classList.add("hovered");e.preventDefault() }}
        onmouseout=${()=>this.outer.current.classList.remove("hovered")}
        >
-       <div class="titleBar" ref=${this.titlebar}>${this.props.card.title}</div>
+       <div class="titleBar" data-hint="Drag to move" ref=${this.titlebar}>${this.props.card.title}</div>
          <div class="editModeBtn" 
+         data-hint="Click to edit"
          onclick=${(e)=>this.setState({editmode:!this.state.editmode})} 
          ref=${this.editBtn} dangerouslySetInnerHTML=${{__html:icons.edit}}></div>
-         <div class="resizerCorner" dangerouslySetInnerHTML=${{__html:icons.resizer}} ref=${this.resizeCrn}></div>
+         <div class="resizerCorner" data-hint="Drag to resize" dangerouslySetInnerHTML=${{__html:icons.resizer}} ref=${this.resizeCrn}></div>
        <${CardViewer} card=${this.props.card} />
        ${editor}
        </div>
