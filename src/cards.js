@@ -72,19 +72,28 @@ function modified(p){
 // VIEWS AND RESULTS
 // view = visual display of content (default = src)
 // result = what to send to other block(default =  view)
+function makeEmbeds(md){
+  const replacer=function(m,p1){
+     // console.log("REPLACER" , m , p1);
+     let emb = getByTitle(p1.trim());
+     if(emb){return view(emb)}else{return "?"}
+     //return "+"+ p1 + "+";
+  }
+  return md.replace(/{{([^}]+)}}/g , replacer);
+}
 
 const views = {
   js: (card)=>{ 
-    let f = Function("card" , card.src);
     try{
+    let f = Function("card" , card.src);
       let r =  f(card);
       return r;
     }catch(err){
-      return "Error: " + err.message;
+      return "<span style='color:orangered'>Error: " + err.message + "</span>";
     }
   },
   markdown: (card)=>{
-    return md.render(card.src);
+    return makeEmbeds(md.render(card.src));
   },
   html: (card)=>{
     return card.src; //default behavior
@@ -96,12 +105,21 @@ const views = {
     .replace(/>/g, "&gt;")
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
-  }
+  },
+  image: (card)=>`<img src=${card.src} />`
 
 }
 
 const results = {
-  text: (card)=>card.src
+  text: (card)=>card.src,
+  json: (card)=>{ 
+     try{
+     return JSON.parse(card.src) 
+     
+     }catch{
+      return {error: true}
+     }
+  }
 }
 
 

@@ -5,11 +5,11 @@ window.addEventListener("DOMContentLoaded" , function(){
      if(!e.dataset.hint){t.style.display="none" ; return};
      t.innerHTML = e.dataset.hint;
      t.style.display = "block";
-     console.log(e.dataset.hint);
+     // console.log(e.dataset.hint);
      tbb = t.getBoundingClientRect();
 
      let lf = evt.clientX - (tbb.width/2);
-     let tp = evt.clientY - (tbb.height + 8)
+     let tp = evt.clientY - (tbb.height + 14)
 
      t.style.top = tp + "px";
      t.style.left = lf + "px";

@@ -5,11 +5,61 @@ import { useState } from 'preact/hooks';
 import * as cards from "./cards";
 import {CardView} from "./components/CardView"
 import {HUDButton} from "./components/HUDButton"
+import {If} from "./components/If";
 import {icons} from "./icons";
 import {colors} from "./colors/Cardister.es6";
 import * as serialization from "./serialization";
+import {dataTransferToImage} from "./files";
 require("./ui.scss");
 require("./hints");
+
+function preventDefault(e) {
+    e.preventDefault();
+    e.stopPropagation();
+}
+
+function handleDrop(e){
+   const images=["image/jpeg" , "image/png" , "image/gif" , "image/jpg"];
+   const htmls = ["image/svg+xml" , "image/svg" , "text/html" ];
+   const json = "application/json"
+
+  const data = e.dataTransfer;
+  const files = data.files;
+  console.log(data, files);
+  let type = files[0].type;
+
+  console.log("Dropped" , type , files[0]);
+
+  if(images.indexOf(type)!=-1){
+    dataTransferToImage(data)
+    .then(r=>{
+      let c = cards.makeNew("image", data.files[0].name ||"image" );
+      c.src=r;
+      console.log(c.title);
+      cards.add(c);
+    });
+  }
+
+  if(htmls.indexOf(type)!=-1){
+     console.log("text" , files[0].text());
+     files[0].text()
+     .then(r=>{
+        let c = cards.makeNew("html" , files[0].name || "html");
+        c.src = r;
+        cards.add(c);
+     })
+  }
+  
+  if(type===json){
+     files[0].text()
+     .then(r=>{
+        let c = cards.makeNew("json" , files[0].name || "data");
+        c.src = r;
+        cards.add(c);
+     })
+  }
+  preventDefault(e);
+}
 
 class UIcontainer extends Component{
   constructor(props){
@@ -50,7 +100,7 @@ class UIcontainer extends Component{
        }}
        state=${this.state.modified? 1 : 0}
        />
-
+      <${If} condition=${!this.state.locked}>
        <${HUDButton} 
        icons=${[icons.add]} 
        left=${16} bottom=${8}
@@ -62,6 +112,7 @@ class UIcontainer extends Component{
          }}
          state=${0}
        />
+       </${If}>
 
        <${HUDButton}
        state=${this.state.fullscreen ? 1 : 0}
@@ -82,11 +133,20 @@ class UIcontainer extends Component{
            }
          }         
          }
+       />
 
+       <${HUDButton}
+       state=${this.state.locked ? 1 : 0}
+       icons=${[icons.unlocked , icons.locked]}
+       bcolors=${[colors.buttons_bg , colors.buttons_bg]}
+       fcolors=${["white" , "white"]}
+       right=${52}
+       bottom=${8}
+       action=${()=>this.setState({locked: !this.state.locked})}
        />
          <div class="innerUI"
          style=${{
-           height: this.state.height ? (this.state.height/this.state.scale)+"px" : "100vh"}}
+           height: this.state.height ? (this.state.height/this.state.scale)+"px" : "100%"}}
          >
          ${cards.list().map(e=>html`<${CardView} 
          key=${e.id}
@@ -122,7 +182,15 @@ class UIcontainer extends Component{
 
   componentDidMount(){
     window.addEventListener("scroll" , this.followWindowSize);
-    this.followWindowSize();
+    //no default drops
+    this.followWindowSize()
+    this.container.current.addEventListener('dragenter', preventDefault, false);
+    this.container.current.addEventListener('dragleave', preventDefault, false);
+    this.container.current.addEventListener('dragover', preventDefault, false);
+    // this.container.current.addEventListener('drop', preventDefault, false);e();
+    //drop
+    this.container.current.addEventListener('drop', handleDrop, false); 
+
   }
 }
 

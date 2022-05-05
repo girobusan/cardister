@@ -1,3 +1,4 @@
+// import * as PD from "preact/debug";
 require("./index.scss");
 import * as serialization from "./serialization";
 import {initUI} from "./ui";

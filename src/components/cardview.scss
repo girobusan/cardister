@@ -5,8 +5,9 @@
   box-sizing: border-box;
   border: 1px solid $card_stroke;
   position: absolute;
-  max-width: 450px;
   background-color: white;
+  min-width: 64px;
+  min-height: 64px;
   border-radius: 4px;
   padding: 8px;
   overflow: hidden;
@@ -55,6 +56,10 @@
       background-color: black;
       border-radius: 2px;
       
+    }
+    img{
+      max-width: 100%;
+      height: auto;
     }
   
   }

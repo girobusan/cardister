@@ -9,6 +9,7 @@ export class InlineButton extends Component{
 
   render(){
    return html`<input type='button' 
+   data-hint=${this.props.hint}
    value=${this.props.label}
    onclick=${this.props.action}
    ></input>`
@@ -18,5 +19,6 @@ export class InlineButton extends Component{
 
 InlineButton.defaultProps = {
   label: "Button",
-  action: ()=>console.log("InlineButton clicked")
+  action: ()=>console.log("InlineButton clicked"),
+  hint: ""
 }
