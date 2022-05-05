@@ -99,7 +99,7 @@ export class CardView extends Component{
       window.addEventListener("mousemove", this.moveWithMouse)
     } )
 
-    this.titlebar.current.addEventListener("mouseup" , (e)=>{
+    window.addEventListener("mouseup" , (e)=>{
        //stop follow
         window.removeEventListener("mousemove", this.moveWithMouse)
     })
@@ -111,7 +111,7 @@ export class CardView extends Component{
        window.addEventListener("mousemove", this.resizeWithMouse)
     })
 
-    this.resizeCrn.current.addEventListener("mouseup" , e=>{
+    window.addEventListener("mouseup" , e=>{
       window.removeEventListener("mousemove", this.resizeWithMouse)
   })
    

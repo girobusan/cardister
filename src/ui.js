@@ -21,7 +21,11 @@ function preventDefault(e) {
 function handleDrop(e){
    const images=["image/jpeg" , "image/png" , "image/gif" , "image/jpg"];
    const htmls = ["image/svg+xml" , "image/svg" , "text/html" ];
-   const json = "application/json"
+   const json = "application/json";
+   const markdown = "text/markdown";
+   const cont = document.querySelector(".cardisterUI");
+   const scrolled = cont ? cont.scrollTop : 0 ;
+   console.log("scrolled" , scrolled);
 
   const data = e.dataTransfer;
   const files = data.files;
@@ -29,13 +33,16 @@ function handleDrop(e){
   let type = files[0].type;
 
   console.log("Dropped" , type , files[0]);
+  // console.log("at" , e.pageX , e.pageY);
+  const point = [e.pageX - (window.innerWidth/2) , e.pageY + scrolled];
+  const position = (c)=>{c.props.x = point[0] ; c.props.y = point[1]};
 
   if(images.indexOf(type)!=-1){
     dataTransferToImage(data)
     .then(r=>{
       let c = cards.makeNew("image", data.files[0].name ||"image" );
       c.src=r;
-      console.log(c.title);
+      position(c);
       cards.add(c);
     });
   }
@@ -46,6 +53,7 @@ function handleDrop(e){
      .then(r=>{
         let c = cards.makeNew("html" , files[0].name || "html");
         c.src = r;
+      position(c);
         cards.add(c);
      })
   }
@@ -55,6 +63,17 @@ function handleDrop(e){
      .then(r=>{
         let c = cards.makeNew("json" , files[0].name || "data");
         c.src = r;
+      position(c);
+        cards.add(c);
+     })
+  }
+
+  if(type===markdown){
+     files[0].text()
+     .then(r=>{
+        let c = cards.makeNew("markdown" , files[0].name || "data");
+        c.src = r;
+      position(c);
         cards.add(c);
      })
   }

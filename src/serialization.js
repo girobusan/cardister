@@ -18,7 +18,7 @@ export function saveCardsToHTML(cards ){
   // })
 
   s.dataset.card = JSON.stringify(card);
-  let cview = Cards.view(card);
+  let cview = "" ; //Cards.view(card);
 
   try{
     s.appendChild(cview)
