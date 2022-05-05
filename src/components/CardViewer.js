@@ -15,8 +15,13 @@ export class CardViewer extends Component{
   }
 
   refreshView(){
-    this.viewarea.current.innerHTML = 
-     cards.view(this.props.card);
+    const v = cards.view(this.props.card);
+    this.viewarea.current.innerHTML = "";
+    try{
+        this.viewarea.current.appendChild(v);
+    }catch{
+        typeof(v)==='string' ? this.viewarea.current.innerHTML = v : this.viewarea.current.innerHTML = v.toString() 
+    }
   }
   componentDidMount(){
     this.refreshView();

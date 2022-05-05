@@ -76,10 +76,33 @@ function makeEmbeds(md){
   const replacer=function(m,p1){
      // console.log("REPLACER" , m , p1);
      let emb = getByTitle(p1.trim());
-     if(emb){return view(emb)}else{return "?"}
+     if(emb){
+        return `<span class="cardisterEmbed" data-etitle="${p1}"></span>`
+        }else{
+        return p1+"?"
+        }
      //return "+"+ p1 + "+";
   }
-  return md.replace(/{{([^}]+)}}/g , replacer);
+  const withTags =  md.replace(/{{([^}]+)}}/g , replacer);
+  const outer = document.createElement("span");
+  outer.innerHTML = withTags;
+  const embeds = outer.querySelectorAll(".cardisterEmbed");
+  if(embeds.length==0){return outer}
+
+  embeds.forEach(e=>{
+      // console.log("EMBED" , e);
+      let ec = getByTitle(e.dataset.etitle);
+      console.log(ec);
+      let ev = view(ec);
+      // console.log("EMBEDDED VIEW" , ev);
+      try{
+          e.appendChild(ev);
+      }catch{
+         typeof(ev)==='string' ? e.innerHTML = ev : e.innerHTML = ev.toString();
+      }
+
+  })
+  return outer;
 }
 
 const views = {
@@ -106,7 +129,25 @@ const views = {
     .replace(/"/g, "&quot;")
     .replace(/'/g, "&#039;");
   },
-  image: (card)=>`<img src=${card.src} />`
+  image: (card)=>`<img src=${card.src} />`,
+  html: (card)=>{
+     //create node,
+     let sp = document.createElement("span");
+     sp.innerHTML = card.src;
+     let scripts = sp.querySelectorAll("script");
+     //reset scripts
+     scripts.forEach((s, i)=>{
+        let cm = document.createComment("fix");
+        s.parentNode.insertBefore(cm , s);
+        s.remove();
+        let snew = document.createElement("script");
+        snew.innerHTML = s.innerHTML;
+        let sattrs = Array.from(s.attributes);
+        sattrs.forEach(a=>snew.setAttribute(a.name, a.value));
+        cm.parentNode.insertBefore(snew, cm);
+     })
+     return sp;
+  }
 
 }
 
