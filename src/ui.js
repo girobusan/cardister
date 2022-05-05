@@ -10,6 +10,7 @@ import {icons} from "./icons";
 import {colors} from "./colors/Cardister.es6";
 import * as serialization from "./serialization";
 import {dataTransferToImage} from "./files";
+import {dataURLFromFile} from './domino2utility';
 require("./ui.scss");
 require("./hints");
 
@@ -19,7 +20,8 @@ function preventDefault(e) {
 }
 
 function handleDrop(e){
-   const images=["image/jpeg" , "image/png" , "image/gif" , "image/jpg"];
+   const images=["image/jpeg" , "image/jpg"];
+   const images_asis = ["image/png" , "image/gif"]
    const htmls = ["image/svg+xml" , "image/svg" , "text/html" ];
    const json = "application/json";
    const markdown = "text/markdown";
@@ -36,6 +38,18 @@ function handleDrop(e){
   // console.log("at" , e.pageX , e.pageY);
   const point = [e.pageX - (window.innerWidth/2) , e.pageY + scrolled];
   const position = (c)=>{c.props.x = point[0] ; c.props.y = point[1]};
+
+  if(images_asis.indexOf(type)!=-1){
+    console.info("Saving as is");
+     const url = dataURLFromFile(files[0])
+     .then(r=>{
+      let c = cards.makeNew("image", data.files[0].name ||"image" );
+      c.src=r;
+      position(c);
+      cards.add(c);
+     })
+
+  }
 
   if(images.indexOf(type)!=-1){
     dataTransferToImage(data)
@@ -126,6 +140,10 @@ class UIcontainer extends Component{
        bcolors=${[ colors.buttons_bg]}
        action=${()=>{
          let c = cards.makeNew("markdown", "New Card");
+         c.props.x = -100;
+         c.props.y = this.container.current.scrollTop + window.innerHeight/2-100;
+         c.props.width=200;
+         c.props.height=200;
          c.props.editMe = true;
          cards.add(c);
          }}

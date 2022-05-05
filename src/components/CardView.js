@@ -64,6 +64,7 @@ export class CardView extends Component{
     cancelAction=${()=>this.setState({editmode:false})}/>` , this.portal )}` : "";
     return html`
        <div class="cardView" 
+       id=${this.props.card.id || ""}
        ref=${this.outer}
        key=${this.props.card.id} 
        style=${{top:( this.state.position[1] ) +'px', 
@@ -79,7 +80,7 @@ export class CardView extends Component{
          data-hint="Click to edit"
          onclick=${(e)=>this.setState({editmode:!this.state.editmode})} 
          ref=${this.editBtn} dangerouslySetInnerHTML=${{__html:icons.edit}}></div>
-         <div class="resizerCorner" data-hint="Drag to resize" dangerouslySetInnerHTML=${{__html:icons.resizer}} ref=${this.resizeCrn}></div>
+         <div class="resizerCorner" data-hint="Drag to resize" dangerouslySetInnerHTML=${{__html:icons.resizer_alt}} ref=${this.resizeCrn}></div>
        <${CardViewer} card=${this.props.card} />
        ${editor}
        </div>

@@ -36,6 +36,13 @@
     overflow-y: auto;
     
   }
+  .CardViewer{
+    img{
+      display: block;
+      margin: 16px auto;
+      max-width: 100%;
+    }
+  }
   .actions{
     margin: 8px 0;
   }

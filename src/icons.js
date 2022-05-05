@@ -1,6 +1,7 @@
 export const icons={
  edit: require("./icons/edit_black_24dp.svg"),
  resizer: require("./icons/resizer.svg"),
+ resizer_alt: require("./icons/resizer2.svg"),
  save: require("./icons/save_alt_black_24dp.svg"),
  add: require("./icons/add_black_24dp.svg"),
  settings: require("./icons/settings_black_24dp.svg"),
