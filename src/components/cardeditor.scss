@@ -14,8 +14,8 @@
   justify-content: center;
   .inner{
     background-color: white;
-    max-width: 600px;
-    min-width: 300px;
+    width: 600px;
+    // min-width: 300px;
     max-height: 99vh;
     padding: 16px;
     display: flex;
@@ -27,13 +27,17 @@
     margin-bottom: 8px;
     flex-grow: 0;
   }
+  .editor_top_area{
+    margin: 8px 0;
+  }
   .editorArea{
-    background-color: silver;
-    // color: white;
+background-color: #03202d;
+    color: white;
     padding: 8px;
     border-radius: 4px;
     min-height: 400px;
     overflow-y: auto;
+    font-family: monospace;
     
   }
   .CardViewer{

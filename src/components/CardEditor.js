@@ -6,8 +6,33 @@ import {InlineButton} from "./InlineButton";
 import { CardViewer } from './CardViewer';
 import {If} from "./If";
 require("./cardeditor.scss");
+require("../prism.css");
 import * as cards from '../cards';
 
+Prism.languages.json = {
+	'property': {
+		pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"(?=\s*:)/,
+		lookbehind: true,
+		greedy: true
+	},
+	'string': {
+		pattern: /(^|[^\\])"(?:\\.|[^\\"\r\n])*"(?!\s*:)/,
+		lookbehind: true,
+		greedy: true
+	},
+	'comment': {
+		pattern: /\/\/.*|\/\*[\s\S]*?(?:\*\/|$)/,
+		greedy: true
+	},
+	'number': /-?\b\d+(?:\.\d+)?(?:e[+-]?\d+)?\b/i,
+	'punctuation': /[{}[\],]/,
+	'operator': /:/,
+	'boolean': /\b(?:false|true)\b/,
+	'null': {
+		pattern: /\bnull\b/,
+		alias: 'keyword'
+	}
+};
 
 export class CardEditor extends Component{
   constructor(props){
@@ -18,10 +43,10 @@ export class CardEditor extends Component{
     this.typeSelector = createRef();
     this.saveCard = this.saveCard.bind(this);
     this.removeCard = this.removeCard.bind(this);
+    this.state={type: this.props.card.type}
 
   }
   render(){
-    this.removeCard(true)
     return html`
     <div class="CardEditor">
       <div class="inner">
@@ -30,14 +55,16 @@ export class CardEditor extends Component{
         <!--top panel-->
         <div class="editor_top_area">
         <${If} condition=${this.props.types.indexOf(this.props.card.type)!=-1}>
-        <select ref=${this.typeSelector} data-hint=${"Change type"}>
+        <select ref=${this.typeSelector} 
+        data-hint=${"Change type"}
+        >
         ${this.props.types.map(t=>html`<option selected=${t==this.props.card.type} >
         ${t}</option>`)}
         </select>
         </If>
         </div>
         <${If} condition=${this.props.types.indexOf(this.props.card.type)!=-1}>
-          <div class="editorArea language-md" ref=${this.editorElement} ></div>
+          <div class="editorArea language-${this.state.type}" ref=${this.editorElement} ></div>
         </If>
         <${If} condition=${this.props.types.indexOf(this.props.card.type)==-1}>
         <!--no editor-->
@@ -72,7 +99,6 @@ export class CardEditor extends Component{
   }
 
   removeCard(test){
-    console.log("deleting...")
     if(!test){
     cards.remove(this.props.card);
   }else{console.log("...not really")}
