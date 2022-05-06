@@ -28,6 +28,14 @@ window.addEventListener("DOMContentLoaded", function(){
   const saved_cards = serialization.restoreCardsFromHTML(document.body);
   const settings = serialization.restoreSettingsFromHTML(document.body);
   console.log("The settings:" , settings);
+  if(!settings.cleanHead){
+  var cleanHead = document.querySelector("head");
+  cleanHead = cleanHead.cloneNode(true);
+  cleanHead.querySelector("#cardisterCoreCSS").innerHTML = "";
+  //skip CSS
+  console.log("head" , cleanHead.innerHTML);
+  settings.cleanHead = cleanHead.innerHTML;
+  }
 
   //do something...
   document.title = settings.title || "My Cardset"

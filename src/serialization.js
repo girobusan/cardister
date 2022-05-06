@@ -60,20 +60,45 @@ export function restoreSettingsFromHTML(element){
 
 //dirty
 export function makeHTMLExport(cards,settings){
-  // duplicate html
-  const clone = document.documentElement.cloneNode(true);
   const crds =  saveCardsToHTML(cards);
   const sets =  convertSettingsToHTML(settings);
+  //
+  // duplicate html
+  const clone = document.documentElement.cloneNode(true);
+
   // console.log(clone);
   console.log("settings html" , settings, sets);
-  var cbody = clone.querySelector("#cardisterContainer");
-  if(!cbody){
-    cbody = document.createElement("span");
-    cbody.id = "cardisterContainer";
-    clone.document.body.appendChild(cbody);
+  console.log("clone" , clone);
+
+  var dataContainer = document.createElement("span");
+   dataContainer.id = "cardisterContainer";
+  dataContainer.innerHTML=crds + sets;
+
+  var cloneBody = clone.querySelector("body");
+  var coreScript = clone.querySelector("#cardisterCore");
+  cloneBody.innerHTML = "";
+
+  const loader = document.createElement("div");
+  loader.id="loader";
+  //prep head
+  if(settings.cleanHead){
+    let head = clone.querySelector("head");
+    head.innerHTML = settings.cleanHead;
+    //add core CSS
+    const coreCSS = document.querySelector("#cardisterCoreCSS").innerHTML;
+    let nh = head.querySelector("#cardisterCoreCSS")
+    nh.innerHTML = coreCSS; 
+    //add user CSS
+    //add user title
+    //add description
+  }else{
+    console.info("Clean HEAD template was missed.")
   }
-  // console.log(cbody);
-  cbody.innerHTML="<div id='loader'></div>" + crds + sets;
+
+  cloneBody.appendChild(loader);
+  cloneBody.appendChild(dataContainer);
+  dataContainer.appendChild(coreScript);
+
   return clone.outerHTML;
 
 }

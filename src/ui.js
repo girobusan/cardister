@@ -220,7 +220,9 @@ class UIcontainer extends Component{
 
   componentDidMount(){
   let ldr = document.querySelector("#loader");
-  if(ldr){ ldr.style.opacity=0; window.setTimeout(()=>ldr.remove , 2000) }
+  if(ldr){ 
+     ldr.style.opacity=0; 
+     window.setTimeout(()=>ldr.remove() , 2000) }
     window.addEventListener("scroll" , this.followWindowSize);
     //no default drops
     this.followWindowSize()

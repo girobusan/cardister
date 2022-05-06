@@ -10,6 +10,15 @@ const defaultSettings = fs.readFileSync("./src/templates/default_settings.json")
 const defaultCards = fs.readFileSync("./src/templates/default_cards.htm");
 
 
+try{
+var scrpt = fs.readFileSync("./dist/index.js");
+}catch{
+  console.log('Run build again');
+  scrpt="<!--run twice-->"
+}
+
+
+
 const env = process.env.NODE_ENV;
 
 const econfig = {
@@ -92,7 +101,9 @@ module.exports = function (env, argv) {
         chunks: ["index"],
         filename: 'index.html',
         minify: false,
-        inject:"body",
+        inject: false,
+        script: scrpt,
+        // scriptLoading: 'defer',
         comment: defaultSettings,
         cards: defaultCards,
         template: path.join(__dirname, "src/templates/index.ejs"),
@@ -100,11 +111,14 @@ module.exports = function (env, argv) {
       ),
       new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/index.js/]),
       new HTMLInlineCSSWebpackPlugin(
+
       {replace:
           {target: '<style id="cardicterCustomCSS">' , 
            position: "before",
            removeTarget: false,
-           }
+           },
+           styleTagFactory({ style }){ return `<style id="cardisterCoreCSS">${ style }</style>`
+      },
       }
       ),
 
