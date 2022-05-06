@@ -92,7 +92,7 @@ function makeEmbeds(md){
   embeds.forEach(e=>{
       // console.log("EMBED" , e);
       let ec = getByTitle(e.dataset.etitle);
-      console.log(ec);
+      // console.log(ec);
       let ev = view(ec);
       // console.log("EMBEDDED VIEW" , ev);
       try{
@@ -210,7 +210,7 @@ export function setProp(card, propName , propVal){
 }
 
 export function updateCard(card,newcard){
-  console.log("Update card" , newcard)
+  // console.log("Update card" , newcard)
   if(newcard.title && newcard.title != card.title){
      newcard.title = uniquifyTitle(newcard.title);
   }
@@ -249,7 +249,7 @@ export function remove(card){
   let idx = getIndexByCondition(c=>c.id==card.id);
   if(idx==-1){return false}
    store.splice(idx,1); //:TODO: CALLBACK
-   console.log(store.map(e=>e.title))
+   // console.log(store.map(e=>e.title))
    modified("yes");
   return true;
   // card.deleted = true;
@@ -272,7 +272,7 @@ export function getIndexByCondition(conditionFn){
 }
 
 export function makeNew(type, title){
-  console.log("Make new one");
+  // console.log("Make new one");
   type = type || "markdown";
   title = uniquifyTitle(title || "Card")
   return {

@@ -1,3 +1,5 @@
+@import "./colors/cardister.scss";
+
 body, html{
   font-family: 'PT Sans', Tahoma, Geneva, Verdana, sans-serif;
   font-size: 16px;
@@ -22,15 +24,36 @@ table{
   padding: 4px 8px;
 
   }
+}
+
+@keyframes loading{
+  0% {content: "."}
+  33% {content: ".."}
+  66% {content: "..."}
+  100% {content: "...."}
+}
   #loader{
     position: fixed;
-    background-color: white;
+    background-color: $ui_background;
     width: 100%;
     height: 100vh;
-    color: gray;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    font-size: 48px;
+    opacity: 1;
+    transition: opacity 1s;
     top: 0;
     left:0;
+    bottom:0;
+    right:0;
     z-index: 100000;
+    &:after{
+      animation: loading 1s infinite alternate;
+      display: block;
+      content: "...";
+    }
   }
-}
 

@@ -5,14 +5,43 @@
   <title>Cardister</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <base target="_blank">
-  <style id="cardicterCustomCSS">
+  <style>
+    html{
+       visibility: hidden;
+       opacity:0;
+    }
   </style>
+  <!--inline core CSS-->
+  <style id="cardicterCustomCSS">
+    .cardister-card-inverse{
+      background-color: black;
+      color: white;
+    }
+    .cardister-card-yellow{
+      background-color: yellow;
+    }
+  </style>
+  <style>
+    html{
+      visibility: visible;
+      opacity: 1;
+    }
+  </style>
+  <noscript>
+    <style>
+      #loader{
+        display: none;
+      }
+    </style>
+  </noscript>
 </head>
 <body>
   <span id="cardisterContainer">
+<div id="loader"></div>
 <%= htmlWebpackPlugin.options.cards %>
 <script type="data/json" id="settings">
   <%= htmlWebpackPlugin.options.comment %>
+
 </script>
  </span>
 </body>

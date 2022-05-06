@@ -73,7 +73,7 @@ export function makeHTMLExport(cards,settings){
     clone.document.body.appendChild(cbody);
   }
   // console.log(cbody);
-  cbody.innerHTML=crds+sets+"<div id='loader'><div>...</div></div>";
+  cbody.innerHTML="<div id='loader'></div>" + crds + sets;
   return clone.outerHTML;
 
 }

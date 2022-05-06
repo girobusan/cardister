@@ -211,6 +211,7 @@ class UIcontainer extends Component{
       document.body.clientHeight, document.documentElement.clientHeight
     );
     if(scrollHeight>myh && this.state.height < (scrollHeight+8)){
+      
       this.setState({height: scrollHeight+8})
     }
      
@@ -218,6 +219,8 @@ class UIcontainer extends Component{
   }
 
   componentDidMount(){
+  let ldr = document.querySelector("#loader");
+  if(ldr){ ldr.style.opacity=0; window.setTimeout(()=>ldr.remove , 2000) }
     window.addEventListener("scroll" , this.followWindowSize);
     //no default drops
     this.followWindowSize()

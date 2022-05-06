@@ -17,7 +17,8 @@ window.store = {
      }
      return null;
   },
-  dumpCards: ()=>{serialization.dumpCards(cards.list())}
+  dumpCards: ()=>{serialization.dumpCards(cards.list())},
+  dumpCardsAsJSON: ()=>{serialization.saveFile(JSON.stringify(cards.list(), null  , 2), "cards.json")}
   
 }
 
