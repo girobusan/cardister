@@ -71,15 +71,15 @@ export class CardEditor extends Component{
         <${CardViewer} card=${this.props.card} />
         </If>
           <div class="actions">
+      <${InlineButton} 
+      hint=${"Delete this card"}
+      label="delete" action=${()=>{ console.log("this" , this) ; this.removeCard() }}/>
       <${InlineButton} label="cancel" 
       hint=${"Cancel editing"}
       action=${this.props.cancelAction}/>
       <${InlineButton} 
       hint=${"Save changes"}
       label="save" action=${()=>{ this.saveCard() ; this.props.cancelAction() }} />
-      <${InlineButton} 
-      hint=${"Delete this card"}
-      label="delete" action=${()=>{ console.log("this" , this) ; this.removeCard() }}/>
         </div>
     </div>
   </div>`

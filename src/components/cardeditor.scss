@@ -1,6 +1,6 @@
 .CardEditor{
   position: fixed;
-  z-index: 1000;
+  z-index: 20000;
   top:0;
   box-sizing: border-box;
   left: 0;
@@ -49,6 +49,12 @@ background-color: #03202d;
   }
   .actions{
     margin: 8px 0;
+            *{
+              margin-right: 8px;
+              &:last-child{
+                margin-right: 0;
+              }
+            }
   }
 
 }

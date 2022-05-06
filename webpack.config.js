@@ -99,7 +99,14 @@ module.exports = function (env, argv) {
       }
       ),
       new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/index.js/]),
-      new HTMLInlineCSSWebpackPlugin(),
+      new HTMLInlineCSSWebpackPlugin(
+      {replace:
+          {target: '<style id="cardicterCustomCSS">' , 
+           position: "before",
+           removeTarget: false,
+           }
+      }
+      ),
 
 
     ],
