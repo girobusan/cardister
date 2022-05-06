@@ -6,6 +6,7 @@ import {icons} from "../icons";
 require("./cardview.scss");
 import {CardViewer} from "./CardViewer";
 import {CardEditor} from "./CardEditor";
+import {killEvent} from "../domino2utility";
 
 export class CardView extends Component{
   constructor(props){
@@ -35,6 +36,7 @@ export class CardView extends Component{
     this.props.card.props.x = newPos[0];
     this.props.card.props.y = newPos[1];
     this.setState({position: newPos})
+    killEvent(e);
     //
     // let scrollHeight = Math.max(
     //   document.body.scrollHeight, document.documentElement.scrollHeight,
@@ -52,6 +54,7 @@ export class CardView extends Component{
     this.props.card.props.width = newSize[0];
     this.props.card.props.height = newSize[1];
     this.setState({size: newSize})
+    killEvent(e);
   }
 
 

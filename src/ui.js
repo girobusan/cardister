@@ -10,7 +10,7 @@ import {icons} from "./icons";
 import {colors} from "./colors/Cardister.es6";
 import * as serialization from "./serialization";
 import {dataTransferToImage} from "./files";
-import {dataURLFromFile} from './domino2utility';
+import {dataURLFromFile , killEvent} from './domino2utility';
 require("./ui.scss");
 require("./hints");
 
@@ -91,7 +91,7 @@ function handleDrop(e){
         cards.add(c);
      })
   }
-  preventDefault(e);
+  killEvent(e)
 }
 
 class UIcontainer extends Component{
@@ -210,7 +210,7 @@ class UIcontainer extends Component{
       document.body.offsetHeight, document.documentElement.offsetHeight,
       document.body.clientHeight, document.documentElement.clientHeight
     );
-    if(scrollHeight>myh){
+    if(scrollHeight>myh && this.state.height < (scrollHeight+8)){
       this.setState({height: scrollHeight+8})
     }
      
