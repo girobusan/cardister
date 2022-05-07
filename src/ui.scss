@@ -11,7 +11,14 @@
    // min-width: 100vw;
    width: 100%;
    min-height: 100vh;
-   // overflow-y: auto;
+   &.fullscreen{
+     overflow-y: auto;
+     .innerUI{
+       height: 100%;
+       border-left: none;
+
+     }
+   }
    .innerUI{
      position:relative;
       margin-left: 50%;

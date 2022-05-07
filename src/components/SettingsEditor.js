@@ -11,6 +11,21 @@ import {colors} from "../colors/Cardister.es6";
 import {icons} from "../icons";
 require("./settingsed.scss")
 
+class Tab extends Component{
+  constructor(props){
+  super(props);
+  }
+  render(){ return html`
+    <div 
+    class="Tab ${this.props.index==this.props.selected ? "selected" : ""}"
+    onclick=${()=>this.props.action(this.props.index)}
+    >
+      ${this.props.label}
+    </div>
+  `
+}
+}
+
 export class SettingsEditor extends Component{
   constructor(props){
     super(props);
@@ -26,15 +41,29 @@ export class SettingsEditor extends Component{
       bcolors=${[colors.buttons_bg]}
       left=${56} 
       bottom=${8}
-      action=${()=>{console.log(0 , this.state); 
-      this.setState({hidden:0 , test: 1}) ; 
-      console.log(1,this.state) }}
+      action=${()=>{ this.setState({hidden:0}) }}
       />`
     }
     return html`<div class="SettingsEditor">
     <h2>Settings</h2>
+    <div class="tabheader">
+   <${Tab} index=0 selected=${this.state.tab} 
+   label="Settings"
+   action=${i=>this.setState({tab:i})}
+   />
+   <${Tab} index=1 selected=${this.state.tab} 
+   label="Custom CSS" action=${i=>this.setState({tab:i})}
+   />
+   <${Tab} index=2 selected=${this.state.tab} 
+   label="Utility" action=${i=>this.setState({tab:i})}
+   />
+    </div>
+<div class="tabcontent">
+</div>
+    <div class="actions">
     <${InlineButton} label=${"Cancel"} action=${()=>this.setState({hidden:1})} />
-    <${InlineButton} label=${"Save and exit"} action=${()=>{ this.saveSettings();this.setState({hidden:1}) }} />
+    <${InlineButton} label=${"Save and exit"} 
+    action=${()=>{ this.saveSettings();this.setState({hidden:1}) }} /></div>
     </div>`
   }
   saveSettings(){

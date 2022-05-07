@@ -117,7 +117,7 @@ class UIcontainer extends Component{
      //console.log("Props" , this.props);
      // console.log(cards.list("Card"));
 
-     return html`<div class="cardisterUI" 
+     return html`<div class="cardisterUI ${this.state.fullscreen ? "fullscreen" : "windowed"}" 
      ref=${this.container}
      style=${{
         height: this.state.height ? this.state.height+"px" : "100vh",

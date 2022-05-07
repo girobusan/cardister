@@ -29,12 +29,13 @@ window.addEventListener("DOMContentLoaded", function(){
   const settings = serialization.restoreSettingsFromHTML(document.body);
   console.log("The settings:" , settings);
   if(!settings.cleanHead){
-  var cleanHead = document.querySelector("head");
-  cleanHead = cleanHead.cloneNode(true);
-  cleanHead.querySelector("#cardisterCoreCSS").innerHTML = "";
-  //skip CSS
-  console.log("head" , cleanHead.innerHTML);
-  settings.cleanHead = cleanHead.innerHTML;
+    var cleanHead = document.querySelector("head");
+    cleanHead = cleanHead.cloneNode(true);
+    cleanHead.querySelector("#cardisterCoreCSS").innerHTML = "";
+    //skip CSS
+    // console.log("head" , cleanHead.innerHTML);
+    console.info("Saving HEAD template...");
+    settings.cleanHead = cleanHead.innerHTML;
   }
 
   //do something...

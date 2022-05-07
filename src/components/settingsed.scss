@@ -1,4 +1,7 @@
 .SettingsEditor{
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
   position: fixed;
   z-index: 20000;
   width: 600px;
@@ -6,6 +9,37 @@
   bottom: 0;
   top:0;
   padding: 16px;
+  padding-bottom: 32px;
   background-color: white;
   box-shadow: 4px 0px 16px rgba(0,0,0,0.5);
+  .tabheader{
+    display: flex;
+    flex-direction: row;
+    .Tab{
+      cursor: pointer;
+      padding: 6px 8px;
+      // border-width: 0;
+      // transition: border-width .5s;
+      &.selected{
+        border-bottom: 2px solid black;
+      }
+    }
+  }
+  .tabcontent{
+    margin-top: 8px;
+    background-color: silver;
+    flex-grow: 1;
+  }
+  .actions{
+    display: flex;
+    flex-direction: row;
+    margin:8px 0;
+    *{
+      display: block;
+      margin-right:8px;
+      &:last-child{
+        margin-right: 0px;
+      }
+    }
+  }
 }
