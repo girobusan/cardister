@@ -2,6 +2,7 @@ window.addEventListener("DOMContentLoaded" , function(){
   function move(evt){
     
      const e = document.elementFromPoint(evt.clientX , evt.clientY);
+     if(!e){return}
      if(!e.dataset.hint){t.style.display="none" ; return};
      t.innerHTML = e.dataset.hint;
      t.style.display = "block";

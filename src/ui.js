@@ -44,7 +44,7 @@ function handleDrop(e){
     console.info("Saving as is");
      const url = dataURLFromFile(files[0])
      .then(r=>{
-      let c = cards.makeNew("image", data.files[0].name ||"image" );
+      let c = cards.makeNew("image", files[0].name ||"image" );
       c.src=r;
       position(c);
       cards.add(c);
@@ -55,7 +55,7 @@ function handleDrop(e){
   if(images.indexOf(type)!=-1){
     dataTransferToImage(data)
     .then(r=>{
-      let c = cards.makeNew("image", data.files[0].name ||"image" );
+      let c = cards.makeNew("image", files[0].name ||"image" );
       c.src=r;
       position(c);
       cards.add(c);
