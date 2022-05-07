@@ -1,0 +1,11 @@
+.SettingsEditor{
+  position: fixed;
+  z-index: 20000;
+  width: 600px;
+  height: 100vh;
+  bottom: 0;
+  top:0;
+  padding: 16px;
+  background-color: white;
+  box-shadow: 4px 0px 16px rgba(0,0,0,0.5);
+}

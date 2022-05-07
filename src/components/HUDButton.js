@@ -12,9 +12,13 @@ export class HUDButton extends Component{
      return html`<div class="HUDButton" 
      ref=${this.icon}
      onclick=${this.props.action}
+     onmouseover=${()=>{this.icon.current.style.opacity=1}}
+     onmouseout=${()=>{this.icon.current.style.opacity=.5}}
+     data-hint=${this.props.hint}
      style=${
        {
        position: "fixed",
+       opacity: 0.5,
        zIndex: 10000,
        display: "block",
        boxSizing: "border-box", 
@@ -38,7 +42,7 @@ export class HUDButton extends Component{
       ></div>`
   }
   refreshIcon(){
-    this.icon.current.innerHTML = this.props.icons[this.props.state] ;
+    this.icon.current.innerHTML = this.props.icons[this.props.state] ; 
   }
   componentDidMount(){
     this.refreshIcon();
@@ -57,6 +61,7 @@ HUDButton.defaultProps = {
   height:24,
   bcolors: ["orangered"],
   fcolors: ["white"],
-  action: (e)=>console.log("HUD button click")
+  action: (e)=>console.log("HUD button click"),
+  hint: ""
 }
 

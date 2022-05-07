@@ -5,6 +5,7 @@ import { useState } from 'preact/hooks';
 import * as cards from "./cards";
 import {CardView} from "./components/CardView"
 import {HUDButton} from "./components/HUDButton"
+import { SettingsEditor } from './components/SettingsEditor';
 import {If} from "./components/If";
 import {icons} from "./icons";
 import {colors} from "./colors/Cardister.es6";
@@ -122,7 +123,10 @@ class UIcontainer extends Component{
         height: this.state.height ? this.state.height+"px" : "100vh",
        }}
      >
+      <${If} condition=${!this.state.locked}>
+
        <${HUDButton} 
+       hint=${"Export to file"}
        icons=${[icons.save, icons.save]} 
        top=${8} left=${16} 
        bcolors=${[ colors.buttons_bg, "orangered"]}
@@ -133,8 +137,9 @@ class UIcontainer extends Component{
        }}
        state=${this.state.modified? 1 : 0}
        />
-      <${If} condition=${!this.state.locked}>
+
        <${HUDButton} 
+       hint=${"Add card"}
        icons=${[icons.add]} 
        left=${16} bottom=${8}
        bcolors=${[ colors.buttons_bg]}
@@ -149,9 +154,11 @@ class UIcontainer extends Component{
          }}
          state=${0}
        />
+       <${SettingsEditor} settings=${this.props.settings} />
        </${If}>
 
        <${HUDButton}
+       hint=${"Full screen mode"}
        state=${this.state.fullscreen ? 1 : 0}
        icons=${[icons.fullscreen , icons.exit_fullscreen]}
        bcolors=${["black" , "black"]}
@@ -173,6 +180,7 @@ class UIcontainer extends Component{
        />
 
        <${HUDButton}
+       hint=${"Lock/unlock"}
        state=${this.state.locked ? 1 : 0}
        icons=${[icons.unlocked , icons.locked]}
        bcolors=${[colors.buttons_bg , colors.buttons_bg]}

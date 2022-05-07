@@ -108,8 +108,8 @@ function makeEmbeds(md){
 const views = {
   js: (card)=>{ 
     try{
-    let f = Function("card" , card.src);
-      let r =  f(card);
+    let f = Function("card", "Me" , card.src);
+      let r =  f(card, getWrapper(card));
       return r;
     }catch(err){
       return "<span style='color:orangered'>Error: " + err.message + "</span>";

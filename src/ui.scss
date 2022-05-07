@@ -31,3 +31,9 @@
   font-size: 12px;
   border-radius: 4px;
 }
+
+.HUDButton{
+  svg{
+    pointer-events: none;
+  }
+}
