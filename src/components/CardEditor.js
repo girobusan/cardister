@@ -109,7 +109,7 @@ export class CardEditor extends Component{
     // console.log("Edprps" , this.props);
     if(this.editorElement.current){
       this.editor = CodeJar(this.editorElement.current ,
-      Prism.highlightElement , {tab: '  '})
+      (e)=>{return  Prism.highlightElement(e) } , {tab: '  '})
       this.editor.updateCode(this.props.card.src);
     }
     this.titleEditorInput.current.value = this.props.card.title;

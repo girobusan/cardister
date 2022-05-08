@@ -108,7 +108,7 @@ function makeEmbeds(md){
 const views = {
   js: (card)=>{ 
     try{
-    let f = Function("card", "Me" , card.src);
+    let f = Function("card", "Me" , card.src.trim() || "return false");
       let r =  f(card, getWrapper(card));
       return r;
     }catch(err){
