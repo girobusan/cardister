@@ -146,8 +146,11 @@ class UIcontainer extends Component{
        bcolors=${[ colors.buttons_bg]}
        action=${()=>{
          let c = cards.makeNew("markdown", "New Card");
+         let cbb = -this.container.current.getBoundingClientRect().y;
+         let elscroll = this.container.current.scrollTop;
+         // console.log("VALS" , cbb , elscroll);
          c.props.x = -100;
-         c.props.y = this.container.current.scrollTop + window.innerHeight/2-100;
+         c.props.y = window.innerHeight/2-100 + Math.max(cbb,elscroll);
          c.props.width=200;
          c.props.height=200;
          c.props.editMe = true;
@@ -162,7 +165,7 @@ class UIcontainer extends Component{
        hint=${"Full screen mode"}
        state=${this.state.fullscreen ? 1 : 0}
        icons=${[icons.fullscreen , icons.exit_fullscreen]}
-       bcolors=${["black" , "black"]}
+       bcolors=${[colors.buttons_bg, colors.buttons_bg]}
        fcolors=${["white" , "white"]}
        right=${16}
        bottom=${8}
