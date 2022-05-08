@@ -113,7 +113,7 @@ module.exports = function (env, argv) {
       new HTMLInlineCSSWebpackPlugin(
 
       {replace:
-          {target: '<style id="cardicterCustomCSS">' , 
+          {target: '<style id="cardisterCustomCSS">' , 
            position: "before",
            removeTarget: false,
            },

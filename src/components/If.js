@@ -1,5 +1,4 @@
-import { render, h , Component , createRef  } from 'preact';
-import { html } from 'htm/preact';
+import {  Component} from 'preact';
 
 export class If extends Component{
   constructor(props){
@@ -7,6 +6,7 @@ export class If extends Component{
   }
 
   render(){
+    // console.log("IF" , this.props.condition)
     if(this.props.condition){
       return this.props.children
     }else{

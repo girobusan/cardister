@@ -1,5 +1,6 @@
 
-import {Component, createRef} from 'preact';
+import {useRef} from 'preact/hooks';
+import {Component, createRef ,} from 'preact';
 import {html} from 'htm/preact';
 import {CodeJar} from "codejar";
 import Prism from "prismjs";
@@ -11,28 +12,53 @@ import {colors} from "../colors/Cardister.es6";
 import {icons} from "../icons";
 require("./settingsed.scss")
 
-class Tab extends Component{
-  constructor(props){
-  super(props);
-  }
-  render(){ return html`
+function Tab(props){
+   return html`
     <div 
-    class="Tab ${this.props.index==this.props.selected ? "selected" : ""}"
-    onclick=${()=>this.props.action(this.props.index)}
+    class="Tab ${props.index==props.selected ? "selected" : ""}"
+    onclick=${()=>props.action(props.index)}
     >
-      ${this.props.label}
-    </div>
+      ${props.label}
+    </div>`
+}
+
+function TextInput(props){
+ const inv = useRef(null);
+ //const handler = ()=>inv &&inv.current
+  return html`
+     <div class="TextInput">
+     <label for=${props.name}>${props.label}</label>
+     <input type="text" name=${props.name} 
+     ref=${inv}
+     value=${props.value} 
+     onkeyup=${ ()=>props.action(inv.current.value)} />
+     </div>
   `
 }
+
+function TextArea(props){
+  const txt = useRef(null);
+  return html`
+   <div class="TextArea">
+   <label for=${props.name}>${props.label}</label>
+   <textarea ref=${txt}
+   style="width:100%;display:block;min-height:150px"
+   name=${props.name}
+   onkeyup=${()=>props.action(txt.current.value)} >
+   ${props.value}
+   </textarea>
+   </div>
+  `
 }
 
 export class SettingsEditor extends Component{
   constructor(props){
     super(props);
+    this.cssEditor = createRef();
     this.state={test: 0 , hidden: 1 , tab: 0 , settings: this.props.settings}
   }
   render(){
-    console.log("render" , this.state);
+    // console.log("render" , this.state);
     if(this.state.hidden===1){
 
       return html`<${HUDButton} 
@@ -59,6 +85,40 @@ export class SettingsEditor extends Component{
    />
     </div>
 <div class="tabcontent">
+  <${If} condition=${this.state.tab==0}>
+
+  <!--settings-->
+  <div class="formRow">
+  <${TextInput} 
+     name=${"title"}
+     label=${"Title"}
+     value=${this.state.title}
+     action=${(v)=>this.setState({title:v})}
+  />
+  <${TextInput} 
+     name=${"filename"}
+     label=${"File name"}
+     value=${this.state.filename}
+     action=${(v)=>this.setState({filename:v})}
+  />
+
+  </div>
+  <${TextArea} 
+     name=${"description"}
+     label=${"Description"}
+     value=${this.state.description}
+     action=${(v)=>this.setState({description:v})}
+  />
+    
+  </${If}>
+  <${If} condition=${this.state.tab==1}>
+
+  <div class="cssEditor language-css" ref=${this.cssEditor}></div>
+
+  </${If}>
+  <${If} condition=${this.state.tab==2}>
+   utilities
+   </${If}>
 </div>
     <div class="actions">
     <${InlineButton} label=${"Cancel"} action=${()=>this.setState({hidden:1})} />
@@ -68,14 +128,45 @@ export class SettingsEditor extends Component{
   }
   saveSettings(){
       //title
+      this.props.settings.title = this.state.title;
+      document.title = this.state.title;
       //description
-      //language
+      this.props.settings.description = this.state.description;
       //file name!
-
-
+      this.props.settings.filename = this.state.filename;
       //custom css
+      if(this.customCSSElement)
+      {
+        this.customCSSElement.innerHTML = this.editorBuffer;
+      }else{
+        console.error("Can not save custom CSS");
+      }
   }
   componentDidUpdate(){
-    console.log("Editor update" , this.state);
+    // console.log("Editor update" , this.state);
+    //if we have css editor?
+    if(this.cssEditor.current){
+       this.editor = CodeJar(this.cssEditor.current,
+      Prism.highlightElement , {tab: '  '});
+      this.editor.updateCode(this.editorBuffer);
+      this.editor.onUpdate((css)=>this.editorBuffer=css);
+         
+       
+    }
+  }
+  componentDidMount(){
+  //read css
+     this.customCSSElement = document.getElementById("cardisterCustomCSS");
+     const cCSS = this.customCSSElement ? this.customCSSElement.innerHTML : "/*custom CSS error*/";
+     console.log("Settings" , this.props.settings)
+     this.editorBuffer = cCSS;
+     
+    //read all settings
+    this.setState({
+      title: document.title,
+      filename: this.props.settings.filename || "My_cards.html",
+      description: this.props.settings.description || "?" ,
+      css: this.editorBuffer, 
+    })
   }
 }

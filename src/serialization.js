@@ -88,7 +88,15 @@ export function makeHTMLExport(cards,settings){
     const coreCSS = document.querySelector("#cardisterCoreCSS").innerHTML;
     let nh = head.querySelector("#cardisterCoreCSS")
     nh.innerHTML = coreCSS; 
+
     //add user CSS
+    const customCSS = document.querySelector("#cardisterCustomCSS");
+    if(customCSS){
+      let hc = head.querySelector("#cardisterCustomCSS");
+      if(hc){
+         hc.innerHTML=customCSS && customCSS.innerHTML;
+      }
+    }
     //add user title
     //add description
   }else{
