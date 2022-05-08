@@ -80,9 +80,9 @@ export class SettingsEditor extends Component{
    <${Tab} index=1 selected=${this.state.tab} 
    label="Custom CSS" action=${i=>this.setState({tab:i})}
    />
-   <${Tab} index=2 selected=${this.state.tab} 
+   <!--<${Tab} index=2 selected=${this.state.tab} 
    label="Utility" action=${i=>this.setState({tab:i})}
-   />
+   />-->
     </div>
 <div class="tabcontent">
   <${If} condition=${this.state.tab==0}>
@@ -113,7 +113,7 @@ export class SettingsEditor extends Component{
   </${If}>
   <${If} condition=${this.state.tab==1}>
 
-  <div class="cssEditor language-css" ref=${this.cssEditor}></div>
+  <div class="cssEditor language-css" ref=${this.cssEditor}> </div>
 
   </${If}>
   <${If} condition=${this.state.tab==2}>
@@ -143,11 +143,15 @@ export class SettingsEditor extends Component{
       }
   }
   componentDidUpdate(){
-    // console.log("Editor update" , this.state);
+    // console.log("CSS Editor update"  );
     //if we have css editor?
     if(this.cssEditor.current){
        this.editor = CodeJar(this.cssEditor.current,
-      Prism.highlightElement , {tab: '  '});
+      // Prism.highlightElement , 
+      (e)=>{
+               return Prism.highlightElement(e); // magic. do not touch.
+         },
+      {tab: '  ' , window: window});
       this.editor.updateCode(this.editorBuffer);
       this.editor.onUpdate((css)=>this.editorBuffer=css);
          
