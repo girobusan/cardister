@@ -123,8 +123,6 @@ class UIcontainer extends Component{
         height: this.state.height ? this.state.height+"px" : "100vh",
        }}
      >
-      <${If} condition=${!this.state.locked}>
-
        <${HUDButton} 
        hint=${"Export to file"}
        icons=${[icons.save, icons.save]} 
@@ -137,6 +135,9 @@ class UIcontainer extends Component{
        }}
        state=${this.state.modified? 1 : 0}
        />
+        
+      <${If} condition=${!this.state.locked}>
+
 
        <${HUDButton} 
        hint=${"Add card"}
@@ -202,6 +203,7 @@ class UIcontainer extends Component{
          src=${e.src}
          tags=${e.tags}
          view=${cards.view(e)}
+         locked=${this.state.locked}
          />`)}
          </div>
       </div>`
@@ -241,6 +243,9 @@ class UIcontainer extends Component{
     //drop
     this.container.current.addEventListener('drop', handleDrop, false); 
 
+  }
+  componentDidUpdate(){
+    this.props.settings.locked = this.state.locked;
   }
 }
 

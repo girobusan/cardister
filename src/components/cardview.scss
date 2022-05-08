@@ -25,9 +25,6 @@
      width: 100%;
     margin:-8px -8px 8px -8px;
      background-color: transparent;
-     &:hover{
-       background-color: maroon;
-     }
   }
   .cardTitle{
     font-weight: normal;
@@ -96,6 +93,11 @@
       pointer-events: none;
     }
     // background-image: url(../icons/edit_black_24dp.svg);
+  }
+  &.locked{
+    .titleBar{
+      pointer-events: none;
+    }
   }
   &.hovered{
     z-index: 100;

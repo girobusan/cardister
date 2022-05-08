@@ -66,7 +66,7 @@ export class CardView extends Component{
     source=${this.props.card.src} 
     cancelAction=${()=>this.setState({editmode:false})}/>` , this.portal )}` : "";
     return html`
-       <div class="cardView" 
+       <div class="cardView ${this.props.locked ? "locked" : ""}" 
        id=${this.props.card.id || ""}
        ref=${this.outer}
        key=${this.props.card.id} 
@@ -75,7 +75,9 @@ export class CardView extends Component{
        width: (this.state.size[0]) + 'px',
        height: (this.state.size[1]) + "px"
        }}
-       onmouseover=${(e)=>{ this.outer.current.classList.add("hovered");e.preventDefault() }}
+       onmouseover=${(e)=>{ if(this.props.locked){return;}
+       this.outer.current.classList.add("hovered");e.preventDefault() }}
+
        onmouseout=${()=>this.outer.current.classList.remove("hovered")}
        >
        <div class="titleBar" data-hint="Drag to move" ref=${this.titlebar}>${this.props.card.title}</div>
