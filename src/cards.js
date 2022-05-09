@@ -87,7 +87,7 @@ function makeEmbeds(md){
      if(emb){
         return `<span class="cardisterEmbed" data-etitle="${p1}"></span>`
         }else{
-        return p1+"?"
+        return "{{" + p1 + "}}" ;
         }
      //return "+"+ p1 + "+";
   }
