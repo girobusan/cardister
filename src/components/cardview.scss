@@ -1,4 +1,5 @@
 @import "../colors/cardister.scss";
+$overlayColor: rgba(0,0,0, 0.4);
 
 .cardView{
   transform-origin: center center;
@@ -10,10 +11,22 @@
   min-height: 64px;
   border-radius: 4px;
   padding: 8px;
-  overflow: hidden;
+  // overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-items: stretch;
+  margin:0px;
+  &::after{
+    display: block;
+    position: absolute;
+    left: 100%;
+    top:100%;
+    width: 16px;
+    height: 32px;
+    background-color: transparent;
+    content: " ";
+    pointer-events: none;
+  }
   
   .titleBar{
     cursor: move;
@@ -21,6 +34,7 @@
     color: gray;
     box-sizing: content-box;
     padding: 4px 8px;
+    border-radius: 4px 4px 0 0;
      // height: 12px;
      width: 100%;
     margin:-8px -8px 8px -8px;
@@ -62,7 +76,7 @@
   }
   .resizerCorner{
      box-sizing: border-box;
-     fill: gray;
+     fill: $overlayColor;
      width: 24px;
      height: 24px;
      position: absolute;
@@ -88,7 +102,7 @@
     background-color: transparent;
     display: none;
     cursor: pointer;
-    fill: gray;
+    fill: $overlayColor;
     svg{
       pointer-events: none;
     }
@@ -108,7 +122,7 @@
       display: block;
     }
     .titleBar{
-      background-color: gray;
+      background-color: $overlayColor;
       color: white;
     }
   }

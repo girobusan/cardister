@@ -24,6 +24,14 @@ hidden: boolean,
 
 */
 /////// UTIL ///////
+//
+export function eliminateNegativeCoords(){
+  store.forEach(c=>{
+    if(c.props.x<0){c.props.x = -c.props.x}
+    if(c.props.y<0){c.props.y = -c.props.y}
+  })
+  modified("okay");
+}
 
 function uniquifyTitle(title){
   if(!getByTitle(title)){return title}

@@ -11,8 +11,22 @@
    // min-width: 100vw;
    width: 100%;
    min-height: 100vh;
+   overflow-y: auto;
+   overflow-x: auto;
+   padding: 8px;
+   &:before{
+      display: block;
+      position: fixed;
+      content: " ";
+      height: 100%;
+      width: 1024px;
+      border-right: 2px dashed rgba(255,255,255,.3);
+      z-index:0;
+      top:0;
+      left:0;
+      pointer-events: none;
+   }
    &.fullscreen{
-     overflow-y: auto;
      .innerUI{
        height: 100%;
        border-left: none;
@@ -21,12 +35,13 @@
    }
    .innerUI{
      position:relative;
-      margin-left: 50%;
+      // margin-left: 1024px;
       // min-width: 10%;
-      width: 10px;
-      min-height: 100vh;
+       width: 1024px;
+       oveflow: visible;
+      height: 100%;
       // background-color: silver;
-      border-left: 2px dashed rgba(255,255,255,.3);
+      // border-right: 2px dashed rgba(255,255,255,.3);
    }
 }
 

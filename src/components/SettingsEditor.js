@@ -66,7 +66,7 @@ export class SettingsEditor extends Component{
       icons=${[icons.settings]}
       bcolors=${[colors.buttons_bg]}
       left=${56} 
-      bottom=${8}
+      bottom=${16}
       action=${()=>{ this.setState({hidden:0}) }}
       />`
     }

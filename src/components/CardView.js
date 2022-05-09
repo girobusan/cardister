@@ -33,6 +33,9 @@ export class CardView extends Component{
     const delta = [cmouse[0]-this.mouseDragStart[0] , 
     cmouse[1]-this.mouseDragStart[1]]
     const newPos = [+this.cardDragStart[0] + delta[0] , +this.cardDragStart[1] + delta[1]]
+//no negative coords
+    if(newPos[0]<0){newPos[0]=0}
+    if(newPos[1]<0){newPos[1]=0}
     this.props.card.props.x = newPos[0];
     this.props.card.props.y = newPos[1];
     this.setState({position: newPos})

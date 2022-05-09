@@ -126,7 +126,7 @@ class UIcontainer extends Component{
        <${HUDButton} 
        hint=${"Export to file"}
        icons=${[icons.save, icons.save]} 
-       top=${8} left=${16} 
+       top=${16} left=${16} 
        bcolors=${[ colors.buttons_bg, "orangered"]}
        fcolors=${["white" , "white"]}
        action=${()=>{ 
@@ -142,14 +142,14 @@ class UIcontainer extends Component{
        <${HUDButton} 
        hint=${"Add card"}
        icons=${[icons.add]} 
-       left=${16} bottom=${8}
+       left=${16} bottom=${16}
        bcolors=${[ colors.buttons_bg]}
        action=${()=>{
          let c = cards.makeNew("markdown", "New Card");
          let cbb = -this.container.current.getBoundingClientRect().y;
          let elscroll = this.container.current.scrollTop;
          // console.log("VALS" , cbb , elscroll);
-         c.props.x = -100;
+         c.props.x = 0;
          c.props.y = window.innerHeight/2-100 + Math.max(cbb,elscroll);
          c.props.width=200;
          c.props.height=200;
@@ -158,6 +158,7 @@ class UIcontainer extends Component{
          }}
          state=${0}
        />
+
        <${SettingsEditor} settings=${this.props.settings} />
        </${If}>
 
@@ -168,7 +169,7 @@ class UIcontainer extends Component{
        bcolors=${[colors.buttons_bg, colors.buttons_bg]}
        fcolors=${["white" , "white"]}
        right=${16}
-       bottom=${8}
+       bottom=${16}
        action=${()=>{
          if(this.state.fullscreen){
            document.exitFullscreen()
@@ -190,7 +191,7 @@ class UIcontainer extends Component{
        bcolors=${[colors.buttons_bg , colors.buttons_bg]}
        fcolors=${["white" , "white"]}
        right=${52}
-       bottom=${8}
+       bottom=${16}
        action=${()=>this.setState({locked: !this.state.locked})}
        />
          <div class="innerUI"
@@ -236,9 +237,10 @@ class UIcontainer extends Component{
   if(ldr){ 
      ldr.style.opacity=0; 
      window.setTimeout(()=>ldr.remove() , 2000) }
-    window.addEventListener("scroll" , this.followWindowSize);
+    // window.addEventListener("scroll" , this.followWindowSize);
     //no default drops
-    this.followWindowSize()
+    // this.followWindowSize()
+    // this.container.current.addEventListener("scroll", ()=>console.log(this.container.current.getBoundingClientRect()))
     this.container.current.addEventListener('dragenter', preventDefault, false);
     this.container.current.addEventListener('dragleave', preventDefault, false);
     this.container.current.addEventListener('dragover', preventDefault, false);

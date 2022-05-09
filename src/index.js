@@ -3,9 +3,12 @@ require("./index.scss");
 import * as serialization from "./serialization";
 import {initUI} from "./ui";
 import * as cards from "./cards";
+import {eliminateNegativeCoords} from "./cards";
 console.log("Cardister" , VERSION);
 
-
+window.debug = {
+  killMinus: ()=>cards.eliminateNegativeCoords(),
+}
 
 window.store = {
   version: VERSION,
@@ -18,7 +21,8 @@ window.store = {
      return null;
   },
   dumpCards: ()=>{serialization.dumpCards(cards.list())},
-  dumpCardsAsJSON: ()=>{serialization.saveFile(JSON.stringify(cards.list(), null  , 2), "cards.json")}
+  dumpCardsAsJSON: ()=>{serialization.saveFile(JSON.stringify(cards.list(), null  , 2), "cards.json")},
+  killMinus: ()=>eliminateNegativeCoords(),
   
 }
 
