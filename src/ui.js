@@ -37,7 +37,7 @@ function handleDrop(e){
 
   console.log("Dropped" , type , files[0]);
   // console.log("at" , e.pageX , e.pageY);
-  const point = [e.pageX - (window.innerWidth/2) , e.pageY + scrolled];
+  const point = [e.pageX + cont.scrollLeft, e.pageY + scrolled];
   const position = (c)=>{c.props.x = point[0] ; c.props.y = point[1]};
 
   if(images_asis.indexOf(type)!=-1){
