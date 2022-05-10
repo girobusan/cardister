@@ -69,7 +69,9 @@ export class CardView extends Component{
     source=${this.props.card.src} 
     cancelAction=${()=>this.setState({editmode:false})}/>` , this.portal )}` : "";
     return html`
-       <div class="cardView ${this.props.locked ? "locked" : ""}" 
+       <div class="cardView ${( this.props.locked ? "locked" : "" ) + 
+       " type-" + this.props.card.type + " cardisterCard-" + ( this.props.card.style||"default" ) }" 
+
        id=${this.props.card.id || ""}
        ref=${this.outer}
        key=${this.props.card.id} 

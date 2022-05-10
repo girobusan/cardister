@@ -39,6 +39,7 @@ export class CardEditor extends Component{
     super(props);
     this.editorElement=createRef();
     this.typesSelector=createRef();
+    this.styleSelector = createRef();
     this.titleEditorInput = createRef();
     this.typeSelector = createRef();
     this.saveCard = this.saveCard.bind(this);
@@ -55,13 +56,29 @@ export class CardEditor extends Component{
         <!--top panel-->
         <div class="editor_top_area">
         <${If} condition=${this.props.types.indexOf(this.props.card.type)!=-1}>
-        <select ref=${this.typeSelector} 
+    <label for="types">Type: </label>
+        <select name="types" ref=${this.typeSelector} 
         data-hint=${"Change type"}
+        style=${{marginRight: "8px"}}
         >
         ${this.props.types.map(t=>html`<option selected=${t==this.props.card.type} >
         ${t}</option>`)}
         </select>
         </If>
+        
+      <label for="styles">Style: </label>
+        <select name="styles" ref=${this.styleSelector}
+        data-hint=${"Change style"}
+        >
+        <option value="" > none </option>
+        ${this.customStyles.map(s=>html`<option selected=${s==this.props.card.style}>
+        ${s}</option>`)}
+
+
+        </select>
+
+
+
         </div>
         <${If} condition=${this.props.types.indexOf(this.props.card.type)!=-1}>
           <div class="editorArea language-${this.state.type}" ref=${this.editorElement} ></div>
@@ -88,7 +105,8 @@ export class CardEditor extends Component{
 
   saveCard(){
     console.log("saving..."  );
-    const changes = { title: this.titleEditorInput.current.value.trim()};
+    const changes = { title: this.titleEditorInput.current.value.trim(),
+    style: this.styleSelector.current.value};
 
     if(this.props.types.indexOf(this.props.card.type)!=-1){
        changes.type = this.typeSelector.current.value ;
@@ -103,6 +121,24 @@ export class CardEditor extends Component{
     cards.remove(this.props.card);
   }else{console.log("...not really")}
   }
+  componentWillMount(){
+  const styleRx = /\.cardisterCard-[^, ]+$/ ;
+    this.customStyles = [];
+    let customCSSe = document.querySelector("#cardisterCustomCSS");
+    // console.log("element" , customCSSe);
+    let rules =customCSSe.sheet.cssRules || customCSSe.sheet.rules ;
+    // console.log("riles" , rules)
+    for (let s of rules){
+       let st = s.selectorText;
+
+       if (styleRx.test(st))
+       {
+         this.customStyles.push(s.selectorText.split("-")[1])
+       }
+    }
+     // console.log("custom styles" , this.customStyles) ;
+
+  }
 
   componentDidMount(){
     this.props.card.props.editMe = false;
@@ -113,9 +149,10 @@ export class CardEditor extends Component{
       this.editor.updateCode(this.props.card.src);
     }
     this.titleEditorInput.current.value = this.props.card.title;
+
     //this.titleEditor.currenIt.addEv
     // this.saveCard();
-   
+    //find styles
   }
 }
 

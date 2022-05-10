@@ -1,7 +1,12 @@
 [english](README.en.md)
 # Кардистер / Cardister 
 
-Приложение  для управления карточками с информацией, 
-  вдохновленное [Domino](https://kool.tools/domino/). 
+Приложения для визуальной работы с фрагментами информации.
+
+## Источники вдохновения:
+
+- [Domino](https://kool.tools/domino/). 
+- [Kinopio](https://kinopio.club/)
+- [TiddlyWiki](https://tiddlywiki.com/)
 
 

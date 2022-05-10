@@ -121,9 +121,9 @@ export class SettingsEditor extends Component{
    </${If}>
 </div>
     <div class="actions">
-    <${InlineButton} label=${"Cancel"} action=${()=>this.setState({hidden:1})} />
-    <${InlineButton} label=${"Save and exit"} 
-    action=${()=>{ this.saveSettings();this.setState({hidden:1}) }} /></div>
+    <${InlineButton} label=${"Hide editor"} action=${()=>this.setState({hidden:1})} />
+    <${InlineButton} label=${"Apply settings"} 
+    action=${()=>{ this.saveSettings() }} /></div>
     </div>`
   }
   saveSettings(){
