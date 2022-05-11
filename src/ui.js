@@ -25,6 +25,7 @@ function handleDrop(e){
    const images_asis = ["image/png" , "image/gif"]
    const htmls = ["image/svg+xml" , "image/svg" , "text/html" ];
    const json = "application/json";
+   const csv = "text/csv";
    const markdown = "text/markdown";
    const cont = document.querySelector(".cardisterUI");
    const scrolled = cont ? cont.scrollTop : 0 ;
@@ -77,6 +78,16 @@ function handleDrop(e){
      files[0].text()
      .then(r=>{
         let c = cards.makeNew("json" , files[0].name || "data");
+        c.src = r;
+      position(c);
+        cards.add(c);
+     })
+  }
+
+  if(type===csv){
+     files[0].text()
+     .then(r=>{
+        let c = cards.makeNew("csv" , files[0].name || "data");
         c.src = r;
       position(c);
         cards.add(c);

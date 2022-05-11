@@ -7,6 +7,8 @@ import Prism from "prismjs";
 require("../prism.css");
 import {InlineButton} from "./InlineButton";
 import {HUDButton} from "./HUDButton"
+
+import {Exporter, Importer} from "./ExporterImporter"
 import {If} from "./If";
 import {colors} from "../colors/Cardister.es6";
 import {icons} from "../icons";
@@ -80,9 +82,9 @@ export class SettingsEditor extends Component{
    <${Tab} index=1 selected=${this.state.tab} 
    label="Custom CSS" action=${i=>this.setState({tab:i})}
    />
-   <!--<${Tab} index=2 selected=${this.state.tab} 
+   <${Tab} index=2 selected=${this.state.tab} 
    label="Utility" action=${i=>this.setState({tab:i})}
-   />-->
+   />
     </div>
 <div class="tabcontent">
   <${If} condition=${this.state.tab==0}>
@@ -117,8 +119,11 @@ export class SettingsEditor extends Component{
 
   </${If}>
   <${If} condition=${this.state.tab==2}>
-   utilities
+   <${Exporter} settings=${this.props.settings} />
+   <${Importer} settings=${this.props.settings} callback=${(s)=>this.setState({settings:s})} />
    </${If}>
+
+
 </div>
     <div class="actions">
     <${InlineButton} label=${"Hide editor"} action=${()=>this.setState({hidden:1})} />
@@ -143,7 +148,11 @@ export class SettingsEditor extends Component{
       }
   }
   componentDidUpdate(){
-    // console.log("CSS Editor update"  );
+    console.log("Settings editor Editor update"  );
+    // this.setState({
+    //   title: this.props.settings.title,
+    //   description: this.props.settings.description,
+    // })
     //if we have css editor?
     if(this.cssEditor.current){
        this.editor = CodeJar(this.cssEditor.current,
@@ -154,8 +163,6 @@ export class SettingsEditor extends Component{
       {tab: '  ' , window: window});
       this.editor.updateCode(this.editorBuffer);
       this.editor.onUpdate((css)=>this.editorBuffer=css);
-         
-       
     }
   }
   componentDidMount(){

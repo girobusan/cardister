@@ -1,4 +1,5 @@
 import { v4 as uuid } from 'uuid';
+import {csvParse} from 'd3-dsv';
 var MarkdownIt = require('markdown-it')
 
 const md = new MarkdownIt({
@@ -138,6 +139,7 @@ const views = {
     .replace(/'/g, "&#039;");
   },
   image: (card)=>`<img src=${card.src} />`,
+  json: (card)=>`<pre style="font-size:0.75em"><code>card.src</code></pre>`,
   html: (card)=>{
      //create node,
      let sp = document.createElement("span");
@@ -155,11 +157,32 @@ const views = {
         cm.parentNode.insertBefore(snew, cm);
      })
      return sp;
+  },
+  csv: (card)=>{
+     let d;
+     let t = `<table class="csvView">`;
+     try{
+     d=csvParse(card.src);
+     // console.log("Parsed csv" , d , t)
+     }catch(e){
+       return "CSV parse error";
+     }
+     const header = Object.keys(d[0]);
+
+     t += `<tr>${header.map(h=>`<th>${h}</th>`).join("")}</tr>`;
+     // console.log("header added" , t)
+     t += d.map( r=>`<tr>${Object.values(r).map(v=>`<td>${v}</td>`).join("")}</tr>` ).join("")
+     // console.log("rows added" , t )
+     t = t + "</table>"
+     // console.log("result" , t);
+     return t;
+
   }
 
 }
 
 const results = {
+  csv: (card)=>{ try{return csvParse(card.src)}catch(e){return e} },
   text: (card)=>card.src,
   json: (card)=>{ 
      try{

@@ -158,7 +158,7 @@ export class CardEditor extends Component{
 
 CardEditor.defaultProps = {
  saveFn: ()=>console.log("save"),
- types: [ "markdown" , "text" , "html","js" , "json" ],
+ types: [ "markdown" , "text" , "html","js" , "json" , "csv" ],
  source: "Nothing loaded",
  type: "markdown",
  cancelAction: ()=>console.log("cancel"),
