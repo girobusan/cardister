@@ -18,6 +18,9 @@ export class CardView extends Component{
    this.moveWithMouse = this.moveWithMouse.bind(this);
    this.resizeWithMouse = this.resizeWithMouse.bind(this);
    this.portal = document.querySelector(".cardisterUI");
+
+   this.position =[this.props.card.props.x || 0 , this.props.card.props.y || 0];
+   this.size=[this.props.card.props.width || 200 , this.props.card.props.height || 200];
    // console.log("portal" , this.portal);
    // console.log("REFF" , this.viewer);
    this.state = {
@@ -38,7 +41,10 @@ export class CardView extends Component{
     if(newPos[1]<0){newPos[1]=0}
     this.props.card.props.x = newPos[0];
     this.props.card.props.y = newPos[1];
-    this.setState({position: newPos})
+
+    // this.setп{position: newPos})
+    this.outer.current.style.top = this.props.card.props.y + "px";
+    this.outer.current.style.left = this.props.card.props.x + "px";
     killEvent(e);
     //
     // let scrollHeight = Math.max(
@@ -56,7 +62,10 @@ export class CardView extends Component{
     const newSize = [+this.cardResizeStart[0] + delta[0] , +this.cardResizeStart[1] + delta[1]]
     this.props.card.props.width = newSize[0];
     this.props.card.props.height = newSize[1];
-    this.setState({size: newSize})
+    this.outer.current.style.width = this.props.card.props.width + "px";
+    this.outer.current.style.height = this.props.card.props.height + "px";
+    this.size = newSize;
+    // this.setState({size: newSize})
     killEvent(e);
   }
 
@@ -100,7 +109,7 @@ export class CardView extends Component{
   componentDidMount(){
     //move 
     this.titlebar.current.addEventListener( "pointerdown" , (e)=>{
-      console.log("Mouse down...")
+      // console.log("Mouse down...")
       //save starting card coords
       this.cardDragStart = [this.props.card.props.x || 5 , 
       this.props.card.props.y || 5]
@@ -112,17 +121,20 @@ export class CardView extends Component{
 
     window.addEventListener("pointerup" , (e)=>{
        //stop follow
+        this.setState({position: [this.props.card.props.x , this.props.card.props.y]})
         window.removeEventListener("pointermove", this.moveWithMouse)
     })
     //resize
     this.resizeCrn.current.addEventListener("pointerdown" , e=>{
-       console.log("Start resize...");
-       this.cardResizeStart = this.state.size;
+       // console.log("Start resize..." , this.size);
+       this.cardResizeStart = this.size;
        this.mouseResizeStart =  [e.pageX , e.pageY];
        window.addEventListener("pointermove", this.resizeWithMouse)
     })
 
     window.addEventListener("pointerup" , e=>{
+        
+        this.setState({size: [this.props.card.props.width , this.props.card.props.height]})
       window.removeEventListener("pointermove", this.resizeWithMouse)
   })
    

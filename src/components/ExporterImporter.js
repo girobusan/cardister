@@ -126,6 +126,7 @@ export class Importer extends Component{
      <option value="append">Append new, update doubles</option>
      <option value="skip">Append new, skip doubles</option>
      </select>
+     <br /><br />
      <${InlineButton} label="Click to upload" action=${this.doImport} />
      </div>`
 

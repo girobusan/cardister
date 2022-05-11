@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid';
-import {csvParse} from 'd3-dsv';
+import {csvParse, autoType} from 'd3-dsv';
 var MarkdownIt = require('markdown-it')
 
 const md = new MarkdownIt({
@@ -119,7 +119,7 @@ const views = {
     try{
     let f = Function("card", "Me" , card.src.trim() || "return false");
       let r =  f(card, getWrapper(card));
-      return r;
+      return r||"";
     }catch(err){
       return "<span style='color:orangered'>Error: " + err.message + "</span>";
     }
@@ -162,16 +162,15 @@ const views = {
      let d;
      let t = `<table class="csvView">`;
      try{
-     d=csvParse(card.src);
-     // console.log("Parsed csv" , d , t)
+     d=csvParse(card.src , autoType);
      }catch(e){
        return "CSV parse error";
      }
-     const header = Object.keys(d[0]);
+     const header = d.columns;
 
      t += `<tr>${header.map(h=>`<th>${h}</th>`).join("")}</tr>`;
      // console.log("header added" , t)
-     t += d.map( r=>`<tr>${Object.values(r).map(v=>`<td>${v}</td>`).join("")}</tr>` ).join("")
+     t += d.map( r=>`<tr>${header.map(v=>`<td>${r[v]}</td>`).join("")}</tr>` ).join("")
      // console.log("rows added" , t )
      t = t + "</table>"
      // console.log("result" , t);

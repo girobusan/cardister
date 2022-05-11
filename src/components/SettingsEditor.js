@@ -175,7 +175,7 @@ export class SettingsEditor extends Component{
      // console.log("Form State" , this.formState)
   }
   componentDidUpdate(){
-    console.log("Settings editor Editor update"  );
+    // console.log("Settings editor Editor update"  );
     this.readSettings();
 
 
