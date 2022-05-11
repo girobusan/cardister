@@ -139,7 +139,7 @@ const views = {
     .replace(/'/g, "&#039;");
   },
   image: (card)=>`<img src=${card.src} />`,
-  json: (card)=>`<pre style="font-size:0.75em"><code>card.src</code></pre>`,
+  json: (card)=>`<pre style="font-size:0.75em"><code>${ card.src }</code></pre>`,
   html: (card)=>{
      //create node,
      let sp = document.createElement("span");
