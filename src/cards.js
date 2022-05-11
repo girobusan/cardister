@@ -286,6 +286,24 @@ export function remove(card){
   // card.deleted = true;
 }
 
+export function replaceCards(crds){
+   store.length = 0;
+   crds.forEach(c=>add(c, null , null , true))
+}
+
+export function appendCards(crds , updateDoubles){
+  crds.forEach(c=>{
+    let d = getIndexByCondition(cr=>cr.id==c.id);
+    if(!d){
+      add(c , null , null , true);
+      return;
+    }
+    if(updateDoubles){
+      updateCard(d, c);
+    }
+  })
+}
+
 export function getByTitle(title){
   let idx =getIndexByCondition( c=>c.title==title); 
   if(idx==-1){return null}

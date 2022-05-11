@@ -3,28 +3,54 @@ import {html} from 'htm/preact';
 import { InlineButton } from './InlineButton';
 import {list} from "../cards";
 import { saveFile } from '../serialization' ;
+import * as cards from '../cards';
 
 export class Exporter extends Component{
   constructor(props){
   super(props);
   this.doExport = this.doExport.bind(this);
+  this.cardsE = createRef();
+  this.styleE = createRef();
+  this.settingsE = createRef();
   }
 
   doExport(){
      let eo = { };
      let ce = document.querySelector("#cardisterCustomCSS");
 
-     eo.settings = this.props.settings;
-     eo.cards = list();
-     eo.customCSS = ce ? ce.innerHTML : "";
+     if(this.settingsE.current.checked){
+       eo.settings = this.props.settings;
+     }
+     if(this.cardsE.current.checked)
+     {
+       eo.cards = list();
+     }
+     if(this.styleE.current.checked)
+     {
+       eo.customCSS = ce ? ce.innerHTML : "";
+     }
 
-     if(eo.settings.cleanHead){delete(eo.settings.cleanHead)}
+     if(eo.settings && eo.settings.cleanHead){delete(eo.settings.cleanHead)}
      saveFile(JSON.stringify(eo,null,2) , "export.cardister.json")
      }
 
   render(){
     return html`<div class='Exporter utilityWidget'>
  <h3>Export</h3>
+ <input type='checkbox' checked name="cards" ref=${this.cardsE}>
+ </input>
+ <label for='cards'>Cards</label>
+ <br />
+ <input type='checkbox' checked name='settings' ref=${this.settingsE}>
+ </input>
+ <label for='settings'>Settings</label>
+ <br />
+ <input type='checkbox' name='css' checked ref=${this.styleE}>
+ </input>
+ <label for='css'>Custom CSS</label>
+ <br />
+ <br />
+
  <${InlineButton} label="Click to save" action=${this.doExport}/>
     </div>`
   }
@@ -48,20 +74,30 @@ export class Importer extends Component{
       Object.assign(this.props.settings , uploaded.settings);
      }
 
-     if(uploaded.css){
+     if(uploaded.customCSS){
       console.info("Found custom CSS");
       const se = document.getElementById("cardisterCustomCSS");
-      if(se){ se.innerHTML = uploaded.css }
+      if(se){ se.innerHTML = uploaded.customCSS }
       else{ console.error("No place for custom CSS in document") };
      }
      if(uploaded.cards){
-       console.info("Found cards")
+       console.info("Found cards");
+       const policy = this.modeSelector.current.value;
+       if(policy=='replace'){
+           cards.replaceCards(uploaded.cards);
+       }
+       if(policy=='append'){
+          cards.appendCards(uploaded.cards, true)
+       }
+       if(policy=='skip'){
+          cards.appendCards(uploaded.cards, false)
+       }
      }
 
       this.props.callback(this.props.settings);
 
    }catch(e){
-     console.error("Can not import" , e);
+     console.error("Can not import:" , e);
    }
   }
 
@@ -82,14 +118,15 @@ export class Importer extends Component{
 
   render(){
      
-     return html`<div class='Importer utilityWidget'>
+     return html`<div class='Importer utilityWidget' >
      <h3>Import </h3>
-     <label for="modes">Mode: </label>
-     <select name="modes" ref=${this.modeSelector}>
-     <option value="replace">replace</option>
-     <option value="append">append</option>
+     <label for="modes">Cards: </label>
+     <select name="modes" ref=${this.modeSelector} style='margin-right:8px'>
+     <option value="replace">Replace all</option>
+     <option value="append">Append new, update doubles</option>
+     <option value="skip">Append new, skip doubles</option>
      </select>
-     <${InlineButton} label="Click to upload" action=${this.doImport}
+     <${InlineButton} label="Click to upload" action=${this.doImport} />
      </div>`
 
   }
