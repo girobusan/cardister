@@ -57,11 +57,12 @@ export class SettingsEditor extends Component{
   constructor(props){
     super(props);
     this.cssEditor = createRef();
-    this.state={test: 0 , hidden: 1 , tab: 0 , settings: this.props.settings}
+    this.state={ hidden: true , tab: 0 , settings: this.props.settings}
+    this.formState={}
   }
   render(){
     // console.log("render" , this.state);
-    if(this.state.hidden===1){
+    if(this.state.hidden){
 
       return html`<${HUDButton} 
       hint=${"Settings"}
@@ -94,22 +95,22 @@ export class SettingsEditor extends Component{
   <${TextInput} 
      name=${"title"}
      label=${"Title"}
-     value=${this.state.title}
-     action=${(v)=>this.setState({title:v})}
+     value=${this.formState.title}
+     action=${(v)=>this.formState.title=v}
   />
   <${TextInput} 
      name=${"filename"}
      label=${"File name"}
-     value=${this.state.filename}
-     action=${(v)=>this.setState({filename:v})}
+     value=${this.formState.filename}
+     action=${(v)=>this.formState.filename=v}
   />
 
   </div>
   <${TextArea} 
      name=${"description"}
      label=${"Description"}
-     value=${this.state.description}
-     action=${(v)=>this.setState({description:v})}
+     value=${this.formState.description}
+     action=${(v)=>this.formState.description = v}
   />
     
   </${If}>
@@ -120,39 +121,64 @@ export class SettingsEditor extends Component{
   </${If}>
   <${If} condition=${this.state.tab==2}>
    <${Exporter} settings=${this.props.settings} />
-   <${Importer} settings=${this.props.settings} callback=${(s)=>this.setState({settings:s})} />
+   <${Importer} settings=${this.props.settings} 
+   callback=${(s)=>{this.readSettings();this.saveSettings()}} />
    </${If}>
 
 
 </div>
+
     <div class="actions">
     <${InlineButton} label=${"Hide editor"} action=${()=>this.setState({hidden:1})} />
+
+    <${InlineButton} label=${"Clear all edits"} 
+    action=${()=>{this.readSettings(); }} />
+
     <${InlineButton} label=${"Apply settings"} 
     action=${()=>{ this.saveSettings() }} /></div>
     </div>`
   }
+    // this.setState({settings:this.props.settings});
   saveSettings(){
       //title
-      this.props.settings.title = this.state.title;
-      document.title = this.state.title;
+      console.log("Save Settings" , this.props.settings.title);
+      this.props.settings.title = this.formState.title;
+      document.title = this.formState.title;
       //description
-      this.props.settings.description = this.state.description;
+      this.props.settings.description = this.formState.description;
       //file name!
-      this.props.settings.filename = this.state.filename;
+      this.props.settings.filename = this.formState.filename;
       //custom css
       if(this.customCSSElement)
       {
-        this.customCSSElement.innerHTML = this.editorBuffer;
+        this.customCSSElement.innerHTML = this.formState.css;
       }else{
         console.error("Can not save custom CSS");
       }
+      if(this.props.onupdate){
+        this.props.onupdate(this.props.settings);
+      }
+  }
+
+  readSettings(){
+    //reads settings
+     this.customCSSElement = document.getElementById("cardisterCustomCSS");
+     const cCSS = this.customCSSElement ? this.customCSSElement.innerHTML : "/*custom CSS error*/";
+     // console.log("Settings" , this.props.settings)
+     this.formState.css = cCSS;
+     this.formState.title = this.props.settings.title;
+     this.formState.filename = this.props.settings.filename || "MyCards.html";
+     this.formState.description = this.props.settings.description || "?";
+
+     
+
+     // console.log("Form State" , this.formState)
   }
   componentDidUpdate(){
     console.log("Settings editor Editor update"  );
-    // this.setState({
-    //   title: this.props.settings.title,
-    //   description: this.props.settings.description,
-    // })
+    this.readSettings();
+
+
     //if we have css editor?
     if(this.cssEditor.current){
        this.editor = CodeJar(this.cssEditor.current,
@@ -161,23 +187,11 @@ export class SettingsEditor extends Component{
                return Prism.highlightElement(e); // magic. do not touch.
          },
       {tab: '  ' , window: window});
-      this.editor.updateCode(this.editorBuffer);
-      this.editor.onUpdate((css)=>this.editorBuffer=css);
+      this.editor.updateCode(this.formState.css);
+      this.editor.onUpdate((css)=>this.formState.css=css);
     }
   }
   componentDidMount(){
-  //read css
-     this.customCSSElement = document.getElementById("cardisterCustomCSS");
-     const cCSS = this.customCSSElement ? this.customCSSElement.innerHTML : "/*custom CSS error*/";
-     console.log("Settings" , this.props.settings)
-     this.editorBuffer = cCSS;
-     
-    //read all settings
-    this.setState({
-      title: document.title,
-      filename: this.props.settings.filename || "My_cards.html",
-      description: this.props.settings.description || "?" ,
-      css: this.editorBuffer, 
-    })
+     this.readSettings();
   }
 }

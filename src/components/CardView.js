@@ -99,7 +99,7 @@ export class CardView extends Component{
   }
   componentDidMount(){
     //move 
-    this.titlebar.current.addEventListener( "mousedown" , (e)=>{
+    this.titlebar.current.addEventListener( "pointerdown" , (e)=>{
       console.log("Mouse down...")
       //save starting card coords
       this.cardDragStart = [this.props.card.props.x || 5 , 
@@ -107,23 +107,23 @@ export class CardView extends Component{
       //save starting mouse coords
       this.mouseDragStart = [e.pageX , e.pageY];
       //run mouse following
-      window.addEventListener("mousemove", this.moveWithMouse)
+      window.addEventListener("pointermove", this.moveWithMouse)
     } )
 
-    window.addEventListener("mouseup" , (e)=>{
+    window.addEventListener("pointerup" , (e)=>{
        //stop follow
-        window.removeEventListener("mousemove", this.moveWithMouse)
+        window.removeEventListener("pointermove", this.moveWithMouse)
     })
     //resize
-    this.resizeCrn.current.addEventListener("mousedown" , e=>{
+    this.resizeCrn.current.addEventListener("pointerdown" , e=>{
        console.log("Start resize...");
        this.cardResizeStart = this.state.size;
        this.mouseResizeStart =  [e.pageX , e.pageY];
-       window.addEventListener("mousemove", this.resizeWithMouse)
+       window.addEventListener("pointermove", this.resizeWithMouse)
     })
 
-    window.addEventListener("mouseup" , e=>{
-      window.removeEventListener("mousemove", this.resizeWithMouse)
+    window.addEventListener("pointerup" , e=>{
+      window.removeEventListener("pointermove", this.resizeWithMouse)
   })
    
   }

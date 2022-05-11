@@ -170,7 +170,10 @@ class UIcontainer extends Component{
          state=${0}
        />
 
-       <${SettingsEditor} settings=${this.props.settings} />
+       <${SettingsEditor} 
+       settings=${this.props.settings}
+       onupdate=${(s)=>this.setState({settings:s})}
+       />
        </${If}>
 
        <${HUDButton}

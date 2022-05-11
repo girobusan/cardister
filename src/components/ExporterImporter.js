@@ -24,7 +24,6 @@ export class Exporter extends Component{
 
   render(){
     return html`<div class='Exporter utilityWidget'>
-       
  <h3>Export</h3>
  <${InlineButton} label="Click to save" action=${this.doExport}/>
     </div>`
@@ -43,12 +42,24 @@ export class Importer extends Component{
    // console.log("apply" , r) 
    try{
      let uploaded = JSON.parse(r);
-     //title
+
      if(uploaded.settings){
       console.info("Found settings");
       Object.assign(this.props.settings , uploaded.settings);
-      this.props.callback(this.props.settings);
      }
+
+     if(uploaded.css){
+      console.info("Found custom CSS");
+      const se = document.getElementById("cardisterCustomCSS");
+      if(se){ se.innerHTML = uploaded.css }
+      else{ console.error("No place for custom CSS in document") };
+     }
+     if(uploaded.cards){
+       console.info("Found cards")
+     }
+
+      this.props.callback(this.props.settings);
+
    }catch(e){
      console.error("Can not import" , e);
    }
@@ -71,7 +82,7 @@ export class Importer extends Component{
 
   render(){
      
-     return html `<div class="Importer utilityWidget">
+     return html`<div class='Importer utilityWidget'>
      <h3>Import </h3>
      <label for="modes">Mode: </label>
      <select name="modes" ref=${this.modeSelector}>
