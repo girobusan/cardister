@@ -25,7 +25,7 @@ export class CardViewer extends Component{
         return;
       }
       try{
-        console.log(v , JSON.stringify(v))
+        // console.log(v , JSON.stringify(v))
         this.viewarea.current.innerHTML = JSON.stringify(v);
       }catch{
         this.viewarea.current.innerHTML = v.toString();

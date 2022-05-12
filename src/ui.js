@@ -247,20 +247,31 @@ class UIcontainer extends Component{
   }
 
   componentDidMount(){
-  let ldr = document.querySelector("#loader");
-  if(ldr){ 
-     ldr.style.opacity=0; 
-     window.setTimeout(()=>ldr.remove() , 2000) }
-    // window.addEventListener("scroll" , this.followWindowSize);
-    //no default drops
-    // this.followWindowSize()
-    // this.container.current.addEventListener("scroll", ()=>console.log(this.container.current.getBoundingClientRect()))
+    let ldr = document.querySelector("#loader");
+    if(ldr){ 
+      ldr.style.pointerEvents = "none";
+      ldr.style.opacity=0; 
+      window.setTimeout(()=>ldr.remove() , 2000) 
+    }
     this.container.current.addEventListener('dragenter', preventDefault, false);
     this.container.current.addEventListener('dragleave', preventDefault, false);
     this.container.current.addEventListener('dragover', preventDefault, false);
-    // this.container.current.addEventListener('drop', preventDefault, false);e();
     //drop
     this.container.current.addEventListener('drop', handleDrop, false); 
+    this.container.current.addEventListener("dblclick" , 
+    (evt)=>{ 
+       console.log("Doubleclick" , evt.pageX , evt.pageY) ;
+       const posX = evt.pageX + this.container.current.scrollTop;
+       const posY = evt.pageY + this.container.current.scrollLeft;
+       const card = cards.makeNew("markdown", "New Card");
+       card.props.x = posX;
+       card.props.y = posY;
+       card.props.width = 200;
+       card.props.height = 200;
+       card.props.editMe = true;
+       cards.add(card);
+
+       })
 
   }
   componentDidUpdate(){
