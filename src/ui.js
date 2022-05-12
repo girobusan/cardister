@@ -10,8 +10,8 @@ import {If} from "./components/If";
 import {icons} from "./icons";
 import {colors} from "./colors/Cardister.es6";
 import * as serialization from "./serialization";
-import {dataTransferToImage} from "./files";
-import {dataURLFromFile , killEvent} from './domino2utility';
+// import {dataTransferToImage} from "./files";
+import {dataURLFromFile , killEvent , dataTransferToImage} from './utils.js';
 require("./ui.scss");
 require("./hints");
 

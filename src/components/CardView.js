@@ -6,7 +6,7 @@ import {icons} from "../icons";
 require("./cardview.scss");
 import {CardViewer} from "./CardViewer";
 import {CardEditor} from "./CardEditor";
-import {killEvent} from "../domino2utility";
+import {killEvent} from "../utils.js";
 
 export class CardView extends Component{
   constructor(props){

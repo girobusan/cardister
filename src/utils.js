@@ -1,17 +1,18 @@
 
-import { dataURLFromFile } from "./domino2utility";
-/*
- *
- * Borrowed from Domino2 by 
- * Ragzouken 
- *
- */
 const imageSize = [512, 512];
 
-export async function fileToCompressedImageURL(file) {
-    const url = await dataURLFromFile(file);
-    const dataURL = await compressImageURL(url, 0.2, imageSize);
-    return dataURL;
+export function killEvent(event) {
+    event.stopPropagation();
+    event.preventDefault();
+}
+
+export async function dataURLFromFile(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onerror = reject;
+        reader.onload = () => resolve(/** @type {string} */ (reader.result));
+        reader.readAsDataURL(file); 
+    });
 }
 
 export async function dataTransferToImage(dt) {
@@ -24,6 +25,7 @@ export async function dataTransferToImage(dt) {
     }
 }
 
+
 export function filesFromDataTransfer(dataTransfer) {
     const clipboardFiles = 
         Array.from(dataTransfer.items || [])
@@ -32,10 +34,18 @@ export function filesFromDataTransfer(dataTransfer) {
     return clipboardFiles.concat(...(dataTransfer.files || []));
 }
 
+
 export function elementFromDataTransfer(dataTransfer) {
     const html = dataTransfer.getData('text/html');
     return html && stringToElement(html);
 }
+
+export async function fileToCompressedImageURL(file) {
+    const url = await dataURLFromFile(file);
+    const dataURL = await compressImageURL(url, 0.2, imageSize);
+    return dataURL;
+}
+
 
 export async function compressImageURL(url, quality, size) {
     const image = document.createElement("img");
@@ -67,12 +77,3 @@ export async function compressImageURL(url, quality, size) {
     });
 }
 
-function stringToDocument(string) {
-    const template = document.createElement('template');
-    template.innerHTML = string;
-    return template.content;
-}
-
-function stringToElement(string) {
-    return stringToDocument(string).children[0];
-}
