@@ -27,7 +27,7 @@ hidden: boolean,
 /////// UTIL ///////
 //
 export function eliminateNegativeCoords(){
-  store.forEach(c=>{
+  STORE.forEach(c=>{
     if(c.props.x<0){c.props.x = -c.props.x}
     if(c.props.y<0){c.props.y = -c.props.y}
   })
@@ -56,7 +56,7 @@ function setOrRet(obj, prop, val , retobj){
 }
 
 ////// STORE ///////
-const store = [];
+const STORE = [];
 //// CALLBACKS /////
 const callbacks = {
   "test" :  ()=>console.log("test callback") 
@@ -167,6 +167,10 @@ const views = {
        return "CSV parse error";
      }
      const header = d.columns;
+     if(d.length>20){
+      t = "Showing first 20 of " + d.length + " rows totlal " + t;
+      d = d.slice(0,20);
+     }
 
      t += `<tr>${header.map(h=>`<th>${h}</th>`).join("")}</tr>`;
      // console.log("header added" , t)
@@ -199,7 +203,12 @@ const results = {
 export function getWrapper(card){
   return {
     prop: (p,v)=>setOrRet(card.props , p , v , getWrapper(card)),
-    var: (p,v)=>setOrRet(card.var , p , v , getWrapper(card)),
+    var: (p,v)=>{ 
+      if(v){
+      JSON.stringify(v); //will throw  an error if v is not serializable
+      }
+    return setOrRet(card.var , p , v , getWrapper(card)) 
+    },
     src:  (s)=>setOrRet(card, "src", s , getWrapper(card)),
     type: (t)=>setOrRet(card, "type" , t , getWrapper(card)),
     title: (t)=>{
@@ -217,7 +226,11 @@ export function getWrapper(card){
 
 //danger!
 export function list(){
-  return store;
+  return STORE;
+}
+
+export function wrappedList(){
+  return STORE.map(c=>getWrapper(c));
 }
 
 export function view(card){
@@ -261,7 +274,7 @@ export function add(card , successCallback , errCalback , uniquify){
   if(bi!=-1){
     // Adding card with same id means rewritting card
     //:TODO: ask user!
-    Object.assign(store[bi] , card );
+    Object.assign(STORE[bi] , card );
     return successCallback ? successCallback(card) : true;
   }
   if(t && !uniquify){
@@ -269,7 +282,7 @@ export function add(card , successCallback , errCalback , uniquify){
   }
   card.title = uniquifyTitle(card.title);
   card.id = card.id || uuid();
-  store.push(card);
+  STORE.push(card);
   modified(card.id);
   //:TODO Update Call!!
   return successCallback ? successCallback(card) : true;
@@ -278,7 +291,7 @@ export function add(card , successCallback , errCalback , uniquify){
 export function remove(card){
   let idx = getIndexByCondition(c=>c.id==card.id);
   if(idx==-1){return false}
-   store.splice(idx,1); //:TODO: CALLBACK
+   STORE.splice(idx,1); //:TODO: CALLBACK
    // console.log(store.map(e=>e.title))
    modified("yes");
   return true;
@@ -286,7 +299,7 @@ export function remove(card){
 }
 
 export function replaceCards(crds){
-   store.length = 0;
+   STORE.length = 0;
    crds.forEach(c=>add(c, null , null , true))
 }
 
@@ -306,13 +319,13 @@ export function appendCards(crds , updateDoubles){
 export function getByTitle(title){
   let idx =getIndexByCondition( c=>c.title==title); 
   if(idx==-1){return null}
-  return store[idx]
+  return STORE[idx]
 
 }
 
 export function getIndexByCondition(conditionFn){
-  for(let i = 0 ; i < store.length ; i++){
-    if(conditionFn( store[i] )){
+  for(let i = 0 ; i < STORE.length ; i++){
+    if(conditionFn( STORE[i] )){
       return i;
     }
   }

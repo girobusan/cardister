@@ -18,15 +18,21 @@ export class CardViewer extends Component{
     const v = cards.view(this.props.card);
     this.viewarea.current.innerHTML = "";
     try{
-        this.viewarea.current.appendChild(v);
+      this.viewarea.current.appendChild(v);
     }catch{
-        typeof(v)==='string' ? this.viewarea.current.innerHTML = v : this.viewarea.current.innerHTML = v.toString() 
+      if(typeof(v)==='string'){
+        this.viewarea.current.innerHTML = v;
+        return;
+      }
+      try{
+        console.log(v , JSON.stringify(v))
+        this.viewarea.current.innerHTML = JSON.stringify(v);
+      }catch{
+        this.viewarea.current.innerHTML = v.toString();
+      }
     }
   }
   componentDidMount(){
-    this.refreshView();
-  }
-  componentWillUpdate(){
     this.refreshView();
   }
   componentWillReceiveProps(){

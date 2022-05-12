@@ -15,8 +15,10 @@ export class Exporter extends Component{
   }
 
   doExport(){
-     let eo = { };
-     let ce = document.querySelector("#cardisterCustomCSS");
+     const eo = { };
+     const ce = document.querySelector("#cardisterCustomCSS");
+     const filename = (this.props.settings.filename || "cardister")
+     .replace(/\.[a-zA-Z]+$/ , "") + ".export.json"
 
      if(this.settingsE.current.checked){
        eo.settings = this.props.settings;
@@ -31,7 +33,8 @@ export class Exporter extends Component{
      }
 
      if(eo.settings && eo.settings.cleanHead){delete(eo.settings.cleanHead)}
-     saveFile(JSON.stringify(eo,null,2) , "export.cardister.json")
+
+     saveFile(JSON.stringify(eo,null,2) , filename)
      }
 
   render(){
