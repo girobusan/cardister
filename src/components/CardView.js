@@ -122,6 +122,7 @@ export class CardView extends Component{
     window.addEventListener("pointerup" , (e)=>{
        //stop follow
         this.setState({position: [this.props.card.props.x , this.props.card.props.y]})
+        this.props.sizeFitFunction();
         window.removeEventListener("pointermove", this.moveWithMouse)
     })
     //resize
@@ -135,6 +136,7 @@ export class CardView extends Component{
     window.addEventListener("pointerup" , e=>{
         
         this.setState({size: [this.props.card.props.width , this.props.card.props.height]})
+        this.props.sizeFitFunction();
       window.removeEventListener("pointermove", this.resizeWithMouse)
   })
    

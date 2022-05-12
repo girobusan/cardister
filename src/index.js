@@ -20,9 +20,9 @@ window.store = {
      }
      return null;
   },
+  list: ()=>cards.wrappedList(),
+
   dumpCards: ()=>{serialization.dumpCards(cards.list())},
-  dumpCardsAsJSON: ()=>{serialization.saveFile(JSON.stringify(cards.list(), null  , 2), "cards.json")},
-  killMinus: ()=>eliminateNegativeCoords(),
   
 }
 

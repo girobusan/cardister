@@ -349,3 +349,20 @@ export function makeNew(type, title){
     created: ( new Date() ).getTime()
   }
 }
+
+//utility
+export function maxPage(){
+  return Math.max.apply(null , STORE.map(c=>c.props.page||0));
+}
+
+export function bounds(arr){
+ if(!arr){arr=STORE}
+ return {
+   right: Math.max.apply(null , arr.map(c=>c.props.x+c.props.width||0)),
+   left: Math.min.apply(null , arr.map(c=>c.props.x||0)),
+   bottom: Math.max.apply(null , arr.map(c=>c.props.y+c.props.height||0)),
+   top: Math.min.apply(null , arr.map(c=>c.props.y||0)),
+   
+
+ }
+}

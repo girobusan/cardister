@@ -4,7 +4,8 @@ $overlayColor: rgba(0,0,0, 0.4);
 .cardView{
   transform-origin: center center;
   box-sizing: border-box;
-  border: 1px solid $card_stroke;
+  // border: 1px solid $card_stroke;
+  box-shadow: 0 0 4px rgba(0,0,0,.25);
   position: absolute;
   background-color: white;
   min-width: 64px;

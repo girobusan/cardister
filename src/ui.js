@@ -110,12 +110,14 @@ class UIcontainer extends Component{
   constructor(props){
     super(props);
     this.container = createRef();
+    this.innerContainer = createRef();
     this.followWindowSize = this.followWindowSize.bind(this);
+    this.fitInnerSize = this.fitInnerSize.bind(this);
     this.state = {
        scale: 1,
        translate: [0,0],
-       height: 0,
-       width: 0,
+       height: cards.bounds().bottom + 32,
+       width: cards.bounds().right + 8,
        modified: false,
        fullscreen: document.fullscreenElement ? true : false,
        locked: this.props.settings.locked ? true : false
@@ -131,7 +133,7 @@ class UIcontainer extends Component{
      return html`<div class="cardisterUI ${this.state.fullscreen ? "fullscreen" : "windowed"}" 
      ref=${this.container}
      style=${{
-        height: this.state.height ? this.state.height+"px" : "100vh",
+        height:  "100vh",
        }}
      >
        <${HUDButton} 
@@ -209,8 +211,11 @@ class UIcontainer extends Component{
        action=${()=>this.setState({locked: !this.state.locked})}
        />
          <div class="innerUI"
+         ref=${this.innerContainer}
          style=${{
-           height: this.state.height ? (this.state.height/this.state.scale)+"px" : "100%"}}
+           height: this.state.height ? (this.state.height/this.state.scale)+"px" : "100vh",
+           width: this.state.width ? (this.state.width/this.state.scale) + "px" : "100vw"
+           }}
          >
          ${cards.list().map(e=>html`<${CardView} 
          key=${e.id}
@@ -222,6 +227,7 @@ class UIcontainer extends Component{
          tags=${e.tags}
          view=${cards.view(e)}
          locked=${this.state.locked}
+         sizeFitFunction=${this.fitInnerSize}
          />`)}
          </div>
       </div>`
@@ -229,6 +235,24 @@ class UIcontainer extends Component{
 
   dataUpdated(){
     this.setState({modified: (new Date).getTime()});
+  }
+
+  fitInnerSize(){
+    const b = cards.bounds();
+    let newW = this.state.width;
+    let newH = this.state.height;
+    let doChange = false;
+    if(b.right+8>this.state.width){
+          newW = b.right + 8;
+          doChange = true;
+    } 
+    if(b.bottom+32>this.state.height){
+        newH = b.bottom +32;
+        doChange=true;
+    }
+    if(doChange){
+      this.setState({width: newW , height: newH});
+    }
   }
 
   followWindowSize(){
@@ -260,7 +284,8 @@ class UIcontainer extends Component{
     this.container.current.addEventListener('drop', handleDrop, false); 
     this.container.current.addEventListener("dblclick" , 
     (evt)=>{ 
-       console.log("Doubleclick" , evt.pageX , evt.pageY) ;
+       console.log("Doubleclick" , evt.pageX , evt.pageY , evt.target) ;
+       if(evt.target!=this.innerContainer.current){return};
        const posX = evt.pageX + this.container.current.scrollTop;
        const posY = evt.pageY + this.container.current.scrollLeft;
        const card = cards.makeNew("markdown", "New Card");

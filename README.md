@@ -5,8 +5,9 @@
 
 ## Источники вдохновения:
 
-- [Domino](https://kool.tools/domino/). 
+- [Domino](https://kool.tools/domino/) 
 - [Kinopio](https://kinopio.club/)
 - [TiddlyWiki](https://tiddlywiki.com/)
+- [Miro](https://miro.com/)
 
 
