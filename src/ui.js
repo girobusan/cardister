@@ -319,10 +319,13 @@ class UIcontainer extends Component{
     this.container.current.addEventListener('drop', this.handleDropped, false); 
     this.container.current.addEventListener("dblclick" , 
     (evt)=>{ 
-       console.log("Doubleclick" , evt.pageX , evt.pageY , evt.target) ;
+       // console.log("Doubleclick" , evt.pageX , evt.pageY , evt.target) ;
+       // console.log("Doubleclick" , evt.pageX , evt.pageY , evt.target) ;
+       // console.log("scrollLeft" , this.container.current.scrollLeft);
+       // console.log("scrollTop" , this.container.current.scrollTop);
        if(evt.target!=this.innerContainer.current){return};
-       const posX = evt.pageX + this.container.current.scrollTop;
-       const posY = evt.pageY + this.container.current.scrollLeft;
+       const posX = evt.pageX + this.container.current.scrollLeft;
+       const posY = evt.pageY + this.container.current.scrollTop;
        const card = cards.makeNew("markdown", "New Card");
        card.props.x = posX;
        card.props.y = posY;
