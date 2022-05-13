@@ -41,8 +41,16 @@ export class CardViewer extends Component{
     this.refreshView();
     this.currentSrc = this.props.card.src;
   }
+  componentDidUpdate(){
+    this.refreshView();
+  }
   componentWillUpdate( nextProps ){
-      this.refreshView();
+    if(nextProps.card.src!=this.currentSrc){
+      this.currentSrc = nextProps.card.src;
+      this.viewarea.current.innerHTML = "";
+    }
+      // this.refreshView();
+      return true;
     
   }
 }

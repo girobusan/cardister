@@ -51,6 +51,7 @@ function setOrRet(obj, prop, val , retobj){
   if(val){
      obj[prop]= val;
      //modified!
+     modified(prop);
      if(retobj){return retobj}
      return;
   }
@@ -198,9 +199,9 @@ export function getWrapper(card){
   return {
     prop: (p,v)=>setOrRet(card.props , p , v , getWrapper(card)),
     var: (p,v)=>{ 
-      if(v){
-      JSON.stringify(v); //will throw  an error if v is not serializable
-      }
+      // if(v){
+      // JSON.stringify(v); //will throw  an error if v is not serializable
+      // }
     return setOrRet(card.var , p , v , getWrapper(card)) 
     },
     src:  (s)=>setOrRet(card, "src", s , getWrapper(card)),
