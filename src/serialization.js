@@ -97,12 +97,12 @@ export function makeHTMLExport(cards,settings){
          hc.innerHTML=customCSS && customCSS.innerHTML;
       }
     }
-    //add user title
     //add description
   }else{
     console.info("Clean HEAD template was missed.")
   }
-
+  let ct = clone.querySelector("title");
+  ct.innerText = settings.title;
   cloneBody.appendChild(loader);
   cloneBody.appendChild(dataContainer);
   dataContainer.appendChild(coreScript);

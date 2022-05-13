@@ -123,6 +123,12 @@ export class SettingsEditor extends Component{
    action=${(v)=>this.formState.min_pages = v}
    />
   </div>
+  <${TextArea} 
+     name=${"page_names"}
+     label=${"Page names"}
+     value=${this.formState.page_names}
+     action=${(v)=>this.formState.page_names = v}
+  />
     
   </${If}>
   <${If} condition=${this.state.tab==1}>
@@ -158,6 +164,7 @@ export class SettingsEditor extends Component{
       this.props.settings.title = this.formState.title;
       document.title = this.formState.title;
       this.props.settings.min_pages = this.formState.min_pages;
+      this.props.settings.page_names = this.formState.page_names.split(",").map(e=>e.trim());
       //description
       this.props.settings.description = this.formState.description;
       //file name!
@@ -184,6 +191,8 @@ export class SettingsEditor extends Component{
      this.formState.filename = this.props.settings.filename || "MyCards.html";
      this.formState.description = this.props.settings.description || "?";
      this.formState.min_pages = this.props.settings.min_pages ||0;
+     this.formState.page_names = this.props.settings.page_names ? this.props.settings.page_names.join(",") : "";
+     
 
      
 
