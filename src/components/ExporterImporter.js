@@ -39,7 +39,7 @@ export class Exporter extends Component{
 
   render(){
     return html`<div class='Exporter utilityWidget'>
- <h3>Export</h3>
+ <h3>Export JSON</h3>
  <input type='checkbox' checked name="cards" ref=${this.cardsE}>
  </input>
  <label for='cards'>Cards</label>
@@ -122,7 +122,7 @@ export class Importer extends Component{
   render(){
      
      return html`<div class='Importer utilityWidget' >
-     <h3>Import </h3>
+     <h3>Import JSON</h3>
      <label for="modes">Cards: </label>
      <select name="modes" ref=${this.modeSelector} style='margin-right:8px'>
      <option value="replace">Replace all</option>

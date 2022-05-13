@@ -5,6 +5,7 @@ import Prism from "prismjs";
 import {InlineButton} from "./InlineButton";
 import { CardViewer } from './CardViewer';
 import {If} from "./If";
+import {range} from "../utils.js";
 require("./cardeditor.scss");
 require("../prism.css");
 import * as cards from '../cards';
@@ -42,6 +43,7 @@ export class CardEditor extends Component{
     this.styleSelector = createRef();
     this.titleEditorInput = createRef();
     this.typeSelector = createRef();
+    this.pageSelector = createRef();
     this.saveCard = this.saveCard.bind(this);
     this.removeCard = this.removeCard.bind(this);
     this.state={type: this.props.card.type}
@@ -69,12 +71,19 @@ export class CardEditor extends Component{
       <label for="styles">Style: </label>
         <select name="styles" ref=${this.styleSelector}
         data-hint=${"Change style"}
+        style=${{marginRight: "8px"}}
         >
         <option value="" > none </option>
         ${this.customStyles.map(s=>html`<option selected=${s==this.props.card.style}>
         ${s}</option>`)}
+        </select>
 
-
+        <label for="pages">Page: </label>
+        <select name="pages" ref=${this.pageSelector}
+        data-hint=${"Choose page"}
+        >
+        ${range(this.props.pages)
+        .map(e=>html`<option selected=${e==this.props.card.props.page}>${e}</option>`)}
         </select>
 
 
@@ -112,6 +121,7 @@ export class CardEditor extends Component{
        changes.type = this.typeSelector.current.value ;
        changes.src = this.editor.toString();
     }
+    this.props.card.props.page = this.pageSelector.current.value;
 
     cards.updateCard(this.props.card, changes);
   }

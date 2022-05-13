@@ -6,6 +6,7 @@ import * as cards from "./cards";
 import {CardView} from "./components/CardView"
 import {HUDButton} from "./components/HUDButton"
 import { SettingsEditor } from './components/SettingsEditor';
+import {Pager} from './components/Pager'
 import {If} from "./components/If";
 import {icons} from "./icons";
 import {colors} from "./colors/Cardister.es6";
@@ -20,7 +21,7 @@ function preventDefault(e) {
     e.stopPropagation();
 }
 
-function handleDrop(e){
+function handleDrop(e , prps){
    const images=["image/jpeg" , "image/jpg"];
    const images_asis = ["image/png" , "image/gif"]
    const htmls = ["image/svg+xml" , "image/svg" , "text/html" ];
@@ -39,7 +40,13 @@ function handleDrop(e){
   console.log("Dropped" , type , files[0]);
   // console.log("at" , e.pageX , e.pageY);
   const point = [e.pageX + cont.scrollLeft, e.pageY + scrolled];
-  const position = (c)=>{c.props.x = point[0] ; c.props.y = point[1]};
+  const position = (c)=>{c.props.x = point[0] ; 
+  c.props.y = point[1] ;
+  console.log("Pos" ,prps);
+  c.props.page = prps.page;
+  console.log("Pos" , c.props)
+  // c.props = Object.assign(c.props, prps);
+  };
 
   if(images_asis.indexOf(type)!=-1){
     console.info("Saving as is");
@@ -120,12 +127,19 @@ class UIcontainer extends Component{
        width: cards.bounds().right + 8,
        modified: false,
        fullscreen: document.fullscreenElement ? true : false,
-       locked: this.props.settings.locked ? true : false
+       locked: this.props.settings.locked ? true : false,
+       page: 0,
+       pages: Math.max( 
+      this.props.settings.min_pages||0 ,
+      cards.maxPage() +1
+      ),
+
     }
     this.dataUpdated = this.dataUpdated.bind(this);
+    this.handleDropped = this.handleDropped.bind(this);
     cards.setCallback("update", this.dataUpdated);
-   
   }
+
   render(){
      //console.log("Props" , this.props);
      // console.log(cards.list("Card"));
@@ -148,7 +162,10 @@ class UIcontainer extends Component{
        }}
        state=${this.state.modified? 1 : 0}
        />
-        
+       <${Pager} pageNum=${this.state.pages} 
+       current=${this.state.page}
+       action=${(p)=>this.setState({page:p})}
+       />
       <${If} condition=${!this.state.locked}>
 
 
@@ -167,6 +184,7 @@ class UIcontainer extends Component{
          c.props.width=200;
          c.props.height=200;
          c.props.editMe = true;
+         c.props.page = this.state.page;
          cards.add(c);
          }}
          state=${0}
@@ -174,6 +192,8 @@ class UIcontainer extends Component{
 
        <${SettingsEditor} 
        settings=${this.props.settings}
+       pages=${this.state.pages}
+       page=${this.state.page}
        onupdate=${(s)=>this.setState({settings:s})}
        />
        </${If}>
@@ -217,7 +237,9 @@ class UIcontainer extends Component{
            width: this.state.width ? (this.state.width/this.state.scale) + "px" : "100vw"
            }}
          >
-         ${cards.list().map(e=>html`<${CardView} 
+         ${cards.list()
+         .filter(c=>(!c.props.page && this.state.page==0)||(c.props.page==this.state.page))
+         .map(e=>html`<${CardView} 
          key=${e.id}
          card=${e} 
          title=${e.title}
@@ -225,6 +247,8 @@ class UIcontainer extends Component{
          type=${e.type}
          src=${e.src}
          tags=${e.tags}
+         pages=${this.state.pages}
+         page=${this.state.page}
          view=${cards.view(e)}
          locked=${this.state.locked}
          sizeFitFunction=${this.fitInnerSize}
@@ -235,6 +259,12 @@ class UIcontainer extends Component{
 
   dataUpdated(){
     this.setState({modified: (new Date).getTime()});
+  }
+
+  handleDropped(e){
+    const p = {page:this.state.page}
+    console.log("Handling dropped" , p)
+    handleDrop(e , p);
   }
 
   fitInnerSize(){
@@ -270,6 +300,11 @@ class UIcontainer extends Component{
 
   }
 
+  componentWillMount(){
+     
+  
+  }
+
   componentDidMount(){
     let ldr = document.querySelector("#loader");
     if(ldr){ 
@@ -281,7 +316,7 @@ class UIcontainer extends Component{
     this.container.current.addEventListener('dragleave', preventDefault, false);
     this.container.current.addEventListener('dragover', preventDefault, false);
     //drop
-    this.container.current.addEventListener('drop', handleDrop, false); 
+    this.container.current.addEventListener('drop', this.handleDropped, false); 
     this.container.current.addEventListener("dblclick" , 
     (evt)=>{ 
        console.log("Doubleclick" , evt.pageX , evt.pageY , evt.target) ;

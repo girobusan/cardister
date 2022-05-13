@@ -1,6 +1,14 @@
 
 const imageSize = [512, 512];
 
+export function range(n){
+  const r = [];
+  for(let i=0 ; i<=n ; i++){
+  r.push(i);
+  }
+  return r;
+}
+
 export function killEvent(event) {
     event.stopPropagation();
     event.preventDefault();

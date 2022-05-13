@@ -1,6 +1,8 @@
 import { v4 as uuid } from 'uuid';
 import {csvParse, autoType} from 'd3-dsv';
 var MarkdownIt = require('markdown-it')
+import { render, h , Component , createRef  } from 'preact';
+import {CardViewer} from './components/CardViewer.js';
 
 const md = new MarkdownIt({
   html: true,
@@ -99,26 +101,18 @@ function makeEmbeds(md){
   if(embeds.length==0){return outer}
 
   embeds.forEach(e=>{
-      // console.log("EMBED" , e);
-      let ec = getByTitle(e.dataset.etitle);
-      // console.log(ec);
-      let ev = view(ec);
-      // console.log("EMBEDDED VIEW" , ev);
-      try{
-          e.appendChild(ev);
-      }catch{
-         typeof(ev)==='string' ? e.innerHTML = ev : e.innerHTML = ev.toString();
-      }
-
+     const card = getByTitle(e.dataset.etitle);
+     const viewer = h( CardViewer , {card:card} ) ;
+     render(viewer, e);
   })
   return outer;
 }
 
 const views = {
-  js: (card)=>{ 
+  js: (card , element)=>{ 
     try{
-    let f = Function("card", "Me" , card.src.trim() || "return false");
-      let r =  f(card, getWrapper(card));
+    let f = Function( "Me" , "Element" , card.src.trim() || "return false");
+      let r =  f(getWrapper(card) , element);
       return r||"";
     }catch(err){
       return "<span style='color:orangered'>Error: " + err.message + "</span>";
@@ -127,7 +121,7 @@ const views = {
   markdown: (card)=>{
     return makeEmbeds(md.render(card.src));
   },
-  html: (card)=>{
+  html: (card , element)=>{
     return card.src; //default behavior
   },
   text: (card)=>{
@@ -233,8 +227,8 @@ export function wrappedList(){
   return STORE.map(c=>getWrapper(c));
 }
 
-export function view(card){
-  return views[card.type] ? views[card.type](card) : card.src ; 
+export function view(card , element){
+  return views[card.type] ? views[card.type](card , element) : card.src ; 
 }
 
 export function result(card){
@@ -258,6 +252,7 @@ export function updateCard(card,newcard){
      newcard.title = uniquifyTitle(newcard.title);
   }
   Object.assign(card, newcard)
+  modified(card.id);
 }
 
 export function tags(card){

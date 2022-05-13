@@ -15,7 +15,12 @@ export class CardViewer extends Component{
   }
 
   refreshView(){
-    const v = cards.view(this.props.card);
+    // console.log("refresh" , this.viewarea.current)
+    const v = cards.view(this.props.card , this.viewarea.current);
+    if ( v==this.viewarea.current ){
+    // console.log("Persistent DOM element detected")
+    return;
+    }
     this.viewarea.current.innerHTML = "";
     try{
       this.viewarea.current.appendChild(v);
@@ -34,8 +39,10 @@ export class CardViewer extends Component{
   }
   componentDidMount(){
     this.refreshView();
+    this.currentSrc = this.props.card.src;
   }
-  componentWillReceiveProps(){
-    this.refreshView();
+  componentWillUpdate( nextProps ){
+      this.refreshView();
+    
   }
 }

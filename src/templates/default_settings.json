@@ -1,5 +1,6 @@
 {
   "title" : "Cardister!",
   "filename" : "cards.html",
-  "locked" : false
+  "locked" : false,
+  "min_pages": 3
 }

@@ -44,6 +44,7 @@ function TextArea(props){
    <div class="TextArea">
    <label for=${props.name}>${props.label}</label>
    <textarea ref=${txt}
+   resizable=${false}
    style="width:100%;display:block;min-height:150px"
    name=${props.name}
    onkeyup=${()=>props.action(txt.current.value)} >
@@ -91,6 +92,7 @@ export class SettingsEditor extends Component{
   <${If} condition=${this.state.tab==0}>
 
   <!--settings-->
+  <h3>Information</h3>
   <div class="formRow">
   <${TextInput} 
      name=${"title"}
@@ -112,6 +114,15 @@ export class SettingsEditor extends Component{
      value=${this.formState.description}
      action=${(v)=>this.formState.description = v}
   />
+  <h3>Parameters</h3>
+  <div class="formRow">
+   <${TextInput}
+   name=${"minpages"}
+   label=${"Min. pages"}
+   value=${this.formState.min_pages}
+   action=${(v)=>this.formState.min_pages = v}
+   />
+  </div>
     
   </${If}>
   <${If} condition=${this.state.tab==1}>
@@ -120,9 +131,11 @@ export class SettingsEditor extends Component{
 
   </${If}>
   <${If} condition=${this.state.tab==2}>
+  <div class="formRow">
    <${Exporter} settings=${this.props.settings} />
    <${Importer} settings=${this.props.settings} 
    callback=${(s)=>{this.readSettings();this.saveSettings()}} />
+   </div>
    </${If}>
 
 
@@ -144,6 +157,7 @@ export class SettingsEditor extends Component{
       console.log("Save Settings" , this.props.settings.title);
       this.props.settings.title = this.formState.title;
       document.title = this.formState.title;
+      this.props.settings.min_pages = this.formState.min_pages;
       //description
       this.props.settings.description = this.formState.description;
       //file name!
@@ -169,6 +183,7 @@ export class SettingsEditor extends Component{
      this.formState.title = this.props.settings.title;
      this.formState.filename = this.props.settings.filename || "MyCards.html";
      this.formState.description = this.props.settings.description || "?";
+     this.formState.min_pages = this.props.settings.min_pages ||0;
 
      
 

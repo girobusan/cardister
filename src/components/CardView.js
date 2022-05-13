@@ -75,6 +75,8 @@ export class CardView extends Component{
 
     let editor = this.state.editmode ? html`${ createPortal( html`<${CardEditor} 
     card=${this.props.card}
+    page=${this.props.page}
+    pages=${this.props.pages}
     source=${this.props.card.src} 
     cancelAction=${()=>this.setState({editmode:false})}/>` , this.portal )}` : "";
     return html`
@@ -90,7 +92,7 @@ export class CardView extends Component{
        height: (this.state.size[1]) + "px"
        }}
        onmouseover=${(e)=>{ if(this.props.locked){return;}
-       this.outer.current.classList.add("hovered");e.preventDefault() }}
+       this.outer.current.classList.add("hovered");killEvent(e) }}
 
        onmouseout=${()=>this.outer.current.classList.remove("hovered")}
        >
@@ -131,6 +133,7 @@ export class CardView extends Component{
        this.cardResizeStart = this.size;
        this.mouseResizeStart =  [e.pageX , e.pageY];
        window.addEventListener("pointermove", this.resizeWithMouse)
+       // window.addEventListener("drag" , (e)=>console.log("drag" , e.target))
     })
 
     window.addEventListener("pointerup" , e=>{
@@ -138,6 +141,7 @@ export class CardView extends Component{
         this.setState({size: [this.props.card.props.width , this.props.card.props.height]})
         this.props.sizeFitFunction();
       window.removeEventListener("pointermove", this.resizeWithMouse)
+       // window.removeEventListener("mouseover" , killEvent)
   })
    
   }
