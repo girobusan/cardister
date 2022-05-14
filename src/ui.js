@@ -132,7 +132,7 @@ class UIcontainer extends Component{
        page: 0,
        pages: Math.max( 
       this.props.settings.min_pages||0 ,
-      cards.maxPage() +1
+      cards.maxPage() 
       ),
 
     }
@@ -199,7 +199,7 @@ class UIcontainer extends Component{
        pages=${this.state.pages}
        page=${this.state.page}
        onupdate=${(s)=>this.setState({
-           pages: Math.max(s.min_pages , cards.maxPage()+1),
+           pages: Math.max(s.min_pages , cards.maxPage()),
            pageNames: s.page_names
          })}
        />
