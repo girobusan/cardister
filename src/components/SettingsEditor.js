@@ -30,7 +30,7 @@ function TextInput(props){
   return html`
      <div class="TextInput">
      <label for=${props.name}>${props.label}</label>
-     <input type="text" name=${props.name} 
+     <input type=${props.type || "text"} name=${props.name} 
      ref=${inv}
      value=${props.value} 
      onkeyup=${ ()=>props.action(inv.current.value)} />
@@ -119,6 +119,7 @@ export class SettingsEditor extends Component{
    <${TextInput}
    name=${"minpages"}
    label=${"Min. pages"}
+   type="number"
    value=${this.formState.min_pages}
    action=${(v)=>this.formState.min_pages = v}
    />

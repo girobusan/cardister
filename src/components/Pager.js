@@ -9,6 +9,7 @@ export class Pager extends Component{
     this.selector = createRef();
   }
   render(){
+   console.log(this.props)
     if(this.props.pageNum==0){
       return("")
     }
@@ -35,7 +36,7 @@ export class Pager extends Component{
       onchange=${()=>this.props.action(this.selector.current.value)}>
       ${
         range(this.props.pageNum)
-        .map(e=>html`<option selected=${e==this.props.current} value=${e}>${e}</option>`)
+        .map(( e,i )=>html`<option selected=${e==this.props.current} value=${e}>${this.props.pageNames[i]||e}</option>`)
       }
       </select>
       </div>`

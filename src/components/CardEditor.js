@@ -83,7 +83,7 @@ export class CardEditor extends Component{
         data-hint=${"Choose page"}
         >
         ${range(this.props.pages)
-        .map(e=>html`<option selected=${e==this.props.card.props.page}>${e}</option>`)}
+        .map(e=>html`<option selected=${e==this.props.card.props.page} value=${e}>${this.props.pageNames[e]||e}</option>`)}
         </select>
 
 

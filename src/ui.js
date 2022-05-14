@@ -128,6 +128,7 @@ class UIcontainer extends Component{
        modified: false,
        fullscreen: document.fullscreenElement ? true : false,
        locked: this.props.settings.locked ? true : false,
+       pageNames: this.props.settings.page_names,
        page: 0,
        pages: Math.max( 
       this.props.settings.min_pages||0 ,
@@ -162,10 +163,13 @@ class UIcontainer extends Component{
        }}
        state=${this.state.modified? 1 : 0}
        />
+
        <${Pager} pageNum=${this.state.pages} 
        current=${this.state.page}
+       pageNames=${this.state.pageNames ||[]}
        action=${(p)=>this.setState({page:p})}
        />
+
       <${If} condition=${!this.state.locked}>
 
 
@@ -194,7 +198,10 @@ class UIcontainer extends Component{
        settings=${this.props.settings}
        pages=${this.state.pages}
        page=${this.state.page}
-       onupdate=${(s)=>this.setState({settings:s})}
+       onupdate=${(s)=>this.setState({
+           pages: Math.max(s.min_pages , cards.maxPage()+1),
+           pageNames: s.page_names
+         })}
        />
        </${If}>
 
@@ -249,6 +256,7 @@ class UIcontainer extends Component{
          tags=${e.tags}
          pages=${this.state.pages}
          page=${this.state.page}
+         pageNames=${this.state.pageNames}
          view=${cards.view(e)}
          locked=${this.state.locked}
          sizeFitFunction=${this.fitInnerSize}
@@ -339,6 +347,7 @@ class UIcontainer extends Component{
   }
   componentDidUpdate(){
     this.props.settings.locked = this.state.locked;
+  
   }
 }
 

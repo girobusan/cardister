@@ -77,6 +77,7 @@ export class CardView extends Component{
     card=${this.props.card}
     page=${this.props.page}
     pages=${this.props.pages}
+    pageNames=${this.props.pageNames}
     source=${this.props.card.src} 
     cancelAction=${()=>this.setState({editmode:false})}/>` , this.portal )}` : "";
     return html`
