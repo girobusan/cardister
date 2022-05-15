@@ -211,9 +211,14 @@ export function getWrapper(card){
         card.title = uniquifyTitle(t);
         return getWrapper(card);
     },
+    tags: ()=> card(tags),
+    hasTag: (t)=> hasTag(card,t),
+    addTag: (t)=>addTag(card , t),
+    delTag: (t)=>delTag(card,t),
     view: ()=>view(card),
     read: ()=>result(card),
     del:  ()=>remove(card),
+    unwrap: ()=>card
   }
 }
 
@@ -257,11 +262,49 @@ export function updateCard(card,newcard){
 }
 
 export function tags(card){
-
+   return card.tags;
 }
 
-export function tag(card, t , del){
-   
+export function hasTag(card, t ){
+if(!card.tags || card.tags.length==0){return false}
+  if(card.tags.indexOf(t.trim())!=-1){
+  return true;
+  }
+  return false;
+}
+
+export function delTag(card,t){
+  t=t.trim();
+  if(!hasTag(card,t)){return }
+  card.tags.splice(card.tags.indexOf(t) , 1);
+}
+
+export function addTag(card,t){
+t=t.trim();
+  if(hasTag(card,t)){return}
+  card.tags.push(t);
+}
+
+export function listTags(){
+  const S =  STORE.reduce((a,e)=>{
+     if(!e.tags || e.tags.length==0){return a};
+     e.tags.forEach(t=>a.add(t.trim()));
+     return a
+  } , new Set());
+  return Array.from(S);
+}
+
+export function listTagged(t){
+console.log("Tagged by" , t)
+if(!t){return []}
+t=t.trim();
+console.log("List tagged"  )
+  return STORE.filter(e=>hasTag(e,t)).map(c=>getWrapper(c));
+}
+
+export function switchTag(card , t){
+  if(hasTag(card.t)){delTag(card,t); return} 
+  addTag(card , t);
 }
 
 export function add(card , successCallback , errCalback , uniquify){

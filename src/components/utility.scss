@@ -1,0 +1,18 @@
+.TagViewer{
+  .menu{
+    border-bottom: 1px solid silver;
+  }
+  .menuheader{
+    padding: 2px 8px;
+    font-size: 12px;
+    font-weight: bold;
+  }
+  .menuitem{
+    padding: 4px 8px;
+    border-top: 1px solid silver;
+    cursor: pointer;
+    &:hover{
+      background-color: silver;
+    }
+  }
+}

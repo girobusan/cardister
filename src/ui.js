@@ -120,6 +120,7 @@ class UIcontainer extends Component{
     this.innerContainer = createRef();
     this.followWindowSize = this.followWindowSize.bind(this);
     this.fitInnerSize = this.fitInnerSize.bind(this);
+    this.goTo = this.goTo.bind(this);
     this.state = {
        scale: 1,
        translate: [0,0],
@@ -139,6 +140,18 @@ class UIcontainer extends Component{
     this.dataUpdated = this.dataUpdated.bind(this);
     this.handleDropped = this.handleDropped.bind(this);
     cards.setCallback("update", this.dataUpdated);
+  }
+
+  goPage(num){
+    this.setState({page:num});
+  }
+
+  goTo(card){
+    if(this.state.page!=card.props.page){
+      console.log("Change page" , this.state.page, card.props.page);
+      this.goPage(card.props.page || 0)
+    }
+    this.container.current.scrollTo({ left:card.props.x , top:card.props.y , behavior: 'smooth'});
   }
 
   render(){
@@ -257,6 +270,7 @@ class UIcontainer extends Component{
          pages=${this.state.pages}
          page=${this.state.page}
          pageNames=${this.state.pageNames}
+         goTo=${this.goTo}
          view=${cards.view(e)}
          locked=${this.state.locked}
          sizeFitFunction=${this.fitInnerSize}

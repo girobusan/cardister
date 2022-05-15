@@ -4,6 +4,7 @@ import {CodeJar} from "codejar";
 import Prism from "prismjs";
 import {InlineButton} from "./InlineButton";
 import { CardViewer } from './CardViewer';
+import { TagEditor } from './TagEditor';
 import {If} from "./If";
 import {range} from "../utils.js";
 require("./cardeditor.scss");
@@ -47,6 +48,7 @@ export class CardEditor extends Component{
     this.saveCard = this.saveCard.bind(this);
     this.removeCard = this.removeCard.bind(this);
     this.state={type: this.props.card.type}
+    this.cardTags = this.props.card.tags ||[];
 
   }
   render(){
@@ -89,6 +91,9 @@ export class CardEditor extends Component{
 
 
         </div>
+        <div class="editor_top_area">
+        <${TagEditor} tags=${this.props.card.tags} onupdate=${(s)=>this.cardTags=s.tags} />
+        </div>
         <${If} condition=${this.props.types.indexOf(this.props.card.type)!=-1}>
           <div class="editorArea language-${this.state.type}" ref=${this.editorElement} ></div>
         </If>
@@ -115,7 +120,9 @@ export class CardEditor extends Component{
   saveCard(){
     console.log("saving..."  );
     const changes = { title: this.titleEditorInput.current.value.trim(),
-    style: this.styleSelector.current.value};
+    style: this.styleSelector.current.value,
+    tags: this.cardTags
+    };
 
     if(this.props.types.indexOf(this.props.card.type)!=-1){
        changes.type = this.typeSelector.current.value ;

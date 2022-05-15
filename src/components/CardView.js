@@ -6,6 +6,7 @@ import {icons} from "../icons";
 require("./cardview.scss");
 import {CardViewer} from "./CardViewer";
 import {CardEditor} from "./CardEditor";
+import {TagViewer} from "./utilityComps";
 import {killEvent} from "../utils.js";
 
 export class CardView extends Component{
@@ -103,6 +104,7 @@ export class CardView extends Component{
          onclick=${(e)=>this.setState({editmode:!this.state.editmode})} 
          ref=${this.editBtn} dangerouslySetInnerHTML=${{__html:icons.edit}}></div>
          <div class="resizerCorner" data-hint="Drag to resize" dangerouslySetInnerHTML=${{__html:icons.resizer_alt}} ref=${this.resizeCrn}></div>
+       <${TagViewer} card=${this.props.card} goTo=${this.props.goTo}/>
        <${CardViewer} card=${this.props.card} />
        ${editor}
        </div>
