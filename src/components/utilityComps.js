@@ -72,6 +72,7 @@ export class TagViewer extends Component{
         >
         <div class="menuheader" style=${{ color: "silver" }}>${this.state.menu}</div>
         ${cards.listTagged(this.state.menu)
+        .filter(c=>c.title()!=this.props.card.title)
         .map(e=>html`<div class="menuitem" onclick=${()=>{ this.hideMenu();this.props.goTo(e.unwrap()) }}>${e.title()}</div>`)}
 
         </div>
