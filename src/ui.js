@@ -42,14 +42,14 @@ function handleDrop(e , prps){
   const point = [e.pageX + cont.scrollLeft, e.pageY + scrolled];
   const position = (c)=>{c.props.x = point[0] ; 
   c.props.y = point[1] ;
-  console.log("Pos" ,prps);
+  // console.log("Pos" ,prps);
   c.props.page = prps.page;
-  console.log("Pos" , c.props)
+  // console.log("Pos" , c.props)
   // c.props = Object.assign(c.props, prps);
   };
 
   if(images_asis.indexOf(type)!=-1){
-    console.info("Saving as is");
+    // console.info("Saving as is");
      const url = dataURLFromFile(files[0])
      .then(r=>{
       let c = cards.makeNew("image", files[0].name ||"image" );
@@ -365,6 +365,7 @@ class UIcontainer extends Component{
        card.props.width = 200;
        card.props.height = 200;
        card.props.editMe = true;
+       card.props.page = this.state.page;
        cards.add(card);
 
        })
