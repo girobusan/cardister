@@ -91,7 +91,7 @@ export class CardEditor extends Component{
 
 
         </div>
-        <div class="editor_top_area">
+        <div class="editor_top_area"> <label style="display:inline-block">Tags: </label>
         <${TagEditor} tags=${this.props.card.tags} onupdate=${(s)=>this.cardTags=s.tags} />
         </div>
         <${If} condition=${this.props.types.indexOf(this.props.card.type)!=-1}>

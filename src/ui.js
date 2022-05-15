@@ -121,6 +121,7 @@ class UIcontainer extends Component{
     this.followWindowSize = this.followWindowSize.bind(this);
     this.fitInnerSize = this.fitInnerSize.bind(this);
     this.goTo = this.goTo.bind(this);
+    this.atCard = null;
     this.state = {
        scale: 1,
        translate: [0,0],
@@ -147,11 +148,21 @@ class UIcontainer extends Component{
   }
 
   goTo(card){
+
     if(this.state.page!=card.props.page){
-      console.log("Change page" , this.state.page, card.props.page);
       this.goPage(card.props.page || 0)
     }
+    
     this.container.current.scrollTo({ left:card.props.x , top:card.props.y , behavior: 'smooth'});
+
+    const state = {
+        page:this.state.page , 
+        left:card.props.x,
+        top:card.props.y,
+        }
+
+    console.log("go to..." ,state);
+    history.pushState(state, "");
   }
 
   render(){
@@ -357,6 +368,18 @@ class UIcontainer extends Component{
        cards.add(card);
 
        })
+
+  window.addEventListener("popstate", (s)=>{
+  console.log("s" , s.state)
+  const st = s.state
+  if(!st){return}
+     console.log("Let's move!") ;
+     this.setState({page:st.page});
+     this.container.current.scrollTo({top:st.top,left:st.left,behavior: 'smooth'})
+
+  });
+
+  history.pushState({top:0,left:0,page:0 , type:"initial"} , "");
 
   }
   componentDidUpdate(){

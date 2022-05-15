@@ -28,6 +28,12 @@ hidden: boolean,
 */
 /////// UTIL ///////
 //
+function eqNoCase(s1,s2){
+  if(s1.toLowercase()==s2.toLowercase()){
+  return true;
+  }
+  return false;
+}
 export function eliminateNegativeCoords(){
   STORE.forEach(c=>{
     if(c.props.x<0){c.props.x = -c.props.x}
@@ -295,10 +301,10 @@ export function listTags(){
 }
 
 export function listTagged(t){
-console.log("Tagged by" , t)
+// console.log("Tagged by" , t)
 if(!t){return []}
 t=t.trim();
-console.log("List tagged"  )
+// console.log("List tagged"  )
   return STORE.filter(e=>hasTag(e,t)).map(c=>getWrapper(c));
 }
 

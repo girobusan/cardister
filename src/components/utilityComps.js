@@ -10,7 +10,7 @@ export class OneTag extends Component{
   this.tagnode = createRef();
   }
   render(){
-     console.log("render one tag" , this.props.tag)
+     // console.log("render one tag" , this.props.tag)
      return html`<span 
      ref=${this.tagnode}
      onclick=${this.props.onclick}
@@ -19,9 +19,10 @@ export class OneTag extends Component{
      color: "white",
      margin: "2px",
      fontSize: "12px",
-     borderRadius: "8px",
+     borderRadius: "9px",
      display: "inline-block",
-     padding: "0px 8px",
+     padding: "0px 12px",
+     height: "18px",
      paddingBottom: "1px",
      cursor: "pointer",
      position: "relative"
@@ -56,7 +57,7 @@ export class TagViewer extends Component{
       }}
     >
      ${this.props.card.tags
-     .map(e=>{console.log("e" , e) ; return html`<${OneTag} onclick=${()=>this.showMenu(e)} tag=${e}/>` })}
+     .map(e=>{ return html`<${OneTag} onclick=${()=>this.showMenu(e)} tag=${e}/>` })}
 
      <${If} condition=${this.state.menu!=null} >
         <div class="menu"

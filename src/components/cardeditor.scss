@@ -29,6 +29,12 @@
   }
   .editor_top_area{
     margin: 8px 0;
+    margin-right:-8px;
+    display: flex;
+    flex-direction: row;
+    *{
+      margin-right: 8px;
+    }
   }
   .editorArea{
 background-color: #03202d;
