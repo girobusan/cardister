@@ -23,14 +23,12 @@ export class OneTag extends Component{
      display: "inline-block",
      padding: "0px 12px",
      height: "18px",
+     lineHeight: "16px",
      paddingBottom: "1px",
      cursor: "pointer",
      position: "relative"
        }}
-     class="OneTag">${this.props.tag}
-     <${If} condition=${this.props.minus}>
-     <span class="minus"> -</span>
-     </${If}>
+     class="OneTag">${this.props.tag}<${If} condition=${this.props.minus}><span class="minus"> -</span></${If}>
      </span>`
   }
 }

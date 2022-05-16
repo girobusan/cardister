@@ -19,7 +19,7 @@ export class TagEditor extends Component{
     flexDirection: "row"
       }}>
      <div class="taglist"
-   style=${{display:"flex" , flexDirection:"row"}}
+   style=${{display:"flex" , flexDirection:"row" , alignItems: "center"}}
      >
     ${this.state.tags.map(t=>{
 
