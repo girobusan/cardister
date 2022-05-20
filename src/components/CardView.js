@@ -104,7 +104,7 @@ export class CardView extends Component{
          onclick=${(e)=>this.setState({editmode:!this.state.editmode})} 
          ref=${this.editBtn} dangerouslySetInnerHTML=${{__html:icons.edit}}></div>
          <div class="resizerCorner" data-hint="Drag to resize" dangerouslySetInnerHTML=${{__html:icons.resizer_alt}} ref=${this.resizeCrn}></div>
-       <${TagViewer} card=${this.props.card} goTo=${this.props.goTo}/>
+       <${TagViewer} card=${this.props.card} goTo=${this.props.goTo} />
        <${CardViewer} card=${this.props.card} />
        ${editor}
        </div>
