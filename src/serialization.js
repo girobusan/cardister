@@ -1,5 +1,6 @@
 import { saveAs } from 'file-saver';
 import * as Cards from './cards';
+import { createHTML } from './template';
 
 export function saveCardsToHTML(cards ){
   let  container = document.createElement("div")
@@ -60,6 +61,9 @@ export function restoreSettingsFromHTML(element){
 
 //dirty
 export function makeHTMLExport(cards,settings){
+  return createHTML(cards, settings) ;
+  /*
+
   const crds =  saveCardsToHTML(cards);
   const sets =  convertSettingsToHTML(settings);
   //
@@ -109,7 +113,9 @@ export function makeHTMLExport(cards,settings){
 
   return clone.outerHTML;
 
-}
+*/
+  }
+
 export function saveAsHTML(cards, settings){
 console.info("Exporting...")
   cards = cards || [];
