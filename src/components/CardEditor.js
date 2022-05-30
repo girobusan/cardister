@@ -7,6 +7,7 @@ import { CardViewer } from './CardViewer';
 import { TagEditor } from './TagEditor';
 import {If} from "./If";
 import {range} from "../utils.js";
+import {addMarkdown} from "./prism_markdown.js";
 require("./cardeditor.scss");
 require("../prism.css");
 import * as cards from '../cards';
@@ -35,6 +36,8 @@ Prism.languages.json = {
 		alias: 'keyword'
 	}
 };
+
+ addMarkdown(Prism);
 
 export class CardEditor extends Component{
   constructor(props){

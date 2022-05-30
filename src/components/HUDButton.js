@@ -19,7 +19,6 @@ export class HUDButton extends Component{
        {
        position: "fixed",
        opacity: 0.5,
-       zIndex: 10000,
        display: "block",
        boxSizing: "border-box", 
        cursor: "pointer",

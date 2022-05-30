@@ -1,4 +1,5 @@
 
+@import "./style/vars.scss";
 @import "./colors/cardister.scss";
 
 .cardisterUI{
@@ -59,12 +60,18 @@ background-color: #444444;
   font-size: 12px;
   line-height: 120%;
   border-radius: 4px;
+  z-index: $z-tooltips;
 }
 
 .HUDButton{
+  z-index: $z-hud;
   svg{
     pointer-events: none;
   }
+}
+.Pager{
+  
+  z-index: $z-hud;
 }
 .utilityWidget{
   flex-grow: 1;

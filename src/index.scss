@@ -1,3 +1,4 @@
+@import "./style/vars.scss";
 @import "./colors/cardister.scss";
 @import "./lib/normalize.css";
 
@@ -32,10 +33,10 @@ table{
 }
 
 @keyframes loading{
-  0% {content: "."}
-  33% {content: ".."}
-  66% {content: "..."}
-  100% {content: "...."}
+  0% {content: "|"}
+  33% {content: "||"}
+  66% {content: "|||"}
+  100% {content: "||||"}
 }
   #loader{
     position: fixed;
@@ -54,7 +55,7 @@ table{
     left:0;
     bottom:0;
     right:0;
-    z-index: 100000;
+    z-index: $z-top;
     &:after{
       animation: loading 1s infinite alternate;
       display: block;

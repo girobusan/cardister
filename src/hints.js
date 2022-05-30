@@ -14,10 +14,6 @@ window.addEventListener("DOMContentLoaded" , function(){
 
      t.style.top = tp + "px";
      t.style.left = lf + "px";
-
-
-
-
   }
 
   //we are here?
@@ -25,10 +21,8 @@ window.addEventListener("DOMContentLoaded" , function(){
   if(!t){
     t = document.createElement("div");
     t.id="tooltip";
-    
   }
   t.style.position = "fixed";
-  t.style.zIndex = 10000;
   t.style.display =  "none";
   t.style.pointerEvents = "none";
   document.body.appendChild(t);

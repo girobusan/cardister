@@ -14,6 +14,7 @@ export class Pager extends Component{
       return("")
     }
     return html`<div class='Pager'
+    data-hint="Choose page"
     style=${
       {
         position: "fixed",
@@ -24,6 +25,7 @@ export class Pager extends Component{
       }
       >
       <select 
+    data-hint="Choose page"
       style=${{
        display: "block",
        height: "32px",

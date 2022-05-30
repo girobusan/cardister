@@ -1,6 +1,7 @@
+@import "../style/vars.scss";
 .CardEditor{
   position: fixed;
-  z-index: 20000;
+  z-index: $z-modals;
   top:0;
   box-sizing: border-box;
   left: 0;

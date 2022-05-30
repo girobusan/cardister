@@ -1,3 +1,4 @@
+@import "../style/vars.scss";
 @import "../colors/cardister.scss";
 $overlayColor: rgba(0,0,0, 0.4);
 
@@ -115,7 +116,7 @@ $overlayColor: rgba(0,0,0, 0.4);
     }
   }
   &.hovered{
-    z-index: 100;
+    z-index: $z-content+1;
     .editModeBtn{
       display: block;
     }
