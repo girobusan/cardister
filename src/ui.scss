@@ -76,3 +76,16 @@ background-color: #444444;
 .utilityWidget{
   flex-grow: 1;
 }
+
+#topRightWidgets{
+  position: fixed;
+  z-index: $z-hud;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  flex-direction: row;
+  justify-items: flex-end;
+  .SearchBox{
+    margin-right: 16px;
+  }
+}

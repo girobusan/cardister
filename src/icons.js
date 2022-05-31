@@ -8,5 +8,6 @@ export const icons={
  fullscreen: require("./icons/fullscreen_black_24dp.svg"),
  exit_fullscreen: require("./icons/fullscreen_exit_black_24dp.svg"),
  locked: require("./icons/lock_black_24dp.svg"),
- unlocked: require("./icons/lock_open_black_24dp.svg")
+ unlocked: require("./icons/lock_open_black_24dp.svg"),
+ search: require("./icons/search_black_24dp.svg")
 }

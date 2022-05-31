@@ -3,6 +3,9 @@ import {csvParse, autoType} from 'd3-dsv';
 var MarkdownIt = require('markdown-it')
 import { render, h , Component , createRef  } from 'preact';
 import {CardViewer} from './components/CardViewer.js';
+import Fuse from 'fuse.js';
+
+
 
 const md = new MarkdownIt({
   html: true,
@@ -90,6 +93,17 @@ function modified(p){
   Object.values(callbacks).forEach(
    e=>e(p)
   )
+}
+
+export function search(str){
+  const fuse = new Fuse(STORE , {
+     includeMatches: true,
+     includeScore: true,
+     keys: [ 
+       { name:  "title"  , weight: 0.7 }, 
+        { name: "src" , weight: 0.3 } ]
+  })
+  return fuse.search(str);
 }
 
 // VIEWS AND RESULTS

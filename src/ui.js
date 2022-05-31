@@ -1,12 +1,12 @@
 
-import { render, h , Component , createRef  } from 'preact';
-import { html } from 'htm/preact';
+import { render, h , Component , createRef  } from 'preact'; import { html } from 'htm/preact';
 // import { useState } from 'preact/hooks';
 import * as cards from "./cards";
 import {CardView} from "./components/CardView"
 import {HUDButton} from "./components/HUDButton"
 import { SettingsEditor } from './components/SettingsEditor';
 import {Pager} from './components/Pager'
+import { SearchBox } from './components/SearchBox';
 import {If} from "./components/If";
 import {icons} from "./icons";
 import {colors} from "./colors/Cardister.es6";
@@ -166,6 +166,8 @@ class UIcontainer extends Component{
     history.pushState(state, "");
   }
 
+  
+
   render(){
      //console.log("Props" , this.props);
      // console.log(cards.list("Card"));
@@ -189,11 +191,14 @@ class UIcontainer extends Component{
        state=${this.state.modified? 1 : 0}
        />
 
+       <div id="topRightWidgets">
+       <${SearchBox} goTo=${this.goTo}/>
        <${Pager} pageNum=${this.state.pages} 
        current=${this.state.page}
        pageNames=${this.state.pageNames ||[]}
        action=${(p)=>this.setState({page:p})}
        />
+       </div>
 
       <${If} condition=${!this.state.locked}>
 

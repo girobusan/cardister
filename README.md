@@ -1,13 +1,12 @@
-[english](README.en.md)
-# Кардистер / Cardister 
+[русский](README.ru.md)
+# Cardister 
 
-Приложения для визуальной работы с фрагментами информации.
+Web application for manipulating cards,
+inspired by [Domino](https://kool.tools/domino/). 
 
-## Источники вдохновения:
+## Inspired by
 
 - [Domino](https://kool.tools/domino/) 
 - [Kinopio](https://kinopio.club/)
 - [TiddlyWiki](https://tiddlywiki.com/)
 - [Miro](https://miro.com/)
-
-

@@ -17,10 +17,7 @@ export class Pager extends Component{
     data-hint="Choose page"
     style=${
       {
-        position: "fixed",
-        top: "16px",
-        right: "16px",
-        zIndex: 10000,
+      flexShrink: 0
       }
       }
       >

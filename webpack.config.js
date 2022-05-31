@@ -68,12 +68,13 @@ module.exports = function (env, argv) {
             {
               loader: 'css-loader',
               options: {
-                url: false
+                url: true
               }
             },
             'sass-loader'
           ],
         },
+
         {
           test: /\.(woff|ttf)$/,
           use: [{
@@ -83,7 +84,7 @@ module.exports = function (env, argv) {
             }
           }
           ],
-        }
+        },
       ]
 
     },
