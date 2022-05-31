@@ -12,7 +12,7 @@ const md = new MarkdownIt({
 ;
 
 function encodeMdLinks(md){
-  const replacer = (m , g1 , g2, g3)=>{ return g1 + encodeURI(g2) + g3 };
+  const replacer = (m , g1 , g2, g3)=>{ return g1 + encodeURI(g2.trim()) + g3 };
   return md.replace( /(\[.+\]\()([^)]+)(\))/g  , replacer);
 }
 
