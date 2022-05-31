@@ -121,11 +121,14 @@ export class CardView extends Component{
       //save starting mouse coords
       this.mouseDragStart = [e.pageX , e.pageY];
       //run mouse following
+      this.dragged = true;
       window.addEventListener("pointermove", this.moveWithMouse)
     } )
 
     window.addEventListener("pointerup" , (e)=>{
+       if(!this.dragged){return}
        //stop follow
+        this.dragged = false;
         this.setState({position: [this.props.card.props.x , this.props.card.props.y]})
         this.props.sizeFitFunction();
         window.removeEventListener("pointermove", this.moveWithMouse)
@@ -135,12 +138,15 @@ export class CardView extends Component{
        // console.log("Start resize..." , this.size);
        this.cardResizeStart = this.size;
        this.mouseResizeStart =  [e.pageX , e.pageY];
+       this.resizing = true;
        window.addEventListener("pointermove", this.resizeWithMouse)
+       
        // window.addEventListener("drag" , (e)=>console.log("drag" , e.target))
     })
 
     window.addEventListener("pointerup" , e=>{
-        
+        if(!this.resizing){return} 
+        this.resizing=false;
         this.setState({size: [this.props.card.props.width , this.props.card.props.height]})
         this.props.sizeFitFunction();
       window.removeEventListener("pointermove", this.resizeWithMouse)

@@ -11,6 +11,11 @@ const md = new MarkdownIt({
 .use(require("./lib/markdown-it-multimd-table.js") , {multiline: true, headerless: true});
 ;
 
+function encodeMdLinks(md){
+  const replacer = (m , g1 , g2, g3)=>{ return g1 + encodeURI(g2) + g3 };
+  return md.replace( /(\[.+\]\()([^)]+)(\))/g  , replacer);
+}
+
 /*
 * {
 title: string,
@@ -126,7 +131,7 @@ const views = {
     }
   },
   markdown: (card)=>{
-    return makeEmbeds(md.render(card.src));
+    return makeEmbeds(md.render(encodeMdLinks(card.src)));
   },
   html: (card , element)=>{
     return card.src; //default behavior

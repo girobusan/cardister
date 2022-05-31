@@ -1,7 +1,7 @@
 
 import { render, h , Component , createRef  } from 'preact';
 import { html } from 'htm/preact';
-import { useState } from 'preact/hooks';
+// import { useState } from 'preact/hooks';
 import * as cards from "./cards";
 import {CardView} from "./components/CardView"
 import {HUDButton} from "./components/HUDButton"
@@ -121,6 +121,7 @@ class UIcontainer extends Component{
     this.followWindowSize = this.followWindowSize.bind(this);
     this.fitInnerSize = this.fitInnerSize.bind(this);
     this.goTo = this.goTo.bind(this);
+    this.parseHash = this.parseHash.bind(this);
     this.atCard = null;
     this.state = {
        scale: 1,
@@ -293,6 +294,20 @@ class UIcontainer extends Component{
   dataUpdated(){
     this.setState({modified: (new Date).getTime()});
   }
+  
+  parseHash(url){
+    if(url.indexOf("#")==-1){return {}}
+    const fullhash = url.substring(url.indexOf("#")+1);
+    console.log("Parser sees" , fullhash);
+    //check if it's card title
+    const maybeTitle = decodeURI( fullhash );
+    const maybeCard = cards.getByTitle(maybeTitle);
+    if(maybeCard){
+     this.goTo(maybeCard);
+     return;
+    }
+    console.info("It is not a card link" , fullhash)
+  }
 
   handleDropped(e){
     const p = {page:this.state.page}
@@ -345,6 +360,14 @@ class UIcontainer extends Component{
       ldr.style.opacity=0; 
       window.setTimeout(()=>ldr.remove() , 2000) 
     }
+   //navigations
+    window.addEventListener("beforeunload", (e)=>killEvent(e))
+     
+     window.addEventListener("hashchange", (e)=>{
+        let p = this.parseHash(e.newURL);
+        // killEvent(e)
+        })
+
     this.container.current.addEventListener('dragenter', preventDefault, false);
     this.container.current.addEventListener('dragleave', preventDefault, false);
     this.container.current.addEventListener('dragover', preventDefault, false);
