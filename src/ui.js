@@ -153,8 +153,10 @@ class UIcontainer extends Component{
     if(this.state.page!=card.props.page){
       this.goPage(card.props.page || 0)
     }
+
+    const scrollX = ( window.innerWidth - card.props.width )/2 ;
     
-    this.container.current.scrollTo({ left:card.props.x , top:card.props.y , behavior: 'smooth'});
+    this.container.current.scrollTo({ left:scrollX , top:card.props.y-32 , behavior: 'smooth'});
 
     const state = {
         page:this.state.page , 

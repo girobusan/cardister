@@ -11,7 +11,8 @@ const md = new MarkdownIt({
   html: true,
   linkify: true,
 })
-.use(require("./lib/markdown-it-multimd-table.js") , {multiline: true, headerless: true});
+.use(require("./lib/markdown-it-multimd-table.js") , {multiline: true, headerless: true})
+.use(require("markdown-it-checkbox"));
 ;
 
 function encodeMdLinks(md){

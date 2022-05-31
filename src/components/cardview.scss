@@ -129,3 +129,18 @@ $overlayColor: rgba(0,0,0, 0.4);
     }
   }
 }
+
+//some md fixes
+.CardViewer{
+  li {
+    input[type=checkbox]{
+      margin-right: 8px;
+  
+    }
+    label{
+      display: inline;
+    }
+
+  }
+}
+
