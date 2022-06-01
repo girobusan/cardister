@@ -51,6 +51,7 @@ export function eliminateNegativeCoords(){
   modified("okay");
 }
 
+
 function uniquifyTitle(title){
   if(!getByTitle(title)){return title}
 
@@ -66,7 +67,7 @@ function setOrRet(obj, prop, val , retobj){
   if(val){
      obj[prop]= val;
      //modified!
-     modified(prop);
+     modified(retobj.unwrap() , prop);
      if(retobj){return retobj}
      return;
   }
@@ -82,18 +83,38 @@ const callbacks = {
 
 export function setCallback(evt, fn){
    let clbid = uuid();
-   callbacks[uuid] = fn;
+   if(!evt){evt="default"}
+   if(!callbacks[evt]){callbacks[evt] = {}}
+   callbacks[evt][uuid] = fn;
    return clbid;
 }
 
 export function removeCallback(evt, clbid){
-    delete(callbacks[clbid]);
+    //find callback
+    if(!evt){console.error("Can not remove" , clbid, evt); return}
+    delete(callbacks[evt][clbid]);
 }
 
-function modified(p){
-  Object.values(callbacks).forEach(
-   e=>e(p)
-  )
+function doCallbacks(evt , params){
+  //default
+  if(callbacks["default"]){
+     Object.values( callbacks.default ).forEach(c=>c(params));
+  }
+  if(callbacks[evt]){
+     Object.values( callbacks[evt] ).forEach(c=>c(params));
+  }
+}
+
+function actualize(card){
+  const i = getIndexByCondition(c=>c.id==card.id);
+  if(i!=-1){ return STORE[i] }else{return null}
+}
+
+function modified( card , what){
+  
+  card.modified = (new Date()).getTime();
+  //:TODO real callbacks
+  doCallbacks("default" , {card: card, changed: what});
 }
 
 export function search(str){
@@ -101,8 +122,8 @@ export function search(str){
      includeMatches: true,
      includeScore: true,
      keys: [ 
-       { name:  "title"  , weight: 0.7 }, 
-        { name: "src" , weight: 0.3 } ]
+       { name:  "title"  , weight: 0.5 }, 
+        { name: "src" , weight: 0.5 } ]
   })
   return fuse.search(str);
 }
@@ -235,12 +256,13 @@ export function getWrapper(card){
     title: (t)=>{
         if(!t){return card.title}
         card.title = uniquifyTitle(t);
+        modified(card , "title");
         return getWrapper(card);
     },
-    tags: ()=> card(tags),
+    tags: ()=> card.tags,
     hasTag: (t)=> hasTag(card,t),
-    addTag: (t)=>addTag(card , t),
-    delTag: (t)=>delTag(card,t),
+    addTag: (t)=>{ modified(card, "tags") ; addTag(card , t) },
+    delTag: (t)=>{ modified(card, "tags") ; delTag(card,t) },
     view: ()=>view(card),
     read: ()=>result(card),
     del:  ()=>remove(card),
@@ -275,6 +297,7 @@ export function result(card){
 
 
 export function setProp(card, propName , propVal){
+ console.error("Deprecated setProp");
   card.props[propName] = propVal;
 }
 
@@ -284,7 +307,7 @@ export function updateCard(card,newcard){
      newcard.title = uniquifyTitle(newcard.title);
   }
   Object.assign(card, newcard)
-  modified(card.id);
+  modified(card , "updated");
 }
 
 export function tags(card){
@@ -348,7 +371,7 @@ export function add(card , successCallback , errCalback , uniquify){
   card.title = uniquifyTitle(card.title);
   card.id = card.id || uuid();
   STORE.push(card);
-  modified(card.id);
+  modified(card , "added");
   //:TODO Update Call!!
   return successCallback ? successCallback(card) : true;
 }
@@ -358,7 +381,7 @@ export function remove(card){
   if(idx==-1){return false}
    STORE.splice(idx,1); //:TODO: CALLBACK
    // console.log(store.map(e=>e.title))
-   modified("yes");
+   modified(card , "deleted");
   return true;
   // card.deleted = true;
 }
@@ -401,7 +424,7 @@ export function makeNew(type, title){
   // console.log("Make new one");
   type = type || "markdown";
   title = uniquifyTitle(title || "Card")
-  return {
+  const newCard =  {
     type: type,
 
     title: title,
@@ -413,6 +436,9 @@ export function makeNew(type, title){
     var: {},
     created: ( new Date() ).getTime()
   }
+  // Do not call here!  Card may be discarded
+  // modified(newCard , "created");
+  return newCard;
 }
 
 //utility

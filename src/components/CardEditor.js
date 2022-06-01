@@ -10,6 +10,7 @@ import {range} from "../utils.js";
 import {addMarkdown} from "./prism_markdown.js";
 require("./cardeditor.scss");
 require("../prism.css");
+require("../prism_additions.scss");
 import * as cards from '../cards';
 
 Prism.languages.json = {

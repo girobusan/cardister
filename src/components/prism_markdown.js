@@ -89,6 +89,16 @@ Prism.languages.insertBefore('markdown', 'prolog', {
 			'punctuation': /^\*\*|^__|\*\*$|__$/
 		}
 	},
+	'strikethrough': {
+		// ~~strong~~
+
+		// Allow only one line break
+		pattern: /(^|[^\\])(\~\~)(?:(?:\r?\n|\r)(?!\r?\n|\r)|.)+?\2/,
+		lookbehind: true,
+		inside: {
+			'punctuation': /^\~\~|^__|\~\~$|__$/
+		}
+	},
 	'italic': {
 		// *em*
 		// _em_

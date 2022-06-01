@@ -141,7 +141,7 @@ class UIcontainer extends Component{
     }
     this.dataUpdated = this.dataUpdated.bind(this);
     this.handleDropped = this.handleDropped.bind(this);
-    cards.setCallback("update", this.dataUpdated);
+    cards.setCallback(false, this.dataUpdated);
   }
 
   goPage(num){
