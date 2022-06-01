@@ -155,9 +155,9 @@ class UIcontainer extends Component{
     }
 
     const scrollX = card.props.x - ( ( window.innerWidth - card.props.width )/2 )  ;
-    console.log("scroll to X" , card.props.x , scrollX);
+    // console.log("scroll to X" , card.props.x , scrollX);
     
-    this.container.current.scrollTo({ left:scrollX , top:card.props.y-32 , behavior: 'smooth'});
+    this.container.current.scrollTo({ left:scrollX , top:card.props.y-64 , behavior: 'smooth'});
 
 
     const state = {
@@ -315,7 +315,7 @@ class UIcontainer extends Component{
      this.goTo(maybeCard);
      return;
     }
-    console.info("It is not a card link" , fullhash)
+    console.info("It is not a card link:" , fullhash)
   }
 
   handleDropped(e){
@@ -358,7 +358,7 @@ class UIcontainer extends Component{
   }
 
   componentWillMount(){
-     
+    //check if embed 
   
   }
 
@@ -376,6 +376,8 @@ class UIcontainer extends Component{
         let p = this.parseHash(e.newURL);
         // killEvent(e)
         })
+
+    this.parseHash(window.location.toString());
 
     this.container.current.addEventListener('dragenter', preventDefault, false);
     this.container.current.addEventListener('dragleave', preventDefault, false);

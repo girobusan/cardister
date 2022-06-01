@@ -50,7 +50,9 @@ export class SearchBox extends Component{
     data-hint=${"Search cards"}></input>
     <div class="searchResults" ref=${this.results}>
     ${this.state.results.map( 
-      (e)=>html`<${FoundItem} goTo=${this.props.goTo} item=${e.item} matches=${e.matches}/>`
+      (e)=>html`<${FoundItem} 
+      goTo=${(c)=>{ this.undoSearch() ; this.props.goTo(c) }} 
+      item=${e.item} matches=${e.matches}/>`
       )}
     </div>
     </div>`
