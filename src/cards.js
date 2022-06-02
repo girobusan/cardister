@@ -111,8 +111,10 @@ function actualize(card){
 }
 
 function modified( card , what){
-  
-  card.modified = (new Date()).getTime();
+   if(what!="added") 
+   {
+     card.modified = (new Date()).getTime();
+   }
   //:TODO real callbacks
   doCallbacks("default" , {card: card, changed: what});
 }
@@ -375,7 +377,7 @@ export function add(card , successCallback , errCalback , uniquify){
   card.id = card.id || uuid();
   STORE.push(card);
   // It is not a modification!
-  // modified(card , "added");
+  modified(card , "added");
   //:TODO Update Call!!
   return successCallback ? successCallback(card) : true;
 }
