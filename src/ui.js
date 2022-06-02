@@ -379,6 +379,41 @@ class UIcontainer extends Component{
 
     this.parseHash(window.location.toString());
 
+    //pan
+    this.container.current.addEventListener("pointerdown" , (evt)=>{
+      if(evt.target!=this.innerContainer.current){
+         return
+      }
+      // console.log("start pan");
+
+      this.startPan = {
+         scrollX: this.container.current.scrollLeft,
+         scrollY: this.container.current.scrollTop,
+         mouseX: evt.pageX,
+         mouseY: evt.pageY
+         } 
+       this.pointerDownOnBg = true;
+    })
+    this.container.current.addEventListener("pointerup" , ()=>{
+      // console.log("end pan");
+       this.pointerDownOnBg = false;
+    })
+
+    this.container.current.addEventListener("mousemove", (e)=>{
+        if(!this.pointerDownOnBg){
+        return;
+        }
+        // console.log("panning...")
+        const dX =  this.startPan.mouseX - e.pageX;
+        const dY =  this.startPan.mouseY - e.pageY;
+        // console.log(dX, dY);
+        this.container.current.scrollTop = 
+          this.startPan.scrollY + dY;
+        this.container.current.scrollLeft = 
+          this.startPan.scrollX + dX;
+      
+    })
+
     this.container.current.addEventListener('dragenter', preventDefault, false);
     this.container.current.addEventListener('dragleave', preventDefault, false);
     this.container.current.addEventListener('dragover', preventDefault, false);
