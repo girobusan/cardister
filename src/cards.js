@@ -121,6 +121,9 @@ export function search(str){
   const fuse = new Fuse(STORE , {
      includeMatches: true,
      includeScore: true,
+     minMatchCharLength: str.length-1,
+     threshold: 0.92,
+     ignoreLocation: true,
      keys: [ 
        { name:  "title"  , weight: 0.5 }, 
         { name: "src" , weight: 0.5 } ]

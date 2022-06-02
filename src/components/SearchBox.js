@@ -3,9 +3,27 @@ import { search as searchCards } from '../cards';
 import {icons} from "../icons";
 require("./searchbox.scss");
 
-function insertTagAt(text , tag, i0 , i1){
-   return text.substring(0, i0) + `<${tag}>` + 
-    text.substring(i0, i1) + `</${tag}>` + text.substring(i1);
+function highlightMatches(m){
+  // console.log("highlighting" )
+  // console.log("indices" , m.indices);
+   let start = m.value.substring(0, m.indices[0][0]);
+   if(start.length>20){
+     start =  "..." + start.substring(start.length-20).trim();
+   }
+   m.indices.forEach(e=>e[1]+=1);
+   const splitPnts = m.indices.reduce((a,e)=>{a = a.concat(e); return a} , [0])
+   // console.log("split at points" , splitPnts )
+   var tokenized = [];
+
+   splitPnts.forEach((p,i)=>{
+     if(i==0){return};
+     tokenized.push(m.value.substring(splitPnts[i-1] , p ))
+   })
+
+   tokenized = tokenized.map((e,i)=>{if(i%2!=0){return `<strong>${e}</strong>`} return e})
+   tokenized[0] = start;
+   return tokenized.join(" ");
+
 }
 
 function FoundItem(props){
@@ -17,8 +35,11 @@ function FoundItem(props){
    this.props.goTo(this.props.item) }
    } >
     <h4>${props.item.title}</h4> 
-    <div class="matches">
-    ${props.matches[0].value.substring(0,100)}
+    <div class="matches"
+   dangerouslySetInnerHTML=${{
+    __html: highlightMatches(props.matches[0])
+   }}
+     >
     </div>
     </div>`
  
