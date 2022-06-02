@@ -374,7 +374,8 @@ export function add(card , successCallback , errCalback , uniquify){
   card.title = uniquifyTitle(card.title);
   card.id = card.id || uuid();
   STORE.push(card);
-  modified(card , "added");
+  // It is not a modification!
+  // modified(card , "added");
   //:TODO Update Call!!
   return successCallback ? successCallback(card) : true;
 }
