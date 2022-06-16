@@ -4,6 +4,8 @@
 Web application for manipulating cards,
 inspired by [Domino](https://kool.tools/domino/). 
 
+![Screenshot](./docs/cardiater.png)
+
 ## Inspired by
 
 - [Domino](https://kool.tools/domino/) 
