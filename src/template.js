@@ -20,7 +20,6 @@ settings
   <meta name="og:description" content="${settings.description}">
   <meta name="og:image" content="${settings.image}">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <base target="_blank">
   <!--prevent FOUC -->
   <style>
     html{
