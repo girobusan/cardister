@@ -5,6 +5,9 @@
 
 ![Screenshot](./docs/cardiater.png)
 
+Очень экспериментальная штука. Чтобы собрать, 
+нужно запустить `npm run build` **дважды**. 
+
 ## Источники вдохновения:
 
 - [Domino](https://kool.tools/domino/) 

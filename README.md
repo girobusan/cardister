@@ -6,6 +6,8 @@ inspired by [Domino](https://kool.tools/domino/).
 
 ![Screenshot](./docs/cardiater.png)
 
+It's very experimental. To build, run `npm run build` **twice**.
+
 ## Inspired by
 
 - [Domino](https://kool.tools/domino/) 

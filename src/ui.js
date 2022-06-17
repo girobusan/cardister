@@ -15,6 +15,7 @@ import * as serialization from "./serialization";
 import {dataURLFromFile , killEvent , dataTransferToImage} from './utils.js';
 require("./ui.scss");
 require("./hints");
+const version = VERSION;
 
 function preventDefault(e) {
     e.preventDefault();
@@ -182,6 +183,19 @@ class UIcontainer extends Component{
         height:  "100vh",
        }}
      >
+      <div 
+      id="cardisterVersion"
+      style=${{
+         bottom: "16px",
+         left: 0,
+         right: 0,
+         textAlign: "center",
+         pointerEvents: "none",
+         color: "white",
+         opacity: ".5",
+         zIndex: 0 , 
+         position: "fixed"
+         }}>v${version}</div>
        <${HUDButton} 
        hint=${"Export to file"}
        icons=${[icons.save, icons.save]} 
